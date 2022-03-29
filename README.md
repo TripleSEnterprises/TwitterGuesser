@@ -117,6 +117,12 @@ Guess who tweeted what.
 #### Main
 <img src="https://github.com/TripleSEnterprises/TwitterGuesser/blob/main/main.png" width=600><br />
 
+#### Main
+<img src="https://github.com/TripleSEnterprises/TwitterGuesser/blob/main/main.png" width=600><br />
+
+#### Profile
+<img src="https://github.com/TripleSEnterprises/TwitterGuesser/blob/main/profile.png" width=600><br />
+
 #### Game
 <img src="https://github.com/TripleSEnterprises/TwitterGuesser/blob/main/game_1.png" width=600><br />
 <img src="https://github.com/TripleSEnterprises/TwitterGuesser/blob/main/game_2.png" width=600><br />
