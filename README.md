@@ -111,18 +111,15 @@ Guess who tweeted what.
 
 ### Digital Wireframes & Mockups
 
-<p>
+#### Login
 <img src="https://github.com/TripleSEnterprises/TwitterGuesser/blob/main/login.png" width=600><br />
-Login
-</p>
-<p>
+
+#### Main
 <img src="https://github.com/TripleSEnterprises/TwitterGuesser/blob/main/main.png" width=600><br />
-Main Menu
-</p>
-<p>
-<img src="https://github.com/TripleSEnterprises/TwitterGuesser/blob/main/game.png" width=303><br />
-Game
-</p>
+
+#### Game
+<img src="https://github.com/TripleSEnterprises/TwitterGuesser/blob/main/game_1.png" width=600><br />
+<img src="https://github.com/TripleSEnterprises/TwitterGuesser/blob/main/game_2.png" width=600><br />
 
 ### Interactive Prototype
 
