@@ -131,6 +131,10 @@ Guess who tweeted what.
 
 <img src="https://github.com/TripleSEnterprises/TwitterGuesser/blob/main/twitterGuesser_prototype.gif" width=303>
 
+## Low Fidelity Wireframe & Mockups
+
+<img src="./low_fidelity.jpg" width = 600>
+
 ## Schema 
 [This section will be completed in Unit 9]
 ### Models
