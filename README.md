@@ -128,8 +128,6 @@ Game
 
 <img src="https://github.com/TripleSEnterprises/TwitterGuesser/blob/main/twitterGuesser_prototype.gif" width=303>
 
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FQq79qNuRtyFDppsXsqptbG%2FHigh-Fidelity%3Fnode-id%3D13%253A52%26scaling%3Dcontain%26page-id%3D0%253A1%26starting-point-node-id%3D6%253A7" allowfullscreen></iframe>
-
 ## Schema 
 [This section will be completed in Unit 9]
 ### Models
