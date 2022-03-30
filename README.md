@@ -108,32 +108,29 @@ Guess who tweeted what.
 
 ## Wireframes
 
+## Low Fidelity Wireframe & Mockups
+
+<img src="./low_fidelity.jpg" width = 600>
 
 ### Digital Wireframes & Mockups
 
 #### Login
-<img src="https://github.com/TripleSEnterprises/TwitterGuesser/blob/main/login.png" width=600><br />
+<img src="./login.png" width=600><br />
 
 #### Main
-<img src="https://github.com/TripleSEnterprises/TwitterGuesser/blob/main/main.png" width=600><br />
-
-#### Main
-<img src="https://github.com/TripleSEnterprises/TwitterGuesser/blob/main/main.png" width=600><br />
+<img src="./main.png" width=600><br />
 
 #### Profile
-<img src="https://github.com/TripleSEnterprises/TwitterGuesser/blob/main/profile.png" width=600><br />
+<img src="./profile.png" width=600><br />
 
 #### Game
-<img src="https://github.com/TripleSEnterprises/TwitterGuesser/blob/main/game_1.png" width=600><br />
-<img src="https://github.com/TripleSEnterprises/TwitterGuesser/blob/main/game_2.png" width=600><br />
+<img src="./game_1.png" width=600><br />
+<img src="./game_2.png" width=600><br />
 
 ### Interactive Prototype
 
-<img src="https://github.com/TripleSEnterprises/TwitterGuesser/blob/main/twitterGuesser_prototype.gif" width=303>
+<img src="./twitterGuesser_prototype.gif" width=303>
 
-## Low Fidelity Wireframe & Mockups
-
-<img src="./low_fidelity.jpg" width = 600>
 
 ## Schema 
 [This section will be completed in Unit 9]
