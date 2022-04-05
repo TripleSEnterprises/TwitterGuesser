@@ -107,36 +107,161 @@ Guess who tweeted what.
     * Profile
 
 ## Wireframes
-
-## Low Fidelity Wireframe & Mockups
-
-<img src="./low_fidelity.jpg" width = 600>
+<img src="https://media.discordapp.net/attachments/951138552442408960/958497824390119444/PXL_20220329_224741338.jpg" width=600>
 
 ### Digital Wireframes & Mockups
 
-#### Login
-<img src="./login.png" width=600><br />
-
-#### Main
-<img src="./main.png" width=600><br />
-
-#### Profile
-<img src="./profile.png" width=600><br />
-
-#### Game
-<img src="./game_1.png" width=600><br />
-<img src="./game_2.png" width=600><br />
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FQq79qNuRtyFDppsXsqptbG%2FHigh-Fidelity" allowfullscreen></iframe>
 
 ### Interactive Prototype
 
-<img src="./twitterGuesser_prototype.gif" width=303>
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FQq79qNuRtyFDppsXsqptbG%2FHigh-Fidelity%3Fnode-id%3D13%253A52%26scaling%3Dcontain%26page-id%3D0%253A1%26starting-point-node-id%3D6%253A7" allowfullscreen></iframe>
 
+## Schema
 
-## Schema 
-[This section will be completed in Unit 9]
 ### Models
-[Add table of models]
-### Networking
-- [Add list of network requests by screen ]
-- [Create basic snippets for each Parse network request]
-- [OPTIONAL: List endpoints if using existing API such as Yelp]
+
+#### User
+
+   | Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | object_id      | String   | Unique id for the user post (default field) |
+   | twitter_user_id | String | Twitter ID provided to us|
+   |   screen_name    | String? | Username |
+   |   picture       | File?     | Image for custom photo |
+   | cached_picture | uri | Image from twitter |
+   | high_score | Number | The highest score user has acheived | 
+   
+#### Game
+
+   | Property      | Type     | Description |
+   | ------------- | -------- | ------------|
+   | object_id      | String   | Unique id for the user post (default field) |
+   | created_at | DateTime | Timestamp of when game was completed |
+   | questions | JSONObject | Finished Game results |
+   | user | Pointer to [User] | Reference to user object who owns the game |
+   |final_score | Number | Final score
+   ```
+   questions : {
+       question: [
+           {
+               tweet_id: String,
+               score: Number
+           },
+          ...
+       ],
+   }
+   ```
+   
+
+#### List of network requests by screen
+   - Login User
+      - (Read/GET) Login
+         ```java
+        ParseUser.logInInBackground(username, password, new LogInCallback() {
+            @Override
+            public void done(ParseUser user, ParseException e) {
+                if (e != null) {
+                    return;
+                }
+            }
+        });
+         ```
+   - Register User
+      - (Read/Post) Query all posts where user is author
+         ```java
+        ParseUser user = new ParseUser();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.signUpInBackground(new SignUpCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e != null) {
+                    unlockScreen();
+                    Toast.makeText(LoginActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                goToMainActivity();
+            }
+        });
+         ```
+   - Leaderboard
+      - (Read/GET) Query Top 100 Gamers
+        ```java
+        ParseQuery.getQuery(User.class)
+            .setLimit(100)
+            .addDescendingOrder(User.high_score)
+            .findInBackground(new FindCallback<User>() {
+                @Override
+                public void done(List<User> users, ParseException e) {
+                    if (e != null) {
+                        Log.e(TAG, "done: ", e);
+                        return;
+                    }
+                    // TODO: Do something with users...
+                }
+            });
+        ``` 
+     - (Read/GET) Query player position
+        ```java
+        ParseQuery.getQuery(User.class)
+            .whereGreaterThan(User.high_score, getCurrentUser().high_score))
+            query.countInBackground(new CountCallback() {
+                public void done(int count, ParseException e) {
+                    if (e == null) {
+                      // The count request succeeded. Log the count
+                      // TODO: Fill textview with result
+                    } else {
+                      // The request failed
+                    }
+                }
+         });
+         ```
+   - Profile
+      - (Read/Get) Get Game History (Paginated)
+        ```java
+        ParseQuery.getQuery(Game.class)
+            .setLimit(loadParams.requestedLoadSize)
+            .addDescendingOrder(Game.created_at)
+            .whereEqualTo(Game.user.object_id, object_id)
+            .whereLessThan(Game.created_at, new Date(loadParams.key.getTime()))
+            .findInBackground(new FindCallback<Post>() {
+                @Override
+                public void done(List<Game> games, ParseException e) {
+                    if (e != null) {
+                        Log.e(TAG, "done: ", e);
+                        return;
+                    }
+                    // TODO: Bind to recyclerview...
+                }
+            });
+        ```
+   - Game
+      - (Create/POST) Add game to game table
+        ```java
+        Game game = new Game();
+        game.setFinalScore(final_score);
+        game.setQuestions(questions);
+        game.setUser(user);
+        game.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {        
+                if(e != null) {
+                    // TODO: Handle Error
+                    return;
+                }
+                // TODO: Nothing
+
+            }
+        ```
+#### Existing API Endpoints
+
+##### TwitterAPI
+- Base URL - [https://api.twitter.com/1.1](https://api.twitter.com/1.1)
+
+   HTTP Verb | Endpoint | Description
+   ----------|----------|------------
+    `GET`    | /friends/list | get all following users
+    `GET`    | /status/user_timeline?user_id=id | returns specified user's timeline
+    `GET`    | /statuses/lookup?id=ids| returns tweet info for comma comma separated list of tweet ids 
+
