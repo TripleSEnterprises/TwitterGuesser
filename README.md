@@ -107,15 +107,30 @@ Guess who tweeted what.
     * Profile
 
 ## Wireframes
-<img src="https://media.discordapp.net/attachments/951138552442408960/958497824390119444/PXL_20220329_224741338.jpg" width=600>
+
+## Low Fidelity Wireframe & Mockups
+
+<img src="./low_fidelity.jpg" width = 600>
 
 ### Digital Wireframes & Mockups
 
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Ffile%2FQq79qNuRtyFDppsXsqptbG%2FHigh-Fidelity" allowfullscreen></iframe>
+#### Login
+<img src="./login.png" width=600><br />
+
+#### Main
+<img src="./main.png" width=600><br />
+
+#### Profile
+<img src="./profile.png" width=600><br />
+
+#### Game
+<img src="./game_1.png" width=600><br />
+<img src="./game_2.png" width=600><br />
 
 ### Interactive Prototype
 
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="800" height="450" src="https://www.figma.com/embed?embed_host=share&url=https%3A%2F%2Fwww.figma.com%2Fproto%2FQq79qNuRtyFDppsXsqptbG%2FHigh-Fidelity%3Fnode-id%3D13%253A52%26scaling%3Dcontain%26page-id%3D0%253A1%26starting-point-node-id%3D6%253A7" allowfullscreen></iframe>
+<img src="./twitterGuesser_prototype.gif" width=303>
+
 
 ## Schema
 
@@ -254,6 +269,7 @@ Guess who tweeted what.
 
             }
         ```
+      
 #### Existing API Endpoints
 
 ##### TwitterAPI
@@ -264,4 +280,3 @@ Guess who tweeted what.
     `GET`    | /friends/list | get all following users
     `GET`    | /status/user_timeline?user_id=id | returns specified user's timeline
     `GET`    | /statuses/lookup?id=ids| returns tweet info for comma comma separated list of tweet ids 
-
