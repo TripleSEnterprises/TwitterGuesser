@@ -5,12 +5,12 @@ def apikeyProperties = new Properties()
 apikeyProperties.load(new FileInputStream(apikeyPropertiesFile))
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 31
 
     defaultConfig {
         applicationId "com.codepath.apps.restclienttemplate"
         minSdkVersion 21
-        targetSdkVersion 30
+        targetSdkVersion 31
 
         // Room schemas
         javaCompileOptions {
@@ -18,8 +18,11 @@ android {
                 arguments = ["room.schemaLocation": "$projectDir/schemas".toString()]
             }
         }
-        buildConfigField("String", "CONSUMER_KEY", apikeyProperties['CONSUMER_KEY'])
-        buildConfigField("String", "CONSUMER_SECRET", apikeyProperties['CONSUMER_SECRET'])
+        buildConfigField("String", "TWITTER_CONSUMER_KEY", apikeyProperties['TWITTER_CONSUMER_KEY'])
+        buildConfigField("String", "TWITTER_CONSUMER_SECRET", apikeyProperties['TWITTER_CONSUMER_SECRET'])
+
+        buildConfigField("String", "PARSE_APPLICATION_ID", apikeyProperties['PARSE_APPLICATION_ID'])
+        buildConfigField("String", "PARSE_CLIENT_ID", apikeyProperties['PARSE_CLIENT_ID'])
     }
 
     compileOptions {
@@ -53,4 +56,9 @@ dependencies {
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     implementation 'com.facebook.stetho:stetho:1.5.1'
+
+    implementation 'com.squareup.okhttp3:okhttp:4.9.3'
+
+    implementation 'com.github.parse-community.Parse-SDK-Android:parse:3.0.0'
+    implementation 'com.github.parse-community:ParseTwitterUtils-Android:1.13.0'
 }
