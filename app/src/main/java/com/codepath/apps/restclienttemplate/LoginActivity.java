@@ -12,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.parse.ParseUser;
 import com.parse.twitter.ParseTwitterUtils;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class LoginActivity extends AppCompatActivity {
 
 	Button login;
@@ -45,8 +48,15 @@ public class LoginActivity extends AppCompatActivity {
 		return true;
 	}
 
-	private void goToMainActivity(){
-		Log.i(TAG,ParseUser.getCurrentUser().getUsername());
+	private void goToMainActivity() {
+
+		try {
+			JSONObject twitterUser = ParseUser.getCurrentUser().getJSONObject("authData").getJSONObject("twitter");
+			Log.i(TAG, twitterUser.getString("screen_name") + " logged in");
+			Log.i(TAG, "Twitter id: "+twitterUser.getString("id"));
+		} catch (JSONException e){
+			Log.e(TAG,"JSON exception on goToMainActivity",e);
+		}
 //		Intent i = new Intent(this,MainActivity.class);
 //		startActivity(i);
 	}
