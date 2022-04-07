@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.parse.ParseUser;
 import com.parse.twitter.ParseTwitterUtils;
 
 public class LoginActivity extends AppCompatActivity {
@@ -45,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
 	}
 
 	private void goToMainActivity(){
+		Log.i(TAG,ParseUser.getCurrentUser().getUsername());
 //		Intent i = new Intent(this,MainActivity.class);
 //		startActivity(i);
 	}
