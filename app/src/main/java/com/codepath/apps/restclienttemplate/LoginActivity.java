@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +15,8 @@ import com.parse.twitter.ParseTwitterUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.net.InetSocketAddress;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -32,12 +35,17 @@ public class LoginActivity extends AppCompatActivity {
 				Log.i(TAG, "Uh oh. The user cancelled the Twitter login.");
 			} else if (user.isNew()) {
 				Log.i(TAG, "User signed up and logged in through Twitter!");
-				goToMainActivity();
+				goToRegisterActivity();
 			} else {
 				Log.i(TAG, "User logged in through Twitter!");
 				goToMainActivity();
 			}
 		}));
+
+		//Comment/Uncomment this until logout is implemented for login flow
+//		if(ParseUser.getCurrentUser().isAuthenticated()){
+//			goToMainActivity();
+//		}
 
 	}
 
@@ -49,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
 	}
 
 	private void goToMainActivity() {
-
+		Toast.makeText(this,"User logged in",Toast.LENGTH_SHORT).show();
 		try {
 			JSONObject twitterUser = ParseUser.getCurrentUser().getJSONObject("authData").getJSONObject("twitter");
 			Log.i(TAG, twitterUser.getString("screen_name") + " logged in");
@@ -59,6 +67,12 @@ public class LoginActivity extends AppCompatActivity {
 		}
 //		Intent i = new Intent(this,MainActivity.class);
 //		startActivity(i);
+	}
+
+	private void goToRegisterActivity(){
+		Toast.makeText(this,"Registering user",Toast.LENGTH_SHORT).show();
+		Intent i = new Intent(this,RegisterActivity.class);
+		startActivity(i);
 	}
 
 
