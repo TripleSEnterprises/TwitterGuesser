@@ -43,9 +43,9 @@ public class LoginActivity extends AppCompatActivity {
 		}));
 
 		//Comment/Uncomment this until logout is implemented for login flow
-//		if(ParseUser.getCurrentUser().isAuthenticated()){
-//			goToMainActivity();
-//		}
+		if(ParseUser.getCurrentUser().isAuthenticated()){
+			goToMainActivity();
+		}
 
 	}
 
@@ -65,8 +65,8 @@ public class LoginActivity extends AppCompatActivity {
 		} catch (JSONException e){
 			Log.e(TAG,"JSON exception on goToMainActivity",e);
 		}
-//		Intent i = new Intent(this,MainActivity.class);
-//		startActivity(i);
+		Intent i = new Intent(this, MainActivity.class);
+		startActivity(i);
 	}
 
 	private void goToRegisterActivity(){
