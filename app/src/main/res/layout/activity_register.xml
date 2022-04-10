@@ -20,27 +20,79 @@
         android:textSize="40sp"
         android:textStyle="bold" />
 
-
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/tiUsername"
-        android:layout_width="match_parent"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tiUsernameLayout"
         android:layout_height="wrap_content"
+        android:layout_width="match_parent"
         android:layout_below="@+id/tvRegister"
         android:layout_marginTop="24dp"
         android:hint="Username: "
-        android:minHeight="48dp" />
+        android:layout_margin="10dp"
+        android:minHeight="48dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tiUsername"
+            android:layout_width="match_parent"
+           android:layout_height="wrap_content"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/swProfile"
+        android:layout_width="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tiUsernameLayout"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="10dp"
+        android:checked="true"
+        android:text="Use Twitter Profile"
+        android:textSize="20sp"
+        app:trackTint="#8f49f3" />
+
+    <Button
+        android:id="@+id/btnUpload"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/swProfile"
+        android:layout_alignParentStart="true"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="151dp"
+        android:layout_marginTop="5dp"
+        android:backgroundTint="@android:color/white"
+        android:text="Upload"
+        android:textColor="#8f49f3"
+        android:visibility="invisible"/>
+
+    <ImageView
+        android:id="@+id/ivProfile"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btnUpload"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        tools:srcCompat="@tools:sample/avatars"
+        android:visibility="invisible"/>
 
     <Button
         android:id="@+id/btnRegister"
-        style="@style/Widget.AppCompat.Button.Colored"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tiUsername"
+        android:layout_below="@+id/ivProfile"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="160dp"
-        android:layout_marginTop="68dp"
-        android:textColor="#8f49f3"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="151dp"
+        android:layout_marginTop="10dp"
         android:backgroundTint="@android:color/white"
-        android:text="Register" />
+        android:text="Register"
+        android:textColor="#8f49f3" />
+
+
+
 
 </RelativeLayout>

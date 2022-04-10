@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.google.android.material.textfield.TextInputEditText;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -18,6 +21,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     TextInputEditText tiUsername;
     Button btnRegister;
+    SwitchMaterial swProfile;
+    Button btnUpload;
+    ImageView ivProfile;
 
     public static final String TAG = "RegisterActivity";
     @Override
@@ -27,6 +33,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         tiUsername = findViewById(R.id.tiUsername);
         btnRegister = findViewById(R.id.btnRegister);
+        swProfile = findViewById(R.id.swProfile);
+        btnUpload = findViewById(R.id.btnUpload);
+        ivProfile = findViewById(R.id.ivProfile);
 
         btnRegister.setOnClickListener(v-> {
             String username = tiUsername.getText().toString();
@@ -38,6 +47,17 @@ public class RegisterActivity extends AppCompatActivity {
                     goToMainActivity();
                 }
             });
+        });
+
+        swProfile.setOnClickListener(v->{
+            if(swProfile.isChecked()){
+                btnUpload.setVisibility(View.INVISIBLE);
+                ivProfile.setVisibility(View.INVISIBLE);
+            }
+            else{
+                btnUpload.setVisibility(View.VISIBLE);
+                ivProfile.setVisibility(View.VISIBLE);
+            }
         });
 
 
