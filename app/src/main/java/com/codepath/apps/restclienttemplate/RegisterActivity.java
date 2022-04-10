@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -15,6 +16,15 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 
 public class RegisterActivity extends AppCompatActivity {
@@ -47,6 +57,12 @@ public class RegisterActivity extends AppCompatActivity {
                     goToMainActivity();
                 }
             });
+            if(swProfile.isChecked()){
+                useTwitterImage();
+            }
+            else{
+                uploadImage();
+            }
         });
 
         swProfile.setOnClickListener(v->{
@@ -60,19 +76,48 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        btnUpload.setOnClickListener(v->{
-            uploadImage();
-        });
-
     }
 
     private void goToMainActivity() {
-        Toast.makeText(this, "welcome", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
 		Intent i = new Intent(this, MainActivity.class);
 		startActivity(i);
     }
 
     private void uploadImage(){
 
+    }
+    private void useTwitterImage(){
+        Log.i(TAG,"Getting user Image");
+        try{
+            JSONObject twitterUser = ParseUser.getCurrentUser().getJSONObject("authData").getJSONObject("twitter");
+            String id = twitterUser.getString("id");
+            Callback callback = new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    Log.e(TAG,"Failure fetching",e);
+                }
+
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    String image="";
+                    try {
+                        JSONObject userJson = new JSONObject(response.body().string());
+                        image = userJson.getString("profile_image_url_https");
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    String finalImage = image;
+                    Log.i(TAG,image);
+                    ParseUser.getCurrentUser().put("cachedPicture",image);
+                    ParseUser.getCurrentUser().saveInBackground(v->{
+                        Log.i(TAG,"Image saved "+ finalImage);
+                    });
+                }
+            };
+            TwitterClient.getUser(callback, id);
+        } catch(Exception e){
+            Log.e(TAG,"Error fetching user id",e);
+        }
     }
 }
