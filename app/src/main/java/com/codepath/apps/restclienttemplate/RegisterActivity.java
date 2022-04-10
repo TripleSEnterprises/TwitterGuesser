@@ -51,8 +51,8 @@ public class RegisterActivity extends AppCompatActivity {
 
         swProfile.setOnClickListener(v->{
             if(swProfile.isChecked()){
-                btnUpload.setVisibility(View.INVISIBLE);
-                ivProfile.setVisibility(View.INVISIBLE);
+                btnUpload.setVisibility(View.GONE);
+                ivProfile.setVisibility(View.GONE);
             }
             else{
                 btnUpload.setVisibility(View.VISIBLE);
@@ -60,6 +60,9 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        btnUpload.setOnClickListener(v->{
+            uploadImage();
+        });
 
     }
 
@@ -67,5 +70,9 @@ public class RegisterActivity extends AppCompatActivity {
         Toast.makeText(this, "welcome", Toast.LENGTH_SHORT).show();
 		Intent i = new Intent(this, MainActivity.class);
 		startActivity(i);
+    }
+
+    private void uploadImage(){
+
     }
 }
