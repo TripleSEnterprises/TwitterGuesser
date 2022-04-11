@@ -2,8 +2,12 @@ package com.codepath.apps.restclienttemplate;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -46,6 +50,12 @@ public class RegisterActivity extends AppCompatActivity {
     JSONObject twitterUser;
     SwitchMaterial swUsername;
     String username;
+
+    private static final int REQUEST_EXTERNAL_STORAGE = 1;
+    private static String[] PERMISSIONS_STORAGE = {
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+    };
 
     public static final String TAG = "RegisterActivity";
     @Override
@@ -113,7 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
             else{
                 Log.i(TAG,"Using uploaded image at "+part_image);
-//                uploadImage();
+                uploadImage();
             }
             goToMainActivity();
         });
@@ -161,7 +171,10 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void uploadImage(){
+        verifyStoragePermissions(this);
+        Log.i(TAG,"verified");
         File image = new File(part_image);
+        Log.i(TAG, String.valueOf(image.canRead()));
         ParseFile parsefile = new ParseFile(image);
         parsefile.saveInBackground(new SaveCallback() {
             @Override
@@ -170,14 +183,14 @@ public class RegisterActivity extends AppCompatActivity {
                     Log.e(TAG,"File could not be saved",e);
                     return;
                 }
-                ParseUser.getCurrentUser().put("picture",image);
+                ParseUser.getCurrentUser().put("picture",parsefile);
                 ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if (e==null)
-                            Log.i(TAG,"Saved username and image");
+                            Log.i(TAG,"Saved file");
                         else
-                            Log.e(TAG,"Error saving user",e);
+                            Log.e(TAG,"Error saving File",e);
                     }
                 });
             }
@@ -214,6 +227,20 @@ public class RegisterActivity extends AppCompatActivity {
             TwitterClient.getUser(callback, id);
         } catch(Exception e){
             Log.e(TAG,"Error fetching user id",e);
+        }
+    }
+
+    public static void verifyStoragePermissions(Activity activity) {
+        // Check if we have write permission
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            );
         }
     }
 }
