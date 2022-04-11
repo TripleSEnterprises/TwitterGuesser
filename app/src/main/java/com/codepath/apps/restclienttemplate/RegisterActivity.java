@@ -43,6 +43,9 @@ public class RegisterActivity extends AppCompatActivity {
     ImageView ivProfile;
     Uri selectedImage;
     String part_image;
+    JSONObject twitterUser;
+    SwitchMaterial swUsername;
+    String username;
 
     public static final String TAG = "RegisterActivity";
     @Override
@@ -55,6 +58,42 @@ public class RegisterActivity extends AppCompatActivity {
         swProfile = findViewById(R.id.swProfile);
         btnUpload = findViewById(R.id.btnUpload);
         ivProfile = findViewById(R.id.ivProfile);
+        swUsername = findViewById(R.id.swUsername);
+
+        try {
+            twitterUser = ParseUser.getCurrentUser().getJSONObject("authData").getJSONObject("twitter");
+            username = twitterUser.getString("screen_name");
+            tiUsername.setText(username);
+
+        } catch (JSONException e) {
+            Log.e(TAG,"couldn't initialize user",e);
+        }
+
+        swUsername.setOnClickListener(v->{
+            if(swUsername.isChecked()){
+                tiUsername.setText(username);
+                tiUsername.setEnabled(false);
+            }
+            else{
+                tiUsername.setText("");
+                tiUsername.setEnabled(true);
+            }
+        });
+
+        swProfile.setOnClickListener(v->{
+            if(swProfile.isChecked()){
+                btnUpload.setVisibility(View.GONE);
+                ivProfile.setVisibility(View.GONE);
+            }
+            else{
+                btnUpload.setVisibility(View.VISIBLE);
+                ivProfile.setVisibility(View.VISIBLE);
+            }
+        });
+
+        btnUpload.setOnClickListener(v -> {
+            getImage();
+        });
 
         btnRegister.setOnClickListener(v-> {
             String username = tiUsername.getText().toString();
@@ -79,20 +118,7 @@ public class RegisterActivity extends AppCompatActivity {
             goToMainActivity();
         });
 
-        swProfile.setOnClickListener(v->{
-            if(swProfile.isChecked()){
-                btnUpload.setVisibility(View.GONE);
-                ivProfile.setVisibility(View.GONE);
-            }
-            else{
-                btnUpload.setVisibility(View.VISIBLE);
-                ivProfile.setVisibility(View.VISIBLE);
-            }
-        });
 
-        btnUpload.setOnClickListener(v -> {
-            getImage();
-        });
 
     }
 
@@ -161,7 +187,6 @@ public class RegisterActivity extends AppCompatActivity {
     private void useTwitterImage(){
         Log.i(TAG,"Getting user Image");
         try{
-            JSONObject twitterUser = ParseUser.getCurrentUser().getJSONObject("authData").getJSONObject("twitter");
             String id = twitterUser.getString("id");
             Callback callback = new Callback() {
                 @Override
@@ -176,7 +201,7 @@ public class RegisterActivity extends AppCompatActivity {
                         JSONObject userJson = new JSONObject(response.body().string());
                         image = userJson.getString("profile_image_url_https");
                     } catch (JSONException e) {
-                        e.printStackTrace();
+                       Log.e(TAG,"Couldn't retrieve response image",e);
                     }
                     String finalImage = image;
                     Log.i(TAG,finalImage);

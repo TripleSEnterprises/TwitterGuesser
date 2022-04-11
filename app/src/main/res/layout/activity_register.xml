@@ -34,13 +34,13 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/tiUsername"
             android:layout_width="match_parent"
-           android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:enabled="false"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
-
     <com.google.android.material.switchmaterial.SwitchMaterial
-        android:id="@+id/swProfile"
+        android:id="@+id/swUsername"
         android:layout_width="wrap_content"
         android:layout_margin="10dp"
         android:layout_height="wrap_content"
@@ -48,6 +48,20 @@
         android:layout_alignParentStart="true"
         android:layout_marginStart="13dp"
         android:layout_marginTop="10dp"
+        android:checked="true"
+        android:text="Use Twitter Username"
+        android:textSize="20sp"
+        app:trackTint="#8f49f3" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/swProfile"
+        android:layout_width="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/swUsername"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="5dp"
         android:checked="true"
         android:text="Use Twitter Profile"
         android:textSize="20sp"
