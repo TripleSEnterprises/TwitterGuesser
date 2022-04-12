@@ -43,7 +43,7 @@ public class LoginActivity extends AppCompatActivity {
 		}));
 
 		//Comment/Uncomment this until logout is implemented for login flow
-		if(ParseUser.getCurrentUser().isAuthenticated()){
+		if(ParseUser.getCurrentUser() != null && ParseUser.getCurrentUser().isAuthenticated()){
 			goToMainActivity();
 		}
 
