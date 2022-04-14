@@ -1,5 +1,7 @@
 package com.codepath.apps.restclienttemplate.utils;
 
+import android.util.Log;
+
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import org.json.JSONArray;
@@ -10,6 +12,8 @@ import java.util.List;
 import java.util.Set;
 
 public class GameTweetsBank {
+
+    public static final String TAG = "GameTweetsBank";
 
     // Amount of tweets to be randomly selected from tweets object
     private static final int TWEETS_TOTAL_PICK_MIN = 30;
@@ -41,6 +45,11 @@ public class GameTweetsBank {
                 * Create gameQuestion object
                 * Add to question bank
          */
+        try {
+            fillQuestionBank();
+        } catch (JSONException e) {
+            Log.e(TAG, "Error handling JSON", e);
+        }
     }
 
     /**
