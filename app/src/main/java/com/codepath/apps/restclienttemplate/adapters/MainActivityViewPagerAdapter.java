@@ -8,6 +8,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import com.codepath.apps.restclienttemplate.LeaderboardFragment;
 import com.codepath.apps.restclienttemplate.ProfileFragment;
 import com.codepath.apps.restclienttemplate.StartGameFragment;
+import com.parse.ParseUser;
 
 import java.security.InvalidParameterException;
 
@@ -32,7 +33,7 @@ public class MainActivityViewPagerAdapter extends FragmentStateAdapter {
             case LEADERBOARD_FRAGMENT_INDEX:
                 return LeaderboardFragment.newInstance();
             case PROFILE_FRAGMENT_INDEX:
-                return ProfileFragment.newInstance();
+                return ProfileFragment.newInstance(ParseUser.getCurrentUser());
             default:
                 throw new InvalidParameterException();
         }

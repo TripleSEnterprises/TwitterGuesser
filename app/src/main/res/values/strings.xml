@@ -5,5 +5,9 @@
     <string name="login_label">Login</string>
     <string name="intent_scheme">oauth</string>
     <string name="intent_host">cprest</string>
+    <string name="user_profile_picture_content_description">User Profile Picture</string>
+    <string name="profile_leaderboard_position">%1$d%2$s</string>
+    <string name="profile_high_score">Highscore: %1$d</string>
+    <string name="profile_game_history">Game History</string>
 
 </resources>

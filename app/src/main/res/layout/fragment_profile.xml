@@ -1,17 +1,116 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="User"
+            type="com.parse.ParseUser">
+        </variable>
+    </data>
+    <FrameLayout
         xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".ProfileFragment">
-
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/TEMP_TEXT_VIEW"
-            android:text="Profile Screen" />
+            android:layout_height="match_parent">
 
+            <ImageView
+                android:id="@+id/ivProfilePicture"
+                viewClipToBackground="@{true}"
+                profilePictureSetter="@{User}"
+                android:layout_width="111dp"
+                android:layout_height="111dp"
+
+                android:layout_marginStart="25dp"
+                android:layout_marginTop="26dp"
+                android:background="@drawable/rounded_image_view_background"
+                android:contentDescription="@string/user_profile_picture_content_description"
+
+                tools:src="@drawable/profile_icon" />
+
+            <TextView
+                android:id="@+id/tvProfileScreenName"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginTop="48dp"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@id/ivProfilePicture"
+                android:gravity="center"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
+                android:text="@{User.username}"
+
+                app:autoSizeTextType="uniform"
+
+                tools:text="Username"
+            />
+
+            <TextView
+                android:id="@+id/tvLeaderboardPosition"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_alignParentEnd="true"
+                android:layout_toEndOf="@id/ivProfilePicture"
+                android:layout_below="@+id/tvProfileScreenName"
+                android:gravity="center"
+                android:fontFamily="sans-serif"
+                profilePositionFormatter="@{User}"
+
+                app:autoSizeTextType="uniform"
+
+                tools:text="Pos"
+            />
+
+            <TextView
+                android:id="@+id/tvHighScore"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_marginTop="16dp"
+                android:layout_below="@+id/ivProfilePicture"
+                android:gravity="center"
+                android:fontFamily="sans-serif"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                profileHighScoreFormatter="@{User}"
+
+                tools:text="Highscore: 4"
+            />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider"
+                android:layout_width="185dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tvHighScore"
+                android:layout_marginVertical="16dp"
+                android:layout_centerHorizontal="true"
+            />
+
+            <TextView
+                android:id="@+id/tvGameHistory"
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:layout_below="@+id/divider"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:text="@string/profile_game_history"
+
+                tools:text="Game History" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvGameHistory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/tvGameHistory"
+            />
+
+
+        </RelativeLayout>
     </FrameLayout>
 </layout>
