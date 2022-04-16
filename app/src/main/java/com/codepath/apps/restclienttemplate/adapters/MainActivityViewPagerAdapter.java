@@ -29,7 +29,7 @@ public class MainActivityViewPagerAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case START_GAME_FRAGMENT_INDEX:
-                return StartGameFragment.newInstance();
+                return StartGameFragment.newInstance(ParseUser.getCurrentUser());
             case LEADERBOARD_FRAGMENT_INDEX:
                 return LeaderboardFragment.newInstance();
             case PROFILE_FRAGMENT_INDEX:
