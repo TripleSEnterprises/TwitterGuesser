@@ -7,14 +7,18 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.apps.restclienttemplate.databinding.FragmentStartGameBinding;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 public class StartGameFragment extends Fragment {
     private FragmentStartGameBinding binding;
+    public static final String TAG = "StartGameFragment";
 
     public StartGameFragment() {
         // Required empty public constructor
@@ -46,7 +50,13 @@ public class StartGameFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        binding.TEMPTEXTVIEW.setText("Start Game");
+        try {
+            String highScore = String.valueOf(ParseUser.getCurrentUser().fetchIfNeeded().get("highScore"));
+            Log.i(TAG, highScore);
+            binding.tvScore.setText(highScore);
+            Log.i(TAG, binding.tvScore.getText().toString());
+        } catch (ParseException parseException) {
+            Log.e(TAG,"Error setting high score",parseException);
+        }
     }
 }
