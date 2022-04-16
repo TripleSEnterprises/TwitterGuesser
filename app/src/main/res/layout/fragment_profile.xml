@@ -72,6 +72,7 @@
                 android:fontFamily="sans-serif"
                 android:textStyle="bold"
                 android:textSize="20sp"
+                profileHighScoreFormatter="@{User}"
 
                 tools:text="Highscore: 4"
             />

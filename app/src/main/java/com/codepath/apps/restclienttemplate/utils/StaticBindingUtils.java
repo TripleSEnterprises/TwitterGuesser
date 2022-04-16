@@ -47,4 +47,14 @@ public class StaticBindingUtils {
             }
         });
     }
+
+    @BindingAdapter("profileHighScoreFormatter")
+    public static void profileHighScoreFormatter(TextView textView, ParseUser user) {
+        Number highScoreFromDB = user.getNumber("highScore");
+        int highScore = highScoreFromDB != null? highScoreFromDB.intValue() : 0;
+        textView.setText(textView.getContext().getString(
+                R.string.profile_high_score,
+                highScore
+        ));
+    }
 }

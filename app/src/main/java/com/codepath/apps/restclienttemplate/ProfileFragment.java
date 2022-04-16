@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.apps.restclienttemplate.databinding.FragmentProfileBinding;
+import com.parse.ParseUser;
 
 public class ProfileFragment extends Fragment {
     private FragmentProfileBinding binding;
@@ -45,5 +46,6 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        binding.setUser(ParseUser.getCurrentUser());
     }
 }
