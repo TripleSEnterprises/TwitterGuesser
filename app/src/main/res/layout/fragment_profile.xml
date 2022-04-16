@@ -19,14 +19,17 @@
 
             <ImageView
                 android:id="@+id/ivProfilePicture"
+                viewClipToBackground="@{true}"
+                profilePictureSetter="@{User}"
                 android:layout_width="111dp"
                 android:layout_height="111dp"
+
                 android:layout_marginStart="25dp"
                 android:layout_marginTop="26dp"
+                android:background="@drawable/rounded_image_view_background"
                 android:contentDescription="@string/user_profile_picture_content_description"
 
-                tools:src="@drawable/profile_icon"
-            />
+                tools:src="@drawable/profile_icon" />
 
             <TextView
                 android:id="@+id/tvProfileScreenName"

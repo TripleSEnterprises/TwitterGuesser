@@ -1,6 +1,7 @@
 package com.codepath.apps.restclienttemplate.utils;
 
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
@@ -15,6 +16,16 @@ public class StaticBindingUtils {
     private static final String TAG = "StaticBindingUtils";
 
     private static final String[] suffixes = new String[] { "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th" };
+
+    @BindingAdapter("profilePictureSetter")
+    public static void profilePictureSetter(ImageView imageView, ParseUser user) {
+        UserDataConflictResolver.profileImageResolver(imageView, user);
+    }
+
+    @BindingAdapter("viewClipToBackground")
+    public static void viewClipToBackground(ImageView imageView, boolean bool) {
+        imageView.setClipToOutline(bool);
+    }
 
     @BindingAdapter("profilePositionFormatter")
     public static void profilePositionFormatter(TextView textView, ParseUser user) {
