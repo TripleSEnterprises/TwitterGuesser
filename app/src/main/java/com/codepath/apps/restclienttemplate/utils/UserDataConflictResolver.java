@@ -44,7 +44,7 @@ public class UserDataConflictResolver {
 
 
     private static void fallbackProfileImage(final ImageView imageView) {
-        setImageViewWithURLOnMainThread(imageView, "");
+        setImageViewWithURLOnMainThread(imageView, null);
     }
 
     public static void profileImageResolver(final ImageView imageView, ParseUser user) {
