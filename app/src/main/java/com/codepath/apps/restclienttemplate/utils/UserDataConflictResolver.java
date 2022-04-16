@@ -89,6 +89,7 @@ public class UserDataConflictResolver {
                             String image = new JSONObject(
                                     Objects.requireNonNull(response.body()).string()
                             ).getString("profile_image_url_https");
+                            image = image.replace("normal", "bigger");
                             setImageViewWithURLOnMainThread(imageView, image);
 
                             // This task is allowed to fail
