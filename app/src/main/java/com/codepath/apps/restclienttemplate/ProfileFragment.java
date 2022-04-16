@@ -16,14 +16,18 @@ import com.parse.ParseUser;
 public class ProfileFragment extends Fragment {
     private FragmentProfileBinding binding;
 
+    private static final String ARG_USER = "user";
+
+    private ParseUser user;
+
     public ProfileFragment() {
         // Required empty public constructor
     }
 
-    public static ProfileFragment newInstance() {
+    public static ProfileFragment newInstance(ParseUser user) {
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
+        args.putParcelable(ARG_USER, user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -32,7 +36,7 @@ public class ProfileFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
+            user = getArguments().getParcelable(ARG_USER);
         }
     }
 
@@ -40,12 +44,12 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
+        binding.setUser(user);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.setUser(ParseUser.getCurrentUser());
     }
 }
