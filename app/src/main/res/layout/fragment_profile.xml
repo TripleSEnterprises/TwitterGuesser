@@ -39,6 +39,7 @@
                 android:gravity="center"
                 android:fontFamily="sans-serif"
                 android:textStyle="bold"
+                android:text="@{User.username}"
 
                 app:autoSizeTextType="uniform"
 
