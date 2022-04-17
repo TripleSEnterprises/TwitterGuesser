@@ -68,18 +68,17 @@
 
             <TextView
                 android:id="@+id/tvHighScore"
+                profileHighScoreFormatter="@{User}"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
-                android:layout_marginTop="16dp"
                 android:layout_below="@+id/ivProfilePicture"
-                android:gravity="center"
+                android:layout_marginTop="16dp"
                 android:fontFamily="sans-serif"
-                android:textStyle="bold"
+                android:gravity="center"
                 android:textSize="20sp"
-                profileHighScoreFormatter="@{User}"
+                android:textStyle="bold"
 
-                tools:text="Highscore: 4"
-            />
+                tools:text="Highscore: 4" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:id="@+id/divider"

@@ -7,10 +7,14 @@ import android.widget.TextView;
 import androidx.databinding.BindingAdapter;
 
 import com.codepath.apps.restclienttemplate.R;
+import com.codepath.apps.restclienttemplate.models.Game;
 import com.parse.CountCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+
+import java.text.SimpleDateFormat;
+import java.util.Locale;
 
 public class StaticBindingUtils {
     private static final String TAG = "StaticBindingUtils";
@@ -22,11 +26,20 @@ public class StaticBindingUtils {
         UserDataConflictResolver.profileImageResolver(imageView, user);
     }
 
+    @BindingAdapter("profileGameHistoryHighScore")
+    public static void profileGameHistoryHighScore(TextView textView, Game game) {
+        textView.setText(String.format(Locale.US, "%.3f", game.getFinalScore().doubleValue()));
+    }
+
     @BindingAdapter("viewClipToBackground")
     public static void viewClipToBackground(ImageView imageView, boolean bool) {
         imageView.setClipToOutline(bool);
     }
 
+    @BindingAdapter("profileMatchHistoryDateFormatter")
+    public static void profileMatchHistoryDateFormatter(TextView textView, Game game) {
+        textView.setText(new SimpleDateFormat("M/dd/yyyy", Locale.US).format(game.getCreatedAt()));
+    }
     @BindingAdapter("profilePositionFormatter")
     public static void profilePositionFormatter(TextView textView, ParseUser user) {
         ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class)
@@ -62,10 +75,18 @@ public class StaticBindingUtils {
     @BindingAdapter("profileHighScoreFormatter")
     public static void profileHighScoreFormatter(TextView textView, ParseUser user) {
         Number highScoreFromDB = user.getNumber("highScore");
-        int highScore = highScoreFromDB != null? highScoreFromDB.intValue() : 0;
+        double highScore = highScoreFromDB != null? highScoreFromDB.doubleValue() : 0;
         textView.setText(textView.getContext().getString(
                 R.string.profile_high_score,
                 highScore
+        ));
+    }
+
+    @BindingAdapter("detailScoreFormatter")
+    public static void detailScoreFormatter(TextView textView, Game game) {
+        textView.setText(textView.getContext().getString(
+                R.string.detail_score,
+                game.getFinalScore().doubleValue()
         ));
     }
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="Game"
+            type="com.codepath.apps.restclienttemplate.models.Game">
+        </variable>
+    </data>
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:clickable="true"
+        android:focusable="true"
+        tools:context=".GameDetailFragment">
+
+        <TextView
+            android:id="@+id/tvHighScore"
+            detailScoreFormatter="@{Game}"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_marginTop="16dp"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+
+            tools:text="Score: 4" />
+
+    </FrameLayout>
+</layout>

@@ -7,7 +7,9 @@
     <string name="intent_host">cprest</string>
     <string name="user_profile_picture_content_description">User Profile Picture</string>
     <string name="profile_leaderboard_position">%1$d%2$s</string>
-    <string name="profile_high_score">Highscore: %1$d</string>
+    <string name="profile_high_score">Highscore: %1$.3f</string>
+    <string name="detail_score">Score: %1$.3f</string>
     <string name="profile_game_history">Game History</string>
+    <string name="game_view_button">Game View Button</string>
 
 </resources>
