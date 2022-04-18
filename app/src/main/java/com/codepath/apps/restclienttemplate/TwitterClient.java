@@ -53,4 +53,34 @@ public class TwitterClient {
 			e.printStackTrace();
 		}
 	}
+
+	public void fetchFriendIds(Callback callback) {
+		try {
+			Request request = new Request.Builder()
+					.url(getApiUrl("friends/ids.json"))
+					.build();
+			Request signedRequest = (Request) consumer.sign(request).unwrap();
+			client.newCall(signedRequest).enqueue(callback);
+		} catch (OAuthMessageSignerException | OAuthExpectationFailedException | OAuthCommunicationException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void fetchUserTimeline(String userId, Callback callback) {
+		try {
+			HttpUrl.Builder urlBuilder = HttpUrl.parse(getApiUrl("statuses/user_timeline.json")).newBuilder();
+			urlBuilder.addQueryParameter("user_id", userId)
+					.addQueryParameter("include_rts", String.valueOf(false))
+					.addQueryParameter("tweet_mode", "extended")
+					.addQueryParameter("count", String.valueOf(25));
+			String url = urlBuilder.build().toString();
+			Request request = new Request.Builder()
+					.url(url)
+					.build();
+			Request signedRequest = (Request) consumer.sign(request).unwrap();
+			client.newCall(signedRequest).enqueue(callback);
+		} catch (OAuthMessageSignerException | OAuthExpectationFailedException | OAuthCommunicationException e) {
+			e.printStackTrace();
+		}
+	}
 }
