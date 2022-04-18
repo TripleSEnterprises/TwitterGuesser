@@ -1,7 +1,10 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.app.Application;
+
+import com.codepath.apps.restclienttemplate.models.Game;
 import com.parse.Parse;
+import com.parse.ParseObject;
 import com.parse.twitter.ParseTwitterUtils;
 
 public class TwitterApplication extends Application {
@@ -9,6 +12,8 @@ public class TwitterApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        ParseObject.registerSubclass(Game.class);
 
         Parse.initialize(new Parse.Configuration.Builder(this)
                 .applicationId(BuildConfig.PARSE_APPLICATION_ID)

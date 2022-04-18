@@ -5,6 +5,8 @@
 1. [Product Spec](#Product-Spec)
 1. [Wireframes](#Wireframes)
 2. [Schema](#Schema)
+3. [Milestones](#Milestones)<br />
+   i. [Sprint 1](#Sprint-1)
 
 ## Overview
 ### Description
@@ -280,3 +282,19 @@ Guess who tweeted what.
     `GET`    | /friends/list | get all following users
     `GET`    | /status/user_timeline?user_id=id | returns specified user's timeline
     `GET`    | /statuses/lookup?id=ids| returns tweet info for comma comma separated list of tweet ids 
+
+## Milestones
+
+### Sprint-1
+
+#### Stories
+- [x] [Setup Parse Server](https://github.com/TripleSEnterprises/TwitterGuesser/issues/2)
+- [x] [Create Game Model](https://github.com/TripleSEnterprises/TwitterGuesser/issues/4)
+- [x] [Setup Twitter API](https://github.com/TripleSEnterprises/TwitterGuesser/issues/5)
+- [x] [Create Log In Screen](https://github.com/TripleSEnterprises/TwitterGuesser/issues/6)
+- [x] [Create Register Screen](https://github.com/TripleSEnterprises/TwitterGuesser/issues/8)
+- [x] [Create Main Activity](https://github.com/TripleSEnterprises/TwitterGuesser/issues/9)
+
+#### GIF(s)
+
+<img src='./sprint_1.gif' title='Sprint 1 Milestone' width='250' alt='Sprint 1 Milestone' />
