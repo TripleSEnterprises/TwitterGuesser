@@ -31,9 +31,10 @@ public class ParseClient {
         query.findInBackground(gameFindCallback);
     }
 
-    public static void getTopPlayers(FindCallback<ParseUser> topPlayersCallback){
+    public static void getTopPlayers(int after,FindCallback<ParseUser> topPlayersCallback){
         ParseQuery<ParseUser> query= ParseQuery.getQuery(ParseUser.class)
                 .setLimit(10)
+                .setSkip(after)
                 .addDescendingOrder("highScore");
         query.findInBackground(topPlayersCallback);
     }

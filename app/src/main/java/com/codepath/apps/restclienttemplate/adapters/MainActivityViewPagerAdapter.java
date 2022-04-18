@@ -31,13 +31,14 @@ public class MainActivityViewPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
+        ParseUser user = ParseUser.getCurrentUser();
         switch (position) {
             case START_GAME_FRAGMENT_INDEX:
-                return StartGameFragment.newInstance(ParseUser.getCurrentUser());
+                return StartGameFragment.newInstance(user);
             case LEADERBOARD_FRAGMENT_INDEX:
-                return LeaderboardFragment.newInstance();
+                return LeaderboardFragment.newInstance(user);
             case PROFILE_FRAGMENT_INDEX:
-                return ProfileFragment.newInstance(ParseUser.getCurrentUser(), mainActivityOverlay);
+                return ProfileFragment.newInstance(user, mainActivityOverlay);
             default:
                 throw new InvalidParameterException();
         }

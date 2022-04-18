@@ -1,17 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<layout>
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable
+            name="User"
+            type="com.parse.ParseUser">
+        </variable>
+    </data>
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".LeaderboardFragment">
-
-        <TextView
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/TEMP_TEXT_VIEW"
-            android:text="Leaderboard Screen" />
+            android:layout_height="match_parent">
 
+
+            <TextView
+                android:id="@+id/tvTopPlayersTitle"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif"
+                tools:text="Top 100 Players" />
+
+            <ImageView
+                android:id="@+id/ivLeaderboardProfile"
+                profilePictureSetter="@{User}"
+                viewClipToBackground="@{true}"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_toEndOf="@+id/tvLeaderboardSelfPosition"
+                android:background="@drawable/rounded_image_view_background"
+                tools:src="@drawable/profile_icon" />
+
+            <TextView
+                android:id="@+id/tvLeaderboardUsername"
+                android:layout_width="180dp"
+                android:layout_height="33dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="31dp"
+                android:layout_toEndOf="@+id/ivLeaderboardProfile"
+                android:fontFamily="sans-serif"
+                android:text="You"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                tools:text="Me" />
+
+            <TextView
+                android:id="@+id/tvLeaderboardSelfScore"
+                android:layout_width="70dp"
+                android:layout_height="33dp"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginBottom="31dp"
+                android:layout_toEndOf="@+id/tvLeaderboardUsername"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                leaderboardHighScoreFormatter="@{User}"
+                tools:text="100" />
+
+            <TextView
+                android:id="@+id/tvLeaderboardSelfPosition"
+                android:layout_width="40dp"
+                android:layout_height="33dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginBottom="31dp"
+                android:fontFamily="sans-serif"
+                android:textColor="@android:color/black"
+                android:textSize="20sp"
+                android:gravity="center"
+                leaderboardSelfPositionFormatter="@{User}"
+                tools:text="1" />
+
+        </RelativeLayout>
     </FrameLayout>
 </layout>

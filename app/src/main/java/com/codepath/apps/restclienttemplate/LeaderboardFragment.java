@@ -21,15 +21,18 @@ import java.util.List;
 public class LeaderboardFragment extends Fragment {
     private FragmentLeaderboardBinding binding;
     public static final String TAG = "LeaderboardFragment";
+    public static final String ARG_USER = "user";
+
+    private ParseUser user;
 
     public LeaderboardFragment() {
         // Required empty public constructor
     }
 
-    public static LeaderboardFragment newInstance() {
+    public static LeaderboardFragment newInstance(ParseUser user) {
         LeaderboardFragment fragment = new LeaderboardFragment();
         Bundle args = new Bundle();
-//        args.putString(ARG_PARAM1, param1);
+        args.putParcelable(ARG_USER, user);
         fragment.setArguments(args);
         return fragment;
     }
@@ -38,7 +41,7 @@ public class LeaderboardFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-//            mParam1 = getArguments().getString(ARG_PARAM1);
+            user = getArguments().getParcelable(ARG_USER);
         }
     }
 
@@ -46,6 +49,11 @@ public class LeaderboardFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentLeaderboardBinding.inflate(inflater, container, false);
+        try {
+            binding.setUser(user.fetch());
+        } catch (ParseException parseException) {
+            parseException.printStackTrace();
+        }
         return binding.getRoot();
     }
 
@@ -53,8 +61,9 @@ public class LeaderboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.TEMPTEXTVIEW.setText("Leaderboard");
-        ParseClient.getTopPlayers(new FindCallback<ParseUser>() {
+        binding.tvTopPlayersTitle.setText("Top 100 Players");
+
+        ParseClient.getTopPlayers(0,new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> users, ParseException e) {
                 if(e!=null){
