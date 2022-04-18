@@ -3,6 +3,7 @@ package com.codepath.apps.restclienttemplate.utils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.core.util.Pair;
 
 import com.codepath.apps.restclienttemplate.TwitterClient;
 import com.codepath.apps.restclienttemplate.models.Tweet;
@@ -215,8 +216,7 @@ public class GameTweetsBank {
      * Returns a pseudo-randomly chosen tweet
      * @return a tweet object
      */
-    public Tweet getTweet() {
-        // TODO
+    private Tweet getTweet() {
         // if question bank empty, refresh (fillQuestionBank())
         // else pick pseudo-randomly from questionBank
         // Add question to questionHistory
@@ -241,6 +241,24 @@ public class GameTweetsBank {
 
         this.gameQuestionHistory.add(tweetObject);
         return randTweet;
+    }
+
+    /**
+     * Generates a question
+     * @return Pair object with a Tweet tweet and a String[3] of friend_ids of wrongAnswers
+     */
+    public Pair<Tweet, String[]> getQuestion() {
+        Tweet tweet = getTweet();
+        String[] wrongAnswers = new String[3];
+
+        Random random = new Random();
+        for (int i = 0; i < 3; i++) {
+            String randFriend = friend_ids.get(random.nextInt(friend_ids.size()));
+            if (!randFriend.equals(tweet.getUser().getId())) wrongAnswers[i] = randFriend;
+        }
+
+        return new Pair<>(tweet, wrongAnswers);
+
     }
 
     /**
