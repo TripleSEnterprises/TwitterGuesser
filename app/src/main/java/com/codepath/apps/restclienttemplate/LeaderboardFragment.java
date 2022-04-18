@@ -65,12 +65,12 @@ public class LeaderboardFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        users = new ArrayList<>();
+        users = new ArrayList<>(100);
         binding.tvTopPlayersTitle.setText("Top 100 Players");
 
         adapter = new LeaderboardPlayersAdapter(users);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
-        binding.rvTopPlayers.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        binding.rvTopPlayers.setLayoutManager(linearLayoutManager);
         binding.rvTopPlayers.setAdapter(adapter);
 
         ParseClient.getTopPlayers(0,new FindCallback<ParseUser>() {

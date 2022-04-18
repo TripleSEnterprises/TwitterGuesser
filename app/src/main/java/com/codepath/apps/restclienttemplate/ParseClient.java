@@ -33,7 +33,7 @@ public class ParseClient {
 
     public static void getTopPlayers(int after,FindCallback<ParseUser> topPlayersCallback){
         ParseQuery<ParseUser> query= ParseQuery.getQuery(ParseUser.class)
-                .setLimit(10)
+                .setLimit(100)
                 .setSkip(after)
                 .addDescendingOrder("highScore");
         query.findInBackground(topPlayersCallback);

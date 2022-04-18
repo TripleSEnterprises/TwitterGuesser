@@ -24,7 +24,6 @@ public class LeaderboardPlayersAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
     public LeaderboardPlayersAdapter(ArrayList<ParseUser> users) {
-        Log.i(TAG,String.valueOf(users));
         this.users = users;
     }
 
