@@ -33,11 +33,11 @@
                 android:id="@+id/ivLeaderboardProfile"
                 profilePictureSetter="@{User}"
                 viewClipToBackground="@{true}"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
                 android:layout_alignParentBottom="true"
                 android:layout_marginStart="5dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="25dp"
                 android:layout_toEndOf="@+id/tvLeaderboardSelfPosition"
                 android:background="@drawable/rounded_image_view_background"
                 tools:src="@drawable/profile_icon" />
@@ -54,7 +54,7 @@
                 android:text="You"
                 android:textColor="@android:color/black"
                 android:textSize="20sp"
-                tools:text="Me" />
+                tools:text="You" />
 
             <TextView
                 android:id="@+id/tvLeaderboardSelfScore"
@@ -85,6 +85,16 @@
                 android:gravity="center"
                 leaderboardSelfPositionFormatter="@{User}"
                 tools:text="1" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvTopPlayers"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_above="@+id/ivLeaderboardProfile"
+                android:layout_below="@+id/tvTopPlayersTitle"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="0dp" />
 
         </RelativeLayout>
     </FrameLayout>
