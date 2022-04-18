@@ -3,14 +3,17 @@ package com.codepath.apps.restclienttemplate.utils;
 import android.os.Build;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
+import com.codepath.apps.restclienttemplate.TwitterClient;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -18,6 +21,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class GameTweetsBank {
 
@@ -28,6 +35,9 @@ public class GameTweetsBank {
     private static final int TWEETS_TOTAL_PICK_MAX = 50;
     private static final int TWEETS_FRIEND_PICK_MAX = 10;
     private static final int FRIENDS_PICK_MAX = 5;
+
+    // Twitter client for fetching data from endpoints
+    private TwitterClient client = new TwitterClient();
 
     // Game Question History
     private JSONArray gameQuestionHistory;
@@ -42,12 +52,12 @@ public class GameTweetsBank {
     private Set<String> usedTweetSet;
 
     // Map of Friends to a list of Tweets
-    private Map<String, List<Tweet>> friend_tweet_map;
-    private List<String> friend_ids;
+    private static Map<String, List<Tweet>> friend_tweet_map;
+    private static List<String> friend_ids;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public GameTweetsBank() {
-        this.friend_tweet_map = new HashMap<>();
+        friend_tweet_map = new HashMap<>();
         try {
             fillQuestionBank();
         } catch (JSONException e) {
@@ -55,15 +65,57 @@ public class GameTweetsBank {
         }
     }
 
+    private void getFriendsIdsHelper(JSONArray friendIdsArray) throws JSONException {
+        // Add friends to hashmap
+        for(int i = 0; i < friendIdsArray.length(); i++) {
+            String friend_id = friendIdsArray.getString(i);
+            friend_tweet_map.put(friend_id, new ArrayList<>());
+            this.friend_ids.add(friend_id);
+        }
+    }
+
     /**
      * Returns a list of friend ids given a JSONArray of friend_ids returned by Twitter API
      * @return List of Twitter friend ids
      */
-    private static List<String> getFriendsIds() {
+    private List<String> getFriendsIds() {
         // TODO FETCH FRIENDS
-        // Fetch from endpoint (if friend hashmap isEmpty, return hashmap keys)
-        // Add friends to hashmap
+        if (!this.friend_ids.isEmpty()) return this.friend_ids;
+
+        Map<String, List<Tweet>> friend_map;
+
+        // Fetch from endpoint (if friend List !isEmpty, return stored list)
+        client.fetchFriendIds(new Callback() {
+            @Override
+            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                Log.e(TAG, "Friend Fetch Failed", e);
+            }
+
+            @Override
+            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+//                if(response != null && !response.body().contentType().type().equals("JSONObject")) {
+//                    Log.i(TAG, "Wrong data type returned from request");
+//                    return;
+//                }
+
+                if (!response.isSuccessful()) {
+                    throw new IOException("Unexpected code " + response);
+                } else {
+                    Log.i(TAG, "SUCCESS!");
+                    try {
+                        String responseData = response.body().string();
+                        JSONObject json = new JSONObject(responseData);
+
+                        JSONArray friendIdsArray = json.getJSONArray("ids");
+                        getFriendsIdsHelper(friendIdsArray);
+                    } catch (JSONException e) {
+                    }
+                }
+            }
+        });
+
         // Return list
+        return this.friend_ids;
     }
 
     private static String[] getRandomFriends(List<String> friend_ids) {
@@ -79,6 +131,35 @@ public class GameTweetsBank {
                                                     friend_ids.get(random.nextInt(friend_ids.size()));
 
         return randomlyChosenFriends;
+    }
+
+    private void fillQuestionBankHelper(List<Tweet> userTimeline) {
+        // Stores culled Tweets for a single friend
+        Set<String> usedTweetIds = new HashSet<>();
+        // Get list of tweets, either from stored HashMap or fetch via twitter endpoint
+
+        Random random = new Random();
+        // Get random tweets from friend
+        for (int i = 0; i < TWEETS_FRIEND_PICK_MAX; ) {
+            // if their tweets have been exhausted, exit the loop and go to the next friend
+            if (userTimeline.size() == 0) break;
+            int rand_idx = random.nextInt(userTimeline.size());
+            Tweet tweet = userTimeline.get(rand_idx);
+            String tweet_id = tweet.getId();
+            // Check if we have already processed this tweet against HashSet
+            // of tweet_ids to prevent duplicates
+            if (!this.usedTweetSet.contains(tweet_id) && !usedTweetIds.contains(tweet_id)) {
+                // add to global set
+                usedTweetIds.add(tweet_id);
+                userTimeline.remove(rand_idx);
+                this.gameQuestionBank.add(tweet);
+                i++;
+            }
+            if (this.gameQuestionBank.size() == TWEETS_TOTAL_PICK_MAX) return;
+        }
+        // Union local tweet set to global tweet set
+        this.usedTweetSet.addAll(usedTweetIds);
+
     }
 
     /**
@@ -100,51 +181,45 @@ public class GameTweetsBank {
          */
         do {
             String[] randomlyChosenFriends = getRandomFriends(!this.friend_ids.isEmpty() ? this.friend_ids : getFriendsIds());
-            Set<String> usedTweetIds;
-            List<Tweet> userTimeline;
 
             // Loop through each friend id from randomly generated array
             for (String friendId : randomlyChosenFriends) {
                 // Stores culled Tweets for a single friend
-                usedTweetIds = new HashSet<>();
-                // Get list of tweets, either from stored HashMap or fetch via twitter endpoint
-                userTimeline = this.friend_tweet_map.getOrDefault(friendId, fetchUserTimeline(friendId));
-                // Map timeline to user for future use if they are not in the hash map
-                if (!this.friend_tweet_map.containsKey(friendId))
-                    this.friend_tweet_map.put(friendId, userTimeline);
+                if (friend_tweet_map.get(friendId).isEmpty()) {
+                    client.fetchUserTimeline(friendId, new Callback() {
+                        @Override
+                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                            Log.e(TAG, "Failed timeline fetch", e);
+                        }
 
-                // Check if there are any tweets made by this user, if not skip them and remove from map
-                if (userTimeline.size() == 0) {
-                    this.friend_tweet_map.remove(friendId);
-                    continue;
-                }
+                        @Override
+                        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                            if (!response.isSuccessful()) {
+                                throw new IOException("Unexpected code " + response);
+                            } else {
+                                Log.i(TAG, "SUCCESS!");
+                                try {
+                                    String responseData = response.body().string();
+                                    JSONArray tweetObjects = new JSONArray(responseData);
+                                    List<Tweet> userTimeline = new ArrayList<>();
+                                    if (tweetObjects.length() > 0) {
+                                        for (int i = 0; i < tweetObjects.length(); i++) {
+                                            userTimeline.add(Tweet.fromJson(tweetObjects.getJSONObject(i)));
+                                        }
 
-                Random random = new Random();
-                // Get random tweets from friend
-                for (int i = 0; i < TWEETS_FRIEND_PICK_MAX; ) {
-                    // if their tweets have been exhausted, exit the loop and go to the next friend
-                    if (userTimeline.size() == 0) break;
-                    int rand_idx = random.nextInt(userTimeline.size());
-                    Tweet tweet = userTimeline.get(rand_idx);
-                    String tweet_id = tweet.getId();
-                    // Check if we have already processed this tweet against HashSet
-                    // of tweet_ids to prevent duplicates
-                    if (!this.usedTweetSet.contains(tweet_id) && !usedTweetIds.contains(tweet_id)) {
-                        // add to global set
-                        usedTweetIds.add(tweet_id);
-                        userTimeline.remove(rand_idx);
-                        this.gameQuestionBank.add(tweet);
-                        i++;
-                    }
-                    if (this.gameQuestionBank.size() == TWEETS_TOTAL_PICK_MAX) return;
+                                        friend_tweet_map.put(friendId, userTimeline);
+                                        fillQuestionBankHelper(userTimeline);
+                                    }
+                                } catch (JSONException e) {
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    fillQuestionBankHelper(friend_tweet_map.get(friendId));
                 }
-                // Union local tweet set to global tweet set
-                this.usedTweetSet.addAll(usedTweetIds);
             }
         } while(this.gameQuestionBank.size() >= TWEETS_TOTAL_PICK_MIN);
-    }
-
-    private List<Tweet> fetchUserTimeline(String friendId) {
     }
 
     /**
@@ -164,6 +239,7 @@ public class GameTweetsBank {
         // if question bank empty, refresh (fillQuestionBank())
         // else pick pseudo-randomly from questionBank
         // Add question to questionHistory
+        return null;
     }
 
     /**
@@ -172,6 +248,7 @@ public class GameTweetsBank {
      */
     public JSONArray getUsedTweets() {
         // TODO
+        return null;
     }
 
     /**

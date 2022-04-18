@@ -39,4 +39,28 @@ public class TwitterClient {
 			e.printStackTrace();
 		}
 	}
+
+	public void fetchFriendIds(Callback callback) {
+		try {
+			Request request = new Request.Builder()
+					.url(getApiUrl("friends/ids.json"))
+					.build();
+			Request signedRequest = (Request) consumer.sign(request).unwrap();
+			client.newCall(signedRequest).enqueue(callback);
+		} catch (OAuthMessageSignerException | OAuthExpectationFailedException | OAuthCommunicationException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void fetchUserTimeline(String userId, Callback callback) {
+		try {
+			Request request = new Request.Builder()
+					.url(getApiUrl(String.format("status/user_timeline?user_id=%s", userId)))
+					.build();
+			Request signedRequest = (Request) consumer.sign(request).unwrap();
+			client.newCall(signedRequest).enqueue(callback);
+		} catch (OAuthMessageSignerException | OAuthExpectationFailedException | OAuthCommunicationException e) {
+			e.printStackTrace();
+		}
+	}
 }
