@@ -6,14 +6,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.codepath.apps.restclienttemplate.databinding.FragmentLeaderboardBinding;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+
+import java.util.List;
 
 public class LeaderboardFragment extends Fragment {
     private FragmentLeaderboardBinding binding;
+    public static final String TAG = "LeaderboardFragment";
 
     public LeaderboardFragment() {
         // Required empty public constructor
@@ -47,5 +54,18 @@ public class LeaderboardFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         binding.TEMPTEXTVIEW.setText("Leaderboard");
+        ParseClient.getTopPlayers(new FindCallback<ParseUser>() {
+            @Override
+            public void done(List<ParseUser> users, ParseException e) {
+                if(e!=null){
+                    Log.e(TAG,"Couldn't get top users",e);
+                    return;
+                }
+                for (ParseUser user: users) {
+                    Log.i(TAG,user.getUsername()+" "+user.get("highScore"));
+                }
+
+            }
+        });
     }
 }

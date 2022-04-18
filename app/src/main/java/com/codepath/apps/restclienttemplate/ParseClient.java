@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.codepath.apps.restclienttemplate.models.Game;
 import com.parse.FindCallback;
+import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -28,5 +29,12 @@ public class ParseClient {
         if (dateBefore != null) query.whereLessThan(Game.KEY_CREATED_AT , dateBefore);
 
         query.findInBackground(gameFindCallback);
+    }
+
+    public static void getTopPlayers(FindCallback<ParseUser> topPlayersCallback){
+        ParseQuery<ParseUser> query= ParseQuery.getQuery(ParseUser.class)
+                .setLimit(10)
+                .addDescendingOrder("highScore");
+        query.findInBackground(topPlayersCallback);
     }
 }
