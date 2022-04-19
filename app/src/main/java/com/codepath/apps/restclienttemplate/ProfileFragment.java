@@ -125,6 +125,7 @@ public class ProfileFragment extends Fragment {
 
                 games.clear();
                 adapter.notifyDataSetChanged();
+                scrollListener.resetState();
                 getMatches();
 
             }
