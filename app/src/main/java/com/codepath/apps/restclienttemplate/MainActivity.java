@@ -109,4 +109,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
         super.onBackPressed();
         refreshBackButtonVisibility();
     }
+
+    @Override
+    public void viewPagerNavigate(int fragmentIndex){
+        binding.vp2Main.setCurrentItem(fragmentIndex,true);
+    }
 }

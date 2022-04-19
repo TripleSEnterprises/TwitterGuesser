@@ -77,7 +77,11 @@ public class LeaderboardPlayersAdapter extends RecyclerView.Adapter<RecyclerView
                     v.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mainActivityNavigator.requestOverlay(ProfileFragment.newInstance(user,mainActivityNavigator));
+                            if (ParseUser.getCurrentUser().getObjectId().equals(user.getObjectId())) {
+                                mainActivityNavigator.viewPagerNavigate(MainActivityViewPagerAdapter.PROFILE_FRAGMENT_INDEX);
+                            } else {
+                                mainActivityNavigator.requestOverlay(ProfileFragment.newInstance(user, mainActivityNavigator));
+                            }
                         }
                     });
                 }
