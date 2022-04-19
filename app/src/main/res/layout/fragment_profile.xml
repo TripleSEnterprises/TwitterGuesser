@@ -14,103 +14,108 @@
         android:layout_height="match_parent"
         tools:context=".ProfileFragment"
         android:background="@android:color/white">
-        <RelativeLayout
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/srlProfile"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/ivProfilePicture"
-                viewClipToBackground="@{true}"
-                profilePictureSetter="@{User}"
-                android:layout_width="111dp"
-                android:layout_height="111dp"
-
-                android:layout_marginStart="25dp"
-                android:layout_marginTop="26dp"
-                android:background="@drawable/rounded_image_view_background"
-                android:contentDescription="@string/user_profile_picture_content_description"
-
-                tools:src="@drawable/profile_icon" />
-
-            <TextView
-                android:id="@+id/tvProfileScreenName"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:layout_marginEnd="32dp"
-                android:layout_marginTop="48dp"
-                android:layout_alignParentEnd="true"
-                android:layout_toEndOf="@id/ivProfilePicture"
-                android:gravity="center"
-                android:fontFamily="sans-serif"
-                android:textStyle="bold"
-                android:text="@{User.username}"
+                android:layout_height="match_parent">
 
-                app:autoSizeTextType="uniform"
+                <ImageView
+                    android:id="@+id/ivProfilePicture"
+                    viewClipToBackground="@{true}"
+                    profilePictureSetter="@{User}"
+                    android:layout_width="111dp"
+                    android:layout_height="111dp"
 
-                tools:text="Username"
-            />
+                    android:layout_marginStart="25dp"
+                    android:layout_marginTop="26dp"
+                    android:background="@drawable/rounded_image_view_background"
+                    android:contentDescription="@string/user_profile_picture_content_description"
 
-            <TextView
-                android:id="@+id/tvLeaderboardPosition"
-                android:layout_width="match_parent"
-                android:layout_height="32dp"
-                android:layout_marginEnd="32dp"
-                android:layout_alignParentEnd="true"
-                android:layout_toEndOf="@id/ivProfilePicture"
-                android:layout_below="@+id/tvProfileScreenName"
-                android:gravity="center"
-                android:fontFamily="sans-serif"
-                profilePositionFormatter="@{User}"
+                    tools:src="@drawable/profile_icon" />
 
-                app:autoSizeTextType="uniform"
+                <TextView
+                    android:id="@+id/tvProfileScreenName"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_marginTop="48dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@id/ivProfilePicture"
+                    android:gravity="center"
+                    android:fontFamily="sans-serif"
+                    android:textStyle="bold"
+                    android:text="@{User.username}"
 
-                tools:text="Pos"
-            />
+                    app:autoSizeTextType="uniform"
 
-            <TextView
-                android:id="@+id/tvHighScore"
-                profileHighScoreFormatter="@{User}"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_below="@+id/ivProfilePicture"
-                android:layout_marginTop="16dp"
-                android:fontFamily="sans-serif"
-                android:gravity="center"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                    tools:text="Username"
+                    />
 
-                tools:text="Highscore: 4" />
+                <TextView
+                    android:id="@+id/tvLeaderboardPosition"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginEnd="32dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@id/ivProfilePicture"
+                    android:layout_below="@+id/tvProfileScreenName"
+                    android:gravity="center"
+                    android:fontFamily="sans-serif"
+                    profilePositionFormatter="@{User}"
 
-            <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/divider"
-                android:layout_width="185dp"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tvHighScore"
-                android:layout_marginVertical="16dp"
-                android:layout_centerHorizontal="true"
-            />
+                    app:autoSizeTextType="uniform"
 
-            <TextView
-                android:id="@+id/tvGameHistory"
-                android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_below="@+id/divider"
-                android:fontFamily="sans-serif"
-                android:gravity="center"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:text="@string/profile_game_history"
+                    tools:text="Pos"
+                    />
 
-                tools:text="Game History" />
+                <TextView
+                    android:id="@+id/tvHighScore"
+                    profileHighScoreFormatter="@{User}"
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:layout_below="@+id/ivProfilePicture"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rvGameHistory"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/tvGameHistory"
-            />
+                    tools:text="Highscore: 4" />
 
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider"
+                    android:layout_width="185dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvHighScore"
+                    android:layout_marginVertical="16dp"
+                    android:layout_centerHorizontal="true"
+                    />
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/tvGameHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="64dp"
+                    android:layout_below="@+id/divider"
+                    android:fontFamily="sans-serif"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:text="@string/profile_game_history"
+
+                    tools:text="Game History" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvGameHistory"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_below="@+id/tvGameHistory"
+                    />
+            </RelativeLayout>
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     </FrameLayout>
 </layout>
