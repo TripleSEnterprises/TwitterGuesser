@@ -11,7 +11,7 @@ import com.codepath.apps.restclienttemplate.GameDetailFragment;
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.databinding.ProfileGameHistoryItemBinding;
 import com.codepath.apps.restclienttemplate.databinding.SelfProfileGameHistoryItemBinding;
-import com.codepath.apps.restclienttemplate.interfaces.MainActivityOverlay;
+import com.codepath.apps.restclienttemplate.interfaces.MainActivityNavigator;
 import com.codepath.apps.restclienttemplate.models.Game;
 import com.parse.ParseUser;
 
@@ -23,7 +23,7 @@ public class ProfileGameHistoryAdapter extends RecyclerView.Adapter<RecyclerView
 
     private final ParseUser user;
     private final ArrayList<Game> games;
-    private final MainActivityOverlay mainActivityOverlay;
+    private final MainActivityNavigator mainActivityNavigator;
 
     private static final int SELF = 0;
     private static final int OTHER = 1;
@@ -33,10 +33,10 @@ public class ProfileGameHistoryAdapter extends RecyclerView.Adapter<RecyclerView
     }
 
 
-    public ProfileGameHistoryAdapter(ParseUser user, ArrayList<Game> games, MainActivityOverlay mainActivityOverlay) {
+    public ProfileGameHistoryAdapter(ParseUser user, ArrayList<Game> games, MainActivityNavigator mainActivityNavigator) {
         this.user = user;
         this.games = games;
-        this.mainActivityOverlay = mainActivityOverlay;
+        this.mainActivityNavigator = mainActivityNavigator;
     }
 
 
@@ -98,7 +98,7 @@ public class ProfileGameHistoryAdapter extends RecyclerView.Adapter<RecyclerView
             binding.getRoot().setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mainActivityOverlay.requestOverlay(GameDetailFragment.newInstance(game));
+                    mainActivityNavigator.requestOverlay(GameDetailFragment.newInstance(game));
                 }
             });
         }

@@ -14,12 +14,12 @@ import android.view.MenuItem;
 
 import com.codepath.apps.restclienttemplate.adapters.MainActivityViewPagerAdapter;
 import com.codepath.apps.restclienttemplate.databinding.ActivityMainBinding;
-import com.codepath.apps.restclienttemplate.interfaces.MainActivityOverlay;
+import com.codepath.apps.restclienttemplate.interfaces.MainActivityNavigator;
 import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.Objects;
 
-public class MainActivity extends AppCompatActivity implements MainActivityOverlay {
+public class MainActivity extends AppCompatActivity implements MainActivityNavigator {
 
     ActivityMainBinding binding;
     MainActivityViewPagerAdapter viewPagerAdapter;

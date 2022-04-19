@@ -15,11 +15,10 @@ import android.view.ViewGroup;
 
 import com.codepath.apps.restclienttemplate.adapters.LeaderboardPlayersAdapter;
 import com.codepath.apps.restclienttemplate.databinding.FragmentLeaderboardBinding;
-import com.codepath.apps.restclienttemplate.interfaces.MainActivityOverlay;
+import com.codepath.apps.restclienttemplate.interfaces.MainActivityNavigator;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -34,18 +33,18 @@ public class LeaderboardFragment extends Fragment {
     private ArrayList<ParseUser> users;
     private ParseUser user;
 
-    public MainActivityOverlay mainActivityOverlay;
+    public MainActivityNavigator mainActivityNavigator;
 
     public LeaderboardFragment() {
         // Required empty public constructor
     }
 
-    public static LeaderboardFragment newInstance(ParseUser user, MainActivityOverlay mainActivityOverlay) {
+    public static LeaderboardFragment newInstance(ParseUser user, MainActivityNavigator mainActivityNavigator) {
         LeaderboardFragment fragment = new LeaderboardFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_USER, user);
         fragment.setArguments(args);
-        fragment.mainActivityOverlay = mainActivityOverlay;
+        fragment.mainActivityNavigator= mainActivityNavigator;
         return fragment;
     }
 
@@ -75,7 +74,7 @@ public class LeaderboardFragment extends Fragment {
         users = new ArrayList<>(100);
         binding.tvTopPlayersTitle.setText("Top 100 Players");
 
-        adapter = new LeaderboardPlayersAdapter(users,mainActivityOverlay);
+        adapter = new LeaderboardPlayersAdapter(users,mainActivityNavigator);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
         binding.rvTopPlayers.setLayoutManager(linearLayoutManager);
         binding.rvTopPlayers.setAdapter(adapter);
