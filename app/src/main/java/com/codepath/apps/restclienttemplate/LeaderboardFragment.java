@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -56,8 +57,8 @@ public class LeaderboardFragment extends Fragment {
         binding = FragmentLeaderboardBinding.inflate(inflater, container, false);
         try {
             binding.setUser(user.fetch());
-        } catch (ParseException parseException) {
-            parseException.printStackTrace();
+        } catch (ParseException e) {
+            Log.e(TAG,"Could not refresh user user",e);
         }
         return binding.getRoot();
     }
@@ -73,6 +74,22 @@ public class LeaderboardFragment extends Fragment {
         binding.rvTopPlayers.setLayoutManager(linearLayoutManager);
         binding.rvTopPlayers.setAdapter(adapter);
 
+        getPlayers();
+
+        binding.srlLeaderboard.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getPlayers();
+                try {
+                    binding.setUser(user.fetch());
+                } catch (ParseException e) {
+                    Log.e(TAG,"Could not refresh user user",e);
+                }
+            }
+        });
+    }
+
+    private void getPlayers(){
         ParseClient.getTopPlayers(0,new FindCallback<ParseUser>() {
             @Override
             public void done(List<ParseUser> topplayers, ParseException e) {
@@ -80,7 +97,10 @@ public class LeaderboardFragment extends Fragment {
                     Log.e(TAG,"Couldn't get top users",e);
                     return;
                 }
-                users.addAll(topplayers);
+                binding.srlLeaderboard.setRefreshing(false);
+                adapter.clear();
+                adapter.addAll(topplayers);
+                Log.i(TAG,String.valueOf(users));
                 adapter.notifyItemRangeInserted(0,users.size());
                 for (ParseUser user: topplayers) {
                     Log.i(TAG,user.getUsername()+" "+user.get("highScore"));

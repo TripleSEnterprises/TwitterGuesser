@@ -13,6 +13,7 @@ import com.codepath.apps.restclienttemplate.databinding.LeaderboardTopPlayerItem
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class LeaderboardPlayersAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
@@ -44,6 +45,16 @@ public class LeaderboardPlayersAdapter extends RecyclerView.Adapter<RecyclerView
     @Override
     public int getItemCount() {
         return users.size();
+    }
+
+    public void clear(){
+        users.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<ParseUser> newUsers){
+        users.addAll(newUsers);
+        notifyDataSetChanged();
     }
 
     public class OtherTopPlayerItem extends RecyclerView.ViewHolder implements UserBiddableViewHolder {
