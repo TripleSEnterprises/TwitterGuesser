@@ -60,11 +60,7 @@ public class LeaderboardFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentLeaderboardBinding.inflate(inflater, container, false);
-        try {
-            binding.setUser(user.fetch());
-        } catch (ParseException e) {
-            Log.e(TAG,"Could not refresh user user",e);
-        }
+        binding.setUser(user);
         return binding.getRoot();
     }
 
