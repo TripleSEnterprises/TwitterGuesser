@@ -16,12 +16,11 @@ import android.view.ViewGroup;
 
 import com.codepath.apps.restclienttemplate.adapters.ProfileGameHistoryAdapter;
 import com.codepath.apps.restclienttemplate.databinding.FragmentProfileBinding;
-import com.codepath.apps.restclienttemplate.interfaces.MainActivityOverlay;
+import com.codepath.apps.restclienttemplate.interfaces.MainActivityNavigator;
 import com.codepath.apps.restclienttemplate.models.Game;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -40,18 +39,18 @@ public class ProfileFragment extends Fragment {
     private ArrayList<Game> games;
     private EndlessRecyclerViewScrollListener scrollListener;
 
-    public MainActivityOverlay mainActivityOverlay;
+    public MainActivityNavigator mainActivityNavigator;
 
     public ProfileFragment() {
         // Required empty public constructor
     }
 
-    public static ProfileFragment newInstance(ParseUser user, MainActivityOverlay mainActivityOverlay) {
+    public static ProfileFragment newInstance(ParseUser user, MainActivityNavigator mainActivityNavigator) {
         ProfileFragment fragment = new ProfileFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_USER, user);
         fragment.setArguments(args);
-        fragment.mainActivityOverlay = mainActivityOverlay;
+        fragment.mainActivityNavigator = mainActivityNavigator;
         return fragment;
     }
 
@@ -67,18 +66,18 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
+        binding.setUser(user);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.setUser(user);
         games = new ArrayList<>(10);
 
-        adapter = new ProfileGameHistoryAdapter(user, games, mainActivityOverlay);
+        adapter = new ProfileGameHistoryAdapter(user, games, mainActivityNavigator);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
-        binding.rvGameHistory.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        binding.rvGameHistory.setLayoutManager(linearLayoutManager);
         binding.rvGameHistory.setAdapter(adapter);
 
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {

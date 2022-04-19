@@ -1,6 +1,5 @@
 package com.codepath.apps.restclienttemplate.adapters;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.codepath.apps.restclienttemplate.ProfileFragment;
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.databinding.LeaderboardTopPlayerItemBinding;
-import com.codepath.apps.restclienttemplate.interfaces.MainActivityOverlay;
+import com.codepath.apps.restclienttemplate.interfaces.MainActivityNavigator;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -21,15 +20,15 @@ public class LeaderboardPlayersAdapter extends RecyclerView.Adapter<RecyclerView
 
     private final ArrayList<ParseUser> users;
     public static final String TAG = "LeaderboardAdapter";
-    public MainActivityOverlay mainActivityOverlay;
+    public MainActivityNavigator mainActivityNavigator;
 
     private interface UserBiddableViewHolder {
         void bind(ParseUser user);
     }
 
-    public LeaderboardPlayersAdapter(ArrayList<ParseUser> users, MainActivityOverlay mainActivityOverlay) {
+    public LeaderboardPlayersAdapter(ArrayList<ParseUser> users, MainActivityNavigator mainActivityNavigator) {
         this.users = users;
-        this.mainActivityOverlay = mainActivityOverlay;
+        this.mainActivityNavigator = mainActivityNavigator;
     }
 
     @NonNull
@@ -78,7 +77,11 @@ public class LeaderboardPlayersAdapter extends RecyclerView.Adapter<RecyclerView
                     v.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            mainActivityOverlay.requestOverlay(ProfileFragment.newInstance(user,mainActivityOverlay));
+                            if (ParseUser.getCurrentUser().getObjectId().equals(user.getObjectId())) {
+                                mainActivityNavigator.viewPagerNavigate(MainActivityViewPagerAdapter.PROFILE_FRAGMENT_INDEX);
+                            } else {
+                                mainActivityNavigator.requestOverlay(ProfileFragment.newInstance(user, mainActivityNavigator));
+                            }
                         }
                     });
                 }
