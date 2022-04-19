@@ -109,17 +109,7 @@ public class ProfileFragment extends Fragment {
         };
         binding.rvGameHistory.addOnScrollListener(scrollListener);
 
-        ParseClient.getMatchHistory(user, new FindCallback<Game>() {
-            @Override
-            public void done(List<Game> objects, ParseException e) {
-                if (e != null) {
-                    Log.e(TAG, "Failed To Get Match History: ", e);
-                    return;
-                }
-                games.addAll(objects);
-                adapter.notifyItemRangeInserted(0, objects.size());
-            }
-        });
+        getMatches();
 
         binding.srlProfile.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -133,6 +123,24 @@ public class ProfileFragment extends Fragment {
                     }
                 });
 
+                games.clear();
+                adapter.notifyDataSetChanged();
+                getMatches();
+
+            }
+        });
+    }
+
+    private void getMatches(){
+        ParseClient.getMatchHistory(user, new FindCallback<Game>() {
+            @Override
+            public void done(List<Game> objects, ParseException e) {
+                if (e != null) {
+                    Log.e(TAG, "Failed To Get Match History: ", e);
+                    return;
+                }
+                games.addAll(objects);
+                adapter.notifyItemRangeInserted(0, objects.size());
             }
         });
     }
