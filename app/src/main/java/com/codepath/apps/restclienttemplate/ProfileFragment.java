@@ -66,18 +66,18 @@ public class ProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
+        binding.setUser(user);
         return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding.setUser(user);
         games = new ArrayList<>(10);
 
         adapter = new ProfileGameHistoryAdapter(user, games, mainActivityNavigator);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
-        binding.rvGameHistory.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        binding.rvGameHistory.setLayoutManager(linearLayoutManager);
         binding.rvGameHistory.setAdapter(adapter);
 
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
