@@ -17,7 +17,9 @@ import com.codepath.apps.restclienttemplate.adapters.LeaderboardPlayersAdapter;
 import com.codepath.apps.restclienttemplate.databinding.FragmentLeaderboardBinding;
 import com.codepath.apps.restclienttemplate.interfaces.MainActivityOverlay;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -83,12 +85,13 @@ public class LeaderboardFragment extends Fragment {
         binding.srlLeaderboard.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                user.fetchInBackground(new GetCallback<ParseUser>() {
+                    @Override
+                    public void done(ParseUser object, ParseException e) {
+                        binding.setUser(object);
+                    }
+                });
                 getPlayers();
-                try {
-                    binding.setUser(user.fetch());
-                } catch (ParseException e) {
-                    Log.e(TAG,"Could not refresh user user",e);
-                }
             }
         });
     }
