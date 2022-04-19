@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.codepath.apps.restclienttemplate.ProfileFragment;
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.databinding.LeaderboardTopPlayerItemBinding;
+import com.codepath.apps.restclienttemplate.interfaces.MainActivityOverlay;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -19,13 +21,15 @@ public class LeaderboardPlayersAdapter extends RecyclerView.Adapter<RecyclerView
 
     private final ArrayList<ParseUser> users;
     public static final String TAG = "LeaderboardAdapter";
+    public MainActivityOverlay mainActivityOverlay;
 
     private interface UserBiddableViewHolder {
         void bind(ParseUser user);
     }
 
-    public LeaderboardPlayersAdapter(ArrayList<ParseUser> users) {
+    public LeaderboardPlayersAdapter(ArrayList<ParseUser> users, MainActivityOverlay mainActivityOverlay) {
         this.users = users;
+        this.mainActivityOverlay = mainActivityOverlay;
     }
 
     @NonNull
@@ -68,6 +72,17 @@ public class LeaderboardPlayersAdapter extends RecyclerView.Adapter<RecyclerView
         @Override
         public void bind(ParseUser user) {
             binding.setUser(user);
+            binding.llPlayer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    v.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mainActivityOverlay.requestOverlay(ProfileFragment.newInstance(user,mainActivityOverlay));
+                        }
+                    });
+                }
+            });
         }
     }
 

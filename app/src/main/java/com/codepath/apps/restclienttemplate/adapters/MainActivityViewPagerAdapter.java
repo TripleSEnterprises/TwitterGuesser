@@ -36,7 +36,7 @@ public class MainActivityViewPagerAdapter extends FragmentStateAdapter {
             case START_GAME_FRAGMENT_INDEX:
                 return StartGameFragment.newInstance(user);
             case LEADERBOARD_FRAGMENT_INDEX:
-                return LeaderboardFragment.newInstance(user);
+                return LeaderboardFragment.newInstance(user, mainActivityOverlay);
             case PROFILE_FRAGMENT_INDEX:
                 return ProfileFragment.newInstance(user, mainActivityOverlay);
             default:

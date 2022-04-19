@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 
 import com.codepath.apps.restclienttemplate.adapters.LeaderboardPlayersAdapter;
 import com.codepath.apps.restclienttemplate.databinding.FragmentLeaderboardBinding;
+import com.codepath.apps.restclienttemplate.interfaces.MainActivityOverlay;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -31,15 +32,18 @@ public class LeaderboardFragment extends Fragment {
     private ArrayList<ParseUser> users;
     private ParseUser user;
 
+    public MainActivityOverlay mainActivityOverlay;
+
     public LeaderboardFragment() {
         // Required empty public constructor
     }
 
-    public static LeaderboardFragment newInstance(ParseUser user) {
+    public static LeaderboardFragment newInstance(ParseUser user, MainActivityOverlay mainActivityOverlay) {
         LeaderboardFragment fragment = new LeaderboardFragment();
         Bundle args = new Bundle();
         args.putParcelable(ARG_USER, user);
         fragment.setArguments(args);
+        fragment.mainActivityOverlay = mainActivityOverlay;
         return fragment;
     }
 
@@ -69,7 +73,7 @@ public class LeaderboardFragment extends Fragment {
         users = new ArrayList<>(100);
         binding.tvTopPlayersTitle.setText("Top 100 Players");
 
-        adapter = new LeaderboardPlayersAdapter(users);
+        adapter = new LeaderboardPlayersAdapter(users,mainActivityOverlay);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(view.getContext());
         binding.rvTopPlayers.setLayoutManager(linearLayoutManager);
         binding.rvTopPlayers.setAdapter(adapter);
@@ -100,12 +104,6 @@ public class LeaderboardFragment extends Fragment {
                 binding.srlLeaderboard.setRefreshing(false);
                 adapter.clear();
                 adapter.addAll(topplayers);
-                Log.i(TAG,String.valueOf(users));
-                adapter.notifyItemRangeInserted(0,users.size());
-                for (ParseUser user: topplayers) {
-                    Log.i(TAG,user.getUsername()+" "+user.get("highScore"));
-                }
-
             }
         });
     }
