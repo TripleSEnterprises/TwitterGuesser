@@ -89,4 +89,32 @@ public class StaticBindingUtils {
                 game.getFinalScore().doubleValue()
         ));
     }
+
+    @BindingAdapter("leaderboardHighScoreFormatter")
+    public static void leaderboardHighScoreFormatter(TextView textView, ParseUser user){
+        Number highScoreFromDB = user.getNumber("highScore");
+        double highScore = highScoreFromDB != null? highScoreFromDB.doubleValue() : 0;
+        textView.setText(textView.getContext().getString(
+                R.string.leaderboard_high_score,
+                highScore
+        ));
+    }
+
+    @BindingAdapter("leaderboardSelfPositionFormatter")
+    public static void leaderboardSelfPositionFormatter(TextView textView, ParseUser user){
+        ParseQuery<ParseUser> query = ParseQuery.getQuery(ParseUser.class)
+                .whereGreaterThan("highScore", user.getNumber("highScore"));
+        query.countInBackground(new CountCallback() {
+            @Override
+            public void done(int count, ParseException e) {
+                int position = count + 1;
+                if (e == null) {
+                    textView.setText(String.valueOf(position));
+                }
+                else {
+                    Log.wtf(TAG, e);
+                }
+            }
+        });
+    }
 }
