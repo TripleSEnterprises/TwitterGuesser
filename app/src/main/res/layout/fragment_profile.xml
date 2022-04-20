@@ -14,11 +14,6 @@
         android:layout_height="match_parent"
         tools:context=".ProfileFragment"
         android:background="@android:color/white">
-        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-            android:id="@+id/srlProfile"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -108,14 +103,18 @@
 
                     tools:text="Game History" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvGameHistory"
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    android:id="@+id/srlProfile"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_below="@+id/tvGameHistory"
-                    />
-            </RelativeLayout>
+                    android:layout_below="@+id/tvGameHistory">
 
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvGameHistory"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            </RelativeLayout>
     </FrameLayout>
 </layout>

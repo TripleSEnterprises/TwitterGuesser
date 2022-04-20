@@ -73,17 +73,12 @@ public class LeaderboardPlayersAdapter extends RecyclerView.Adapter<RecyclerView
             binding.setUser(user);
             binding.llPlayer.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v) {
-                    v.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if (ParseUser.getCurrentUser().getObjectId().equals(user.getObjectId())) {
-                                mainActivityNavigator.viewPagerNavigate(MainActivityViewPagerAdapter.PROFILE_FRAGMENT_INDEX);
-                            } else {
-                                mainActivityNavigator.requestOverlay(ProfileFragment.newInstance(user, mainActivityNavigator));
-                            }
-                        }
-                    });
+                public void onClick(View view) {
+                    if (ParseUser.getCurrentUser().getObjectId().equals(user.getObjectId())) {
+                        mainActivityNavigator.viewPagerNavigate(MainActivityViewPagerAdapter.PROFILE_FRAGMENT_INDEX);
+                    } else {
+                        mainActivityNavigator.requestOverlay(ProfileFragment.newInstance(user, mainActivityNavigator));
+                    }
                 }
             });
         }
