@@ -6,7 +6,8 @@
 1. [Wireframes](#Wireframes)
 2. [Schema](#Schema)
 3. [Milestones](#Milestones)<br />
-   i. [Sprint 1](#Sprint-1)
+   i. [Sprint 1](#Sprint-1)<br />
+   ii. [Sprint 2](#Sprint-2)
 
 ## Overview
 ### Description
@@ -298,3 +299,16 @@ Guess who tweeted what.
 #### GIF(s)
 
 <img src='./sprint_1.gif' title='Sprint 1 Milestone' width='250' alt='Sprint 1 Milestone' />
+
+### Sprint-2
+
+#### Stories
+- [x] [Start Game](https://github.com/TripleSEnterprises/TwitterGuesser/issues/7)
+- [x] [Leaderboard](https://github.com/TripleSEnterprises/TwitterGuesser/issues/10)
+- [x] [Profile](https://github.com/TripleSEnterprises/TwitterGuesser/issues/11)
+- [x] [GameTweetsClass](https://github.com/TripleSEnterprises/TwitterGuesser/issues/14)
+- [x] [Scoring Equation](https://github.com/TripleSEnterprises/TwitterGuesser/issues/21)
+
+#### GIF
+
+<img src='./sprint_2_all.gif' title='Sprint 2 Milestone' width='250' alt='Sprint 2 Milestone' />
