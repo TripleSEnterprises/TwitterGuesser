@@ -14,12 +14,15 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
+import java.util.Stack;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -42,7 +45,7 @@ public class GameTweetsBank {
     private List<JSONObject> gameQuestionHistory;
 
     // Question Bank
-    private List<Tweet> gameQuestionBank;
+    private Stack<Tweet> gameQuestionBank;
 
     // Used Tweet Id Set
     private Set<String> usedTweetSet;
@@ -53,7 +56,7 @@ public class GameTweetsBank {
 
     public GameTweetsBank() {
         this.gameQuestionHistory = new ArrayList<>();
-        this.gameQuestionBank = new ArrayList<>();
+        this.gameQuestionBank = new Stack<>();
         this.usedTweetSet = new HashSet<>();
         friend_tweet_map = new HashMap<>();
         friend_ids = new ArrayList<>();
@@ -144,7 +147,7 @@ public class GameTweetsBank {
                 // add to global set
                 usedTweetIds.add(tweet_id);
                 userTimeline.remove(rand_idx);
-                this.gameQuestionBank.add(tweet);
+                this.gameQuestionBank.push(tweet);
                 i++;
             }
             if (this.gameQuestionBank.size() == TWEETS_TOTAL_PICK_MAX) return;
@@ -221,26 +224,23 @@ public class GameTweetsBank {
         // else pick pseudo-randomly from questionBank
         // Add question to questionHistory
         try {
-            if (this.gameQuestionBank.isEmpty()) fillQuestionBank();
+            if (this.gameQuestionBank.empty()) fillQuestionBank();
         } catch (JSONException ignored) {
         }
-        Random random = new Random();
-        int randIdx;
-        Tweet randTweet;
-        randIdx = random.nextInt(this.gameQuestionBank.size());
-        randTweet = this.gameQuestionBank.get(randIdx);
-        this.gameQuestionBank.remove(randIdx);
-        this.usedTweetSet.add(randTweet.getId());
+
+        Tweet tweet;
+        tweet = this.gameQuestionBank.pop();
+        this.usedTweetSet.add(tweet.getId());
 
         JSONObject tweetObject = new JSONObject();
         try {
-            tweetObject.put("tweet_id", randTweet.getId())
+            tweetObject.put("tweet_id", tweet.getId())
                     .put("score", 0);
         } catch (JSONException ignored) {
         }
 
         this.gameQuestionHistory.add(tweetObject);
-        return randTweet;
+        return tweet;
     }
 
     /**
