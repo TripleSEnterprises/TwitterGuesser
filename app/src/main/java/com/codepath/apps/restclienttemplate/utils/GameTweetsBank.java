@@ -7,6 +7,7 @@ import androidx.core.util.Pair;
 
 import com.codepath.apps.restclienttemplate.TwitterClient;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.models.TweetUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,6 +51,7 @@ public class GameTweetsBank {
 
     // Map of Friends to a list of Tweets
     private final static Map<String, List<Tweet>> friend_tweet_map = new HashMap<>();
+    private final static Map<String, String> friend_id_name_map = new HashMap<>();
     private final static List<String> friend_ids = new ArrayList<>();
 
     public GameTweetsBank() {
@@ -244,19 +246,57 @@ public class GameTweetsBank {
      */
     public Pair<Tweet, String[]> getQuestion() {
         Tweet tweet = getTweet();
-        String[] wrongAnswers = new String[3];
+        final List<String> userOptions = new ArrayList<>(3);
+        final List<String> userOptionIds = new ArrayList<>(3);
 
-        String randFriend;
         Random random = new Random();
+        String randId;
+
+        // add correct answer to cache for future use
+        if (friend_id_name_map.get(tweet.getUser().getId()) != null)
+            friend_id_name_map.put(tweet.getUser().getId(), tweet.getUser().getName());
+
+        // Add 3 random incorrect answers
         for (int i = 0; i < 3; i++) {
+            // select a random friend id not yet chosen and not the actual answer
             do {
-                randFriend = friend_ids.get(random.nextInt(friend_ids.size()));
-            } while (randFriend.equals(tweet.getUser().getId()));
-            wrongAnswers[i] = randFriend;
+                randId = friend_ids.get(random.nextInt(friend_ids.size()));
+            } while (randId.equals(tweet.getUser().getId()) && userOptionIds.contains(randId));
+
+            if (friend_id_name_map.get(randId) != null) {
+                userOptions.add(friend_id_name_map.get(randId));
+                userOptionIds.add(randId);
+                continue;
+            }
+
+            TwitterClient.getUser(new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    Log.e(TAG, "Callback failed", e);
+                }
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    if (!response.isSuccessful()) {
+                        throw new IOException("Unexpected code " + response);
+                    } else {
+                        Log.i(TAG, "SUCCESS!");
+                        try {
+                            String responseData = response.body().string();
+                            JSONObject userObject = new JSONObject(responseData);
+                            TweetUser friend = TweetUser.fromJson(userObject);
+                            userOptions.add(friend.getName());
+                            userOptionIds.add(friend.getId());
+
+                            // Cache name for future use
+                            friend_id_name_map.put(friend.getId(), friend.getName());
+                        } catch (JSONException ignored) {
+                        }
+                    }
+                }
+            }, randId);
         }
 
-        return new Pair<>(tweet, wrongAnswers);
-
+        return new Pair<>(tweet, userOptions.toArray(new String[3]));
     }
 
     /**
