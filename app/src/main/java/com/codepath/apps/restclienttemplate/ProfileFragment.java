@@ -18,6 +18,7 @@ import com.codepath.apps.restclienttemplate.adapters.ProfileGameHistoryAdapter;
 import com.codepath.apps.restclienttemplate.databinding.FragmentProfileBinding;
 import com.codepath.apps.restclienttemplate.interfaces.MainActivityNavigator;
 import com.codepath.apps.restclienttemplate.models.Game;
+import com.codepath.apps.restclienttemplate.utils.EndlessRecyclerViewScrollListener;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
