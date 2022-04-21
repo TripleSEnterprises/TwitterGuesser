@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.codepath.apps.restclienttemplate.databinding.ActivityGameBinding;
+import com.parse.ParseUser;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -22,8 +23,13 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         binding =  DataBindingUtil.setContentView(this, R.layout.activity_game);
+        Timer timer = new Timer();
+        updateScore(15);
+        startGameTimer(timer);
 
-        updateScore(0);
+
+        binding.setTweetUser(null);
+        binding.setTweet(null);
 
     }
 
@@ -33,5 +39,16 @@ public class GameActivity extends AppCompatActivity {
                 R.string.game_score,
                 score
         ));
+    }
+
+    // Starts a timer that lasts 15 seconds. Score is updated at the end
+    private void startGameTimer(Timer timer){
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                updateScore(0);
+                Log.i(TAG,"Timer ended");
+            }
+        },15000);
     }
 }

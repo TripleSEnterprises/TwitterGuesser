@@ -6,8 +6,10 @@ import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 
+import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.models.Game;
+import com.codepath.apps.restclienttemplate.models.TweetUser;
 import com.parse.CountCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -116,5 +118,33 @@ public class StaticBindingUtils {
                 }
             }
         });
+    }
+
+    @BindingAdapter("gamePictureSetter")
+    public static void gamePictureSetter(ImageView imageView, String url){
+        UserDataConflictResolver.setImageViewWithURLOnMainThread(imageView, url);
+    }
+
+    @BindingAdapter("screenNameSetter")
+    public static void screenNameSetter(TextView textView, String username){
+        if( username == null){
+            textView.setText(textView.getContext().getString(R.string.redacted));
+        }
+        else {
+            textView.setText(textView.getContext().getString(
+                    R.string.twitter_username,
+                    username
+            ));
+        }
+    }
+
+    @BindingAdapter("userNameSetter")
+    public static void userNameSetter(TextView textView, String username){
+        if( username == null){
+            textView.setText(textView.getContext().getString(R.string.redacted));
+        }
+        else {
+            textView.setText(username);
+        }
     }
 }

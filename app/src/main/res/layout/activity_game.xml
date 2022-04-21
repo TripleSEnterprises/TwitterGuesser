@@ -2,6 +2,16 @@
 <layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="TweetUser"
+            type="com.codepath.apps.restclienttemplate.models.TweetUser">
+        </variable>
+        <variable
+            name="Tweet"
+            type="com.codepath.apps.restclienttemplate.models.Tweet">
+        </variable>
+    </data>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,5 +28,42 @@
             android:gravity="center"
             android:textSize="40sp"
             tools:text="SCORE: 0" />
+
+        <ImageView
+            android:id="@+id/ivGameProfile"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_below="@+id/tvGameScore"
+            android:layout_marginTop="5dp"
+            gamePictureSetter="@{TweetUser.publicImageUrl}"
+            app:srcCompat="@drawable/profile_icon" />
+
+        <TextView
+            android:id="@+id/tvGameScreenname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvGameScore"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/ivGameProfile"
+            android:textColor="@android:color/black"
+            android:fontFamily="sans-serif"
+            android:textSize="20sp"
+            screenNameSetter="@{TweetUser.screenName}"
+            tools:text="[ REDACTED ]" />
+
+        <TextView
+            android:id="@+id/tvGameUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvGameScreenname"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="7dp"
+            android:layout_toEndOf="@+id/ivGameProfile"
+            android:textColor="@android:color/black"
+            android:fontFamily="sans-serif"
+            android:textSize="20sp"
+            userNameSetter="@{TweetUser.name}"
+            tools:text="[ REDACTED ]" />
     </RelativeLayout>
 </layout>

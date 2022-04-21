@@ -13,5 +13,7 @@
     <string name="profile_game_history">Game History</string>
     <string name="game_view_button">Game View Button</string>
     <string name="game_score">SCORE: %1$.3f</string>
+    <string name="twitter_username">\@%s</string>
+    <string name="redacted">[ REDACTED ]</string>
 
 </resources>
