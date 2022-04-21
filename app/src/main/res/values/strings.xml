@@ -15,5 +15,6 @@
     <string name="game_score">SCORE: %1$.3f</string>
     <string name="twitter_username">\@%s</string>
     <string name="redacted">[ REDACTED ]</string>
+    <string name="tweet_body_default">Loading tweet</string>
 
 </resources>

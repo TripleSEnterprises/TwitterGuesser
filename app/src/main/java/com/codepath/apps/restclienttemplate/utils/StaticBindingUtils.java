@@ -147,4 +147,14 @@ public class StaticBindingUtils {
             textView.setText(username);
         }
     }
+
+    @BindingAdapter("tweetBodySetter")
+    public static void tweetBodySetter(TextView textView, String body){
+        if(body == null){
+            textView.setText(textView.getContext().getString(R.string.tweet_body_default));
+        }
+        else{
+            textView.setText(body);
+        }
+    }
 }

@@ -47,6 +47,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void run() {
                 updateScore(0);
+                binding.setTest("picapollo821");
                 Log.i(TAG,"Timer ended");
             }
         },15000);
