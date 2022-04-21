@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -56,6 +57,8 @@ public class StartGameFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         binding.btnStartGame.setOnClickListener(v->{
             //Go to game
+            Intent i = new Intent(v.getContext(), GameActivity.class);
+            startActivity(i);
         });
     }
 }

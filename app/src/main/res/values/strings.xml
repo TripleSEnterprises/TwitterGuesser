@@ -12,5 +12,6 @@
     <string name="detail_score">Score: %1$.3f</string>
     <string name="profile_game_history">Game History</string>
     <string name="game_view_button">Game View Button</string>
+    <string name="game_score">SCORE: %1$.3f</string>
 
 </resources>
