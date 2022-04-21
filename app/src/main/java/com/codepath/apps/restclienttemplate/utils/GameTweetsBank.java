@@ -14,12 +14,10 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
@@ -42,25 +40,22 @@ public class GameTweetsBank {
     private final TwitterClient client = new TwitterClient();
 
     // Game Question History
-    private List<JSONObject> gameQuestionHistory;
+    private final List<JSONObject> gameQuestionHistory;
 
     // Question Bank
-    private Stack<Tweet> gameQuestionBank;
+    private final Stack<Tweet> gameQuestionBank;
 
     // Used Tweet Id Set
-    private Set<String> usedTweetSet;
+    private final Set<String> usedTweetSet;
 
     // Map of Friends to a list of Tweets
-    private static Map<String, List<Tweet>> friend_tweet_map;
-    private static List<String> friend_ids;
+    private final static Map<String, List<Tweet>> friend_tweet_map = new HashMap<>();
+    private final static List<String> friend_ids = new ArrayList<>();
 
     public GameTweetsBank() {
         this.gameQuestionHistory = new ArrayList<>();
         this.gameQuestionBank = new Stack<>();
         this.usedTweetSet = new HashSet<>();
-        friend_tweet_map = new HashMap<>();
-        friend_ids = new ArrayList<>();
-
         try {
             fillQuestionBank();
         } catch (JSONException e) {
