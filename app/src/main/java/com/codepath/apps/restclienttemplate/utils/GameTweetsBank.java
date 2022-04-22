@@ -259,9 +259,8 @@ public class GameTweetsBank {
         // Add 3 random incorrect answers
         for (int i = 0; i < 3; i++) {
             // select a random friend id not yet chosen and not the actual answer
-            do {
-                randId = friend_ids.get(random.nextInt(friend_ids.size()));
-            } while (randId.equals(tweet.getUser().getId()) && userOptionIds.contains(randId));
+            do randId = friend_ids.get(random.nextInt(friend_ids.size()));
+            while (randId.equals(tweet.getUser().getId()) || userOptionIds.contains(randId));
 
             if (friend_id_name_map.get(randId) != null) {
                 userOptions.add(friend_id_name_map.get(randId));
