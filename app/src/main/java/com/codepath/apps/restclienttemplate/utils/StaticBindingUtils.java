@@ -23,6 +23,8 @@ public class StaticBindingUtils {
 
     private static final String[] suffixes = new String[] { "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th" };
 
+//    private static final String[] likes_suffixes = new String[] { "K", "M", "B"};
+
     @BindingAdapter("profilePictureSetter")
     public static void profilePictureSetter(ImageView imageView, ParseUser user) {
         UserDataConflictResolver.profileImageResolver(imageView, user);
@@ -156,5 +158,31 @@ public class StaticBindingUtils {
         else{
             textView.setText(body);
         }
+    }
+
+    @BindingAdapter("retweetSetter")
+    public static void retweetSetter(TextView textView, int retweetCount){
+        textView.setText(String.valueOf(retweetCount));
+    }
+
+    @BindingAdapter("likesSetter")
+    public static void likesSetter(TextView textView, int favoriteCount){
+        String formattedString = String.valueOf(favoriteCount);
+        if(favoriteCount >= 1000000000){
+            formattedString = String.format(Locale.US,"%.1fB", favoriteCount/ 1000000000.0);
+        }
+
+        else if(favoriteCount >= 1000000){
+            formattedString =  String.format(Locale.US,"%.1fM", favoriteCount/ 1000000.0);
+        }
+        else if(favoriteCount >=1000){
+            formattedString =  String.format(Locale.US,"%.1fK", favoriteCount/ 1000.0);
+        }
+        textView.setText(formattedString);
+    }
+
+    @BindingAdapter("timestampSetter")
+    public static void timestampSetter(TextView textView, String timestamp){
+        textView.setText(timestamp);
     }
 }
