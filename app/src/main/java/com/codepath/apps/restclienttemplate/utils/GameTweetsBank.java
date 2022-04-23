@@ -7,6 +7,7 @@ import androidx.core.util.Pair;
 
 import com.codepath.apps.restclienttemplate.TwitterClient;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.models.TweetUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
+import java.util.Stack;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -39,25 +41,23 @@ public class GameTweetsBank {
     private final TwitterClient client = new TwitterClient();
 
     // Game Question History
-    private List<JSONObject> gameQuestionHistory;
+    private final List<JSONObject> gameQuestionHistory;
 
     // Question Bank
-    private List<Tweet> gameQuestionBank;
+    private final Stack<Tweet> gameQuestionBank;
 
     // Used Tweet Id Set
-    private Set<String> usedTweetSet;
+    private final Set<String> usedTweetSet;
 
     // Map of Friends to a list of Tweets
-    private static Map<String, List<Tweet>> friend_tweet_map;
-    private static List<String> friend_ids;
+    private final static Map<String, List<Tweet>> friend_tweet_map = new HashMap<>();
+    private final static Map<String, String> friend_id_name_map = new HashMap<>();
+    private final static List<String> friend_ids = new ArrayList<>();
 
     public GameTweetsBank() {
         this.gameQuestionHistory = new ArrayList<>();
-        this.gameQuestionBank = new ArrayList<>();
+        this.gameQuestionBank = new Stack<>();
         this.usedTweetSet = new HashSet<>();
-        friend_tweet_map = new HashMap<>();
-        friend_ids = new ArrayList<>();
-
         try {
             fillQuestionBank();
         } catch (JSONException e) {
@@ -144,7 +144,7 @@ public class GameTweetsBank {
                 // add to global set
                 usedTweetIds.add(tweet_id);
                 userTimeline.remove(rand_idx);
-                this.gameQuestionBank.add(tweet);
+                this.gameQuestionBank.push(tweet);
                 i++;
             }
             if (this.gameQuestionBank.size() == TWEETS_TOTAL_PICK_MAX) return;
@@ -221,26 +221,23 @@ public class GameTweetsBank {
         // else pick pseudo-randomly from questionBank
         // Add question to questionHistory
         try {
-            if (this.gameQuestionBank.isEmpty()) fillQuestionBank();
+            if (this.gameQuestionBank.empty()) fillQuestionBank();
         } catch (JSONException ignored) {
         }
-        Random random = new Random();
-        int randIdx;
-        Tweet randTweet;
-        randIdx = random.nextInt(this.gameQuestionBank.size());
-        randTweet = this.gameQuestionBank.get(randIdx);
-        this.gameQuestionBank.remove(randIdx);
-        this.usedTweetSet.add(randTweet.getId());
+
+        Tweet tweet;
+        tweet = this.gameQuestionBank.pop();
+        this.usedTweetSet.add(tweet.getId());
 
         JSONObject tweetObject = new JSONObject();
         try {
-            tweetObject.put("tweet_id", randTweet.getId())
+            tweetObject.put("tweet_id", tweet.getId())
                     .put("score", 0);
         } catch (JSONException ignored) {
         }
 
         this.gameQuestionHistory.add(tweetObject);
-        return randTweet;
+        return tweet;
     }
 
     /**
@@ -249,19 +246,57 @@ public class GameTweetsBank {
      */
     public Pair<Tweet, String[]> getQuestion() {
         Tweet tweet = getTweet();
-        String[] wrongAnswers = new String[3];
+        final List<String> userOptions = new ArrayList<>(3);
+        final List<String> userOptionIds = new ArrayList<>(3);
 
-        String randFriend;
         Random random = new Random();
+        String randId;
+
+        // add correct answer to cache for future use
+        if (friend_id_name_map.get(tweet.getUser().getId()) != null)
+            friend_id_name_map.put(tweet.getUser().getId(), tweet.getUser().getName());
+
+        // Add 3 random incorrect answers
         for (int i = 0; i < 3; i++) {
+            // select a random friend id not yet chosen and not the actual answer
             do {
-                randFriend = friend_ids.get(random.nextInt(friend_ids.size()));
-            } while (randFriend.equals(tweet.getUser().getId()));
-            wrongAnswers[i] = randFriend;
+                randId = friend_ids.get(random.nextInt(friend_ids.size()));
+            } while (randId.equals(tweet.getUser().getId()) && userOptionIds.contains(randId));
+
+            if (friend_id_name_map.get(randId) != null) {
+                userOptions.add(friend_id_name_map.get(randId));
+                userOptionIds.add(randId);
+                continue;
+            }
+
+            TwitterClient.getUser(new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    Log.e(TAG, "Callback failed", e);
+                }
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    if (!response.isSuccessful()) {
+                        throw new IOException("Unexpected code " + response);
+                    } else {
+                        Log.i(TAG, "SUCCESS!");
+                        try {
+                            String responseData = response.body().string();
+                            JSONObject userObject = new JSONObject(responseData);
+                            TweetUser friend = TweetUser.fromJson(userObject);
+                            userOptions.add(friend.getName());
+                            userOptionIds.add(friend.getId());
+
+                            // Cache name for future use
+                            friend_id_name_map.put(friend.getId(), friend.getName());
+                        } catch (JSONException ignored) {
+                        }
+                    }
+                }
+            }, randId);
         }
 
-        return new Pair<>(tweet, wrongAnswers);
-
+        return new Pair<>(tweet, userOptions.toArray(new String[3]));
     }
 
     /**

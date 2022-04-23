@@ -1,16 +1,16 @@
 package com.codepath.apps.restclienttemplate;
 
-import android.util.Log;
-
 import com.codepath.apps.restclienttemplate.models.Game;
 import com.parse.FindCallback;
-import com.parse.Parse;
-import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -37,5 +37,17 @@ public class ParseClient {
                 .setSkip(after)
                 .addDescendingOrder("highScore");
         query.findInBackground(topPlayersCallback);
+    }
+
+    public static void insertGameResult(JSONArray gameHistory,
+                                        Number finalScore,
+                                        SaveCallback gameResultInsertCallback) {
+        Game game = new Game();
+        try {
+            game.setQuestions((new JSONObject()).put("", gameHistory));
+        } catch (JSONException ignored) {
+        }
+        game.setFinalScore(finalScore);
+        game.saveInBackground(gameResultInsertCallback);
     }
 }

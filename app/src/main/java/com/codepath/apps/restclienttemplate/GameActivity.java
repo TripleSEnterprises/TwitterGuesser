@@ -15,7 +15,6 @@ public class GameActivity extends AppCompatActivity {
     private ActivityGameBinding binding;
     public static final String TAG = "GameActivity";
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,8 +37,6 @@ public class GameActivity extends AppCompatActivity {
         updateScore(15);
 
         setupOptions();
-
-
 
     }
 
@@ -94,7 +91,5 @@ public class GameActivity extends AppCompatActivity {
         // TODO: Load new Question and option once the button is clicked and remove from layout
 
     }
-
-
 
 }
