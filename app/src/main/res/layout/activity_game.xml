@@ -1,9 +1,288 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".GameActivity">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="TweetUser"
+            type="com.codepath.apps.restclienttemplate.models.TweetUser">
+        </variable>
+        <variable
+            name="Tweet"
+            type="com.codepath.apps.restclienttemplate.models.Tweet">
+        </variable>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </data>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".GameActivity">
+
+        <TextView
+            android:id="@+id/tvGameScore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/black"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:textSize="40sp"
+            tools:text="SCORE: 0" />
+
+        <TextView
+            android:id="@+id/tvLoseTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvGameScore"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="20sp"
+            android:visibility="gone"
+            android:text="@string/losing_tweet" />
+
+        <ImageView
+            android:id="@+id/ivGameProfile"
+            gamePictureSetter="@{TweetUser.publicImageUrl}"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_below="@+id/tvLoseTitle"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            app:srcCompat="@drawable/profile_icon" />
+
+        <TextView
+            android:id="@+id/tvGameScreenname"
+            screenNameSetter="@{TweetUser.screenName}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvLoseTitle"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/ivGameProfile"
+            android:fontFamily="sans-serif"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            tools:text="[ REDACTED ]" />
+
+        <TextView
+            android:id="@+id/tvGameUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvGameScreenname"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="7dp"
+            android:layout_toEndOf="@+id/ivGameProfile"
+            android:textColor="@android:color/black"
+            android:fontFamily="sans-serif"
+            android:textSize="20sp"
+            userNameSetter="@{TweetUser.name}"
+            tools:text="[ REDACTED ]" />
+
+        <TextView
+            android:id="@+id/tvTweetBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivGameProfile"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:fontFamily="sans-serif"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            tweetBodySetter="@{Tweet.body}"
+            tools:text="Tweet body" />
+
+        <ImageView
+            android:id="@+id/ivRetweet"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_below="@+id/tvTweetBody"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            app:srcCompat="@drawable/retweet_icon" />
+
+        <TextView
+            android:id="@+id/tvRetweets"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTweetBody"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/ivRetweet"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif"
+            retweetSetter="@{Tweet.retweetCount}"
+            tools:text="100" />
+
+        <ImageView
+            android:id="@+id/ivLikes"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_below="@+id/tvTweetBody"
+            android:layout_marginStart="150dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/tvRetweets"
+            app:srcCompat="@drawable/like_icon" />
+
+        <TextView
+            android:id="@+id/tvLikes"
+            likesSetter="@{Tweet.favoriteCount}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTweetBody"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_toEndOf="@+id/ivLikes"
+            android:fontFamily="sans-serif"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            tools:text="10k" />
+
+        <TextView
+            android:id="@+id/tvTimestamp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvRetweets"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:textColor="@android:color/black"
+            android:fontFamily="sans-serif"
+            android:textSize="20sp"
+            timestampSetter="@{Tweet.timestamp}"
+            tools:text="3:50 PM · Mar 28, 2022" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFirst"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTimestamp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/black"
+            android:fontFamily="sans-serif"
+            tools:text="first user"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSecond"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnFirst"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/black"
+            android:fontFamily="sans-serif"
+            tools:text="second user"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnThird"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnSecond"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/black"
+            android:fontFamily="sans-serif"
+            tools:text="third user"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFourth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnThird"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/black"
+            android:fontFamily="sans-serif"
+            tools:text="fourth user"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnHome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:fontFamily="sans-serif"
+            android:text="home"
+            tools:text="home"/>
+
+        <TextView
+            android:id="@+id/tvGamelog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTimestamp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:fontFamily="sans-serif"
+            android:textSize="20sp"
+            android:visibility="gone"
+            android:text="Game Log" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvEndGameLog"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tvGamelog"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:fontFamily="sans-serif"
+            android:text="next"
+            android:backgroundTint="#8f49f3"
+            android:visibility="gone"
+            tools:text="next"/>
+
+
+    </RelativeLayout>
+</layout>
