@@ -183,6 +183,10 @@ public class StaticBindingUtils {
 
     @BindingAdapter("timestampSetter")
     public static void timestampSetter(TextView textView, String timestamp){
+        if(timestamp == null){
+            textView.setText("Loading timestamp");
+            return;
+        }
         textView.setText(timestamp);
     }
 }
