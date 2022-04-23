@@ -55,8 +55,8 @@ public class GameActivity extends AppCompatActivity {
     private void setupOptions(){
         binding.btnFirst.setText("One");
         binding.btnSecond.setText("Two");
-        binding.btnSecond.setText("Three");
-        binding.btnSecond.setText("Four");
+        binding.btnThird.setText("Three");
+        binding.btnFourth.setText("Four");
         // TODO: set onClicks for correct answer(Update Score,change to green,move to next round)
 
         // TODO: set onClick for incorrect answer(Update Score, change button colors,move to end Game)
