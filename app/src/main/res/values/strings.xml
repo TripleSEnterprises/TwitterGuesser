@@ -16,5 +16,6 @@
     <string name="twitter_username">\@%s</string>
     <string name="redacted">[ REDACTED ]</string>
     <string name="tweet_body_default">Loading tweet</string>
+    <string name="losing_tweet">Losing Tweet</string>
 
 </resources>

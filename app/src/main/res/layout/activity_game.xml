@@ -11,9 +11,7 @@
             name="Tweet"
             type="com.codepath.apps.restclienttemplate.models.Tweet">
         </variable>
-        <variable
-            name="Test"
-            type="String" />
+
     </data>
     <RelativeLayout
         android:layout_width="match_parent"
@@ -32,29 +30,41 @@
             android:textSize="40sp"
             tools:text="SCORE: 0" />
 
+        <TextView
+            android:id="@+id/tvLoseTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvGameScore"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="20sp"
+            android:visibility="gone"
+            android:text="@string/losing_tweet" />
+
         <ImageView
             android:id="@+id/ivGameProfile"
             gamePictureSetter="@{TweetUser.publicImageUrl}"
             android:layout_width="72dp"
             android:layout_height="72dp"
+            android:layout_below="@+id/tvLoseTitle"
             android:layout_alignParentStart="true"
             android:layout_marginStart="10dp"
-            android:layout_below="@+id/tvGameScore"
             android:layout_marginTop="5dp"
             app:srcCompat="@drawable/profile_icon" />
 
         <TextView
             android:id="@+id/tvGameScreenname"
+            screenNameSetter="@{TweetUser.screenName}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tvGameScore"
+            android:layout_below="@+id/tvLoseTitle"
             android:layout_marginStart="20dp"
             android:layout_marginTop="5dp"
             android:layout_toEndOf="@+id/ivGameProfile"
-            android:textColor="@android:color/black"
             android:fontFamily="sans-serif"
+            android:textColor="@android:color/black"
             android:textSize="20sp"
-            screenNameSetter="@{Test}"
             tools:text="[ REDACTED ]" />
 
         <TextView
@@ -68,7 +78,7 @@
             android:textColor="@android:color/black"
             android:fontFamily="sans-serif"
             android:textSize="20sp"
-            userNameSetter="@{Test}"
+            userNameSetter="@{TweetUser.name}"
             tools:text="[ REDACTED ]" />
 
         <TextView
@@ -84,7 +94,7 @@
             android:fontFamily="sans-serif"
             android:textColor="@android:color/black"
             android:textSize="20sp"
-            tweetBodySetter="@{Test}"
+            tweetBodySetter="@{Tweet.body}"
             tools:text="Tweet body" />
 
         <ImageView
@@ -147,5 +157,112 @@
             android:fontFamily="sans-serif"
             android:textSize="20sp"
             tools:text="3:50 PM · Mar 28, 2022" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFirst"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTimestamp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="40dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/black"
+            android:fontFamily="sans-serif"
+            tools:text="first user"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnSecond"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnFirst"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/black"
+            android:fontFamily="sans-serif"
+            tools:text="second user"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnThird"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnSecond"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/black"
+            android:fontFamily="sans-serif"
+            tools:text="third user"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnFourth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnThird"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:textColor="@android:color/black"
+            android:fontFamily="sans-serif"
+            tools:text="fourth user"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnHome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:visibility="gone"
+            android:fontFamily="sans-serif"
+            tools:text="home"/>
+
+        <TextView
+            android:id="@+id/tvGamelog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvTimestamp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:fontFamily="sans-serif"
+            android:textSize="20sp"
+            android:visibility="gone"
+            android:text="Game Log" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvEndGameLog"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tvGamelog"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginTop="10dp"
+            android:visibility="gone"/>
+
+
     </RelativeLayout>
 </layout>

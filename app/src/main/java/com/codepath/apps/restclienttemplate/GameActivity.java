@@ -5,10 +5,11 @@ import androidx.databinding.DataBindingUtil;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import com.codepath.apps.restclienttemplate.databinding.ActivityGameBinding;
-import com.parse.ParseUser;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -23,13 +24,17 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         binding =  DataBindingUtil.setContentView(this, R.layout.activity_game);
-        Timer timer = new Timer();
         updateScore(15);
-        startGameTimer(timer);
-
 
         binding.setTweetUser(null);
         binding.setTweet(null);
+
+        binding.btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
     }
 
@@ -41,15 +46,4 @@ public class GameActivity extends AppCompatActivity {
         ));
     }
 
-    // Starts a timer that lasts 15 seconds. Score is updated at the end
-    private void startGameTimer(Timer timer){
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                updateScore(0);
-                binding.setTest("picapollo821");
-                Log.i(TAG,"Timer ended");
-            }
-        },15000);
-    }
 }
