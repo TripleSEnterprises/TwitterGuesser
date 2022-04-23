@@ -237,6 +237,7 @@
             android:layout_centerInParent="true"
             android:visibility="gone"
             android:fontFamily="sans-serif"
+            android:text="home"
             tools:text="home"/>
 
         <TextView
@@ -263,6 +264,24 @@
             android:layout_marginEnd="10dp"
             android:layout_marginTop="10dp"
             android:visibility="gone"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnNext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="20dp"
+            android:gravity="center"
+            android:layout_centerInParent="true"
+            android:fontFamily="sans-serif"
+            android:text="next"
+            android:backgroundTint="#8f49f3"
+            android:visibility="gone"
+            tools:text="next"/>
 
 
     </RelativeLayout>
