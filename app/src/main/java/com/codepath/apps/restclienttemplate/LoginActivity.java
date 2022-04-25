@@ -67,12 +67,14 @@ public class LoginActivity extends AppCompatActivity {
 		}
 		Intent i = new Intent(this, MainActivity.class);
 		startActivity(i);
+		finish();
 	}
 
 	private void goToRegisterActivity(){
 		Toast.makeText(this,"Registering user",Toast.LENGTH_SHORT).show();
 		Intent i = new Intent(this,RegisterActivity.class);
 		startActivity(i);
+		finish();
 	}
 
 

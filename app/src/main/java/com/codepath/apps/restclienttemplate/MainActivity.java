@@ -6,16 +6,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.codepath.apps.restclienttemplate.adapters.MainActivityViewPagerAdapter;
 import com.codepath.apps.restclienttemplate.databinding.ActivityMainBinding;
 import com.codepath.apps.restclienttemplate.interfaces.MainActivityNavigator;
 import com.google.android.material.navigation.NavigationBarView;
+import com.parse.ParseUser;
 
 import java.util.Objects;
 
@@ -26,10 +29,24 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
     ViewPager2.OnPageChangeCallback pageChangeCallback;
     FragmentManager fragmentManager;
 
+    protected void setActionBar() {
+        setSupportActionBar(binding.toolbarInclude.toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayShowTitleEnabled(false);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_activity_action_bar_menu, binding.toolbarInclude.toolbar.getMenu());
+        return true;
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        setActionBar();
 
         fragmentManager = getSupportFragmentManager();
 
@@ -84,7 +101,18 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
             onBackPressed();
             return true;
         }
+        else if (item.getItemId() == R.id.logout) {
+            onLogout();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void onLogout() {
+        ParseUser.logOutInBackground();
+        Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);
+        finish();
     }
 
     private void refreshBackButtonVisibility() {

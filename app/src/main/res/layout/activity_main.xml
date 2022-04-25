@@ -7,10 +7,15 @@
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
+        <include
+            android:id="@+id/toolbarInclude"
+            layout="@layout/toolbar"/>
+
         <androidx.viewpager2.widget.ViewPager2
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/vp2Main"
+            android:layout_below="@id/toolbarInclude"
             android:layout_above="@+id/bnvMain"
             />
 
@@ -18,6 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/fcvMain"
+            android:layout_below="@id/toolbarInclude"
             android:layout_above="@+id/bnvMain"
             />
 

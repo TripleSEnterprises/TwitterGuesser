@@ -19,5 +19,6 @@
     <string name="losing_tweet">Losing Tweet</string>
     <string name="loss_text">Loss</string>
     <string name="tweet_unavailable">Tweet Unavailable</string>
+    <string name="logout">Logout</string>
 
 </resources>
