@@ -1,5 +1,6 @@
 package com.codepath.apps.restclienttemplate.utils;
 
+import android.content.res.Resources;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -9,6 +10,8 @@ import androidx.databinding.BindingAdapter;
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.models.Game;
+import com.codepath.apps.restclienttemplate.models.GameDeserialized;
+import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.apps.restclienttemplate.models.TweetUser;
 import com.parse.CountCallback;
 import com.parse.ParseException;
@@ -188,5 +191,32 @@ public class StaticBindingUtils {
             return;
         }
         textView.setText(timestamp);
+    }
+
+    @BindingAdapter("setQuestionScore")
+    public static void setQuestionScore(TextView textView, GameDeserialized.Question question) {
+        if (question.isLoss()) {
+            textView.setText(R.string.loss_text);
+        } else {
+            textView.setText(String.format(Locale.US,"+%.3f", question.getScore()));
+        }
+    }
+
+    @BindingAdapter("setQuestionScoreColor")
+    public static void setQuestionScoreColor(TextView textView, GameDeserialized.Question question) {
+        Resources resources = textView.getContext().getResources();
+        textView.setTextColor(question.isLoss()?
+                resources.getColor(R.color.wrong_answer) :
+                resources.getColor(R.color.right_answer)
+        );
+    }
+
+    @BindingAdapter("setTweetBodyWithFallback")
+    public static void setTweetBodyWithFallback(TextView textView, Tweet tweet) {
+        if (tweet != null) {
+            textView.setText(tweet.getBody());
+        } else {
+            textView.setText(R.string.tweet_unavailable);
+        }
     }
 }

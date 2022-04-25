@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
     <data>
         <variable
             name="Game"
             type="com.codepath.apps.restclienttemplate.models.Game">
         </variable>
     </data>
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <FrameLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
@@ -15,18 +14,34 @@
         android:focusable="true"
         tools:context=".GameDetailFragment">
 
-        <TextView
-            android:id="@+id/tvHighScore"
-            detailScoreFormatter="@{Game}"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="24dp"
-            android:layout_marginTop="16dp"
-            android:fontFamily="sans-serif"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-            tools:text="Score: 4" />
+            <TextView
+                android:id="@+id/tvHighScore"
+                detailScoreFormatter="@{Game}"
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:layout_marginTop="16dp"
+                android:fontFamily="sans-serif"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:textStyle="bold"
+
+                tools:text="Score: 4"
+            />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/rvGameHistory"
+                android:layout_marginTop="16dp"
+            />
+
+        </LinearLayout>
+
 
     </FrameLayout>
 </layout>

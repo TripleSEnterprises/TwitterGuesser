@@ -17,5 +17,7 @@
     <string name="redacted">[ REDACTED ]</string>
     <string name="tweet_body_default">Loading tweet</string>
     <string name="losing_tweet">Losing Tweet</string>
+    <string name="loss_text">Loss</string>
+    <string name="tweet_unavailable">Tweet Unavailable</string>
 
 </resources>
