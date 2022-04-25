@@ -40,7 +40,7 @@
             android:layout_marginTop="4dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:text="@{Tweet.body}"
+            setTweetBodyWithFallback="@{Tweet}"
             android:textSize="20sp"
 
             tools:text="NEED 3 PLAYERS FOR FORTNITE TOURNAMENT. DM ME ASAP. NO PROS OR HARDCORE SWEATS. DELETING TWEET WHEN FOUND" />

@@ -46,9 +46,7 @@ public class GameDetailGameHistoryAdapter extends RecyclerView.Adapter<GameDetai
 
         public void bind(GameDeserialized.Question question) {
             binding.setQuestion(question);
-
-            // TODO: Expand Game Deserialize To Use Tweet
-            // binding.setTweet(question.tweet);
+            binding.setTweet(question.getTweet());
         }
     }
 }

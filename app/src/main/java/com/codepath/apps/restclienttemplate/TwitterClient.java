@@ -1,6 +1,8 @@
 package com.codepath.apps.restclienttemplate;
 
 
+import android.util.Log;
+
 import com.parse.twitter.ParseTwitterUtils;
 
 
@@ -8,12 +10,16 @@ import oauth.signpost.exception.OAuthCommunicationException;
 import oauth.signpost.exception.OAuthExpectationFailedException;
 import oauth.signpost.exception.OAuthMessageSignerException;
 import okhttp3.Callback;
+import okhttp3.FormBody;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import se.akerfeldt.okhttp.signpost.OkHttpOAuthConsumer;
 
 public class TwitterClient {
+	private static final String TAG = "TwitterClient";
+
 	public static String baseUrl = "https://api.twitter.com/1.1";
 
 	public static String getApiUrl(String endpoint) {
@@ -76,6 +82,32 @@ public class TwitterClient {
 			String url = urlBuilder.build().toString();
 			Request request = new Request.Builder()
 					.url(url)
+					.build();
+			Request signedRequest = (Request) consumer.sign(request).unwrap();
+			client.newCall(signedRequest).enqueue(callback);
+		} catch (OAuthMessageSignerException | OAuthExpectationFailedException | OAuthCommunicationException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public static void fetchTweets(Callback callback, String ... ids) {
+		StringBuilder idsCommaSeparatedBuilder = new StringBuilder();
+		for (String id: ids) {
+			idsCommaSeparatedBuilder.append(id);
+			idsCommaSeparatedBuilder.append(",");
+		}
+		String idsCommaSeparated = idsCommaSeparatedBuilder.substring(0, idsCommaSeparatedBuilder.length() - 1);
+
+		try {
+			HttpUrl.Builder urlBuilder = HttpUrl.parse(getApiUrl("statuses/lookup.json")).newBuilder();
+			urlBuilder
+					.addQueryParameter("id", idsCommaSeparated)
+					.addQueryParameter("tweet_mode", "extended")
+					.addQueryParameter("map", "true");
+			String url = urlBuilder.build().toString();
+			Request request = new Request.Builder()
+					.url(url)
+					.get()
 					.build();
 			Request signedRequest = (Request) consumer.sign(request).unwrap();
 			client.newCall(signedRequest).enqueue(callback);
