@@ -1,19 +1,27 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.util.Pair;
 import androidx.databinding.DataBindingUtil;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-
 import com.codepath.apps.restclienttemplate.databinding.ActivityGameBinding;
-
+import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.utils.GameTweetsBank;
 
 public class GameActivity extends AppCompatActivity {
 
     private ActivityGameBinding binding;
     public static final String TAG = "GameActivity";
+
+    // Current Question Being Answered
+    final GameTweetsBank gameTweetsBank = new GameTweetsBank();
+    Pair<Tweet, String[]> question = gameTweetsBank.getQuestion();
+    boolean gameOver = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +69,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     // Sets up end game layout
-    private void endGameScreen(){
+    private void endGameScreen() {
         // Remove buttons from layout
         binding.btnFirst.setVisibility(View.GONE);
         binding.btnSecond.setVisibility(View.GONE);
@@ -85,11 +93,23 @@ public class GameActivity extends AppCompatActivity {
     }
 
     // Sets up next round layout
-    private void nextRound(){
+    private void nextRound() {
         // Add next button
         binding.btnNext.setVisibility(View.VISIBLE);
         // TODO: Load new Question and option once the button is clicked and remove from layout
-
     }
 
+    private boolean isCorrect(String name) {
+        return question.first.getUser().getName().equals(name);
+    }
+
+    private void userOptionOnClickCallback(View buttonView) {
+        // Get button label
+        final String btnLabel = ((TextView) buttonView).getText().toString();
+        //setRevealLayout(isCorrect(btnLabel));
+    }
+
+    private void nextButtonOnClickCallback() {
+        // Next button logic after reveal
+    }
 }
