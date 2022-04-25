@@ -1,5 +1,7 @@
 package com.codepath.apps.restclienttemplate;
 
+import static com.codepath.apps.restclienttemplate.adapters.MainActivityViewPagerAdapter.PROFILE_FRAGMENT_INDEX;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -76,6 +78,13 @@ public class LeaderboardFragment extends Fragment {
         binding.rvTopPlayers.setAdapter(adapter);
 
         getPlayers();
+
+        binding.rlSelfProfileContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mainActivityNavigator.viewPagerNavigate(PROFILE_FRAGMENT_INDEX);
+            }
+        });
 
         binding.srlLeaderboard.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
