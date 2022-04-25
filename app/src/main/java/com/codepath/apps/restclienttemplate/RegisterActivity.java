@@ -136,6 +136,7 @@ public class RegisterActivity extends AppCompatActivity {
         Toast.makeText(this, "Welcome", Toast.LENGTH_SHORT).show();
 		Intent i = new Intent(this, MainActivity.class);
 		startActivity(i);
+        finish();
     }
 
     private void getImage(){

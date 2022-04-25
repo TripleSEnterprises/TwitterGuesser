@@ -29,7 +29,7 @@ import okhttp3.Response;
 public class UserDataConflictResolver {
     private static final String TAG = "UserDataConflict";
 
-    private static void setImageViewWithURLOnMainThread(final ImageView imageView, final String imageURL) {
+    public static void setImageViewWithURLOnMainThread(final ImageView imageView, final String imageURL) {
         ContextCompat.getMainExecutor(imageView.getContext()).execute(new Runnable() {
             @Override
             public void run() {

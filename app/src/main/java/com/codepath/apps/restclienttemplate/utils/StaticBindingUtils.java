@@ -1,13 +1,18 @@
 package com.codepath.apps.restclienttemplate.utils;
 
+import android.content.res.Resources;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 
+import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.models.Game;
+import com.codepath.apps.restclienttemplate.models.GameDeserialized;
+import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.models.TweetUser;
 import com.parse.CountCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -20,6 +25,8 @@ public class StaticBindingUtils {
     private static final String TAG = "StaticBindingUtils";
 
     private static final String[] suffixes = new String[] { "th", "st", "nd", "rd", "th", "th", "th", "th", "th", "th" };
+
+//    private static final String[] likes_suffixes = new String[] { "K", "M", "B"};
 
     @BindingAdapter("profilePictureSetter")
     public static void profilePictureSetter(ImageView imageView, ParseUser user) {
@@ -116,5 +123,100 @@ public class StaticBindingUtils {
                 }
             }
         });
+    }
+
+    @BindingAdapter("gamePictureSetter")
+    public static void gamePictureSetter(ImageView imageView, String url){
+        UserDataConflictResolver.setImageViewWithURLOnMainThread(imageView, url);
+    }
+
+    @BindingAdapter("screenNameSetter")
+    public static void screenNameSetter(TextView textView, String username){
+        if( username == null){
+            textView.setText(textView.getContext().getString(R.string.redacted));
+        }
+        else {
+            textView.setText(textView.getContext().getString(
+                    R.string.twitter_username,
+                    username
+            ));
+        }
+    }
+
+    @BindingAdapter("userNameSetter")
+    public static void userNameSetter(TextView textView, String username){
+        if( username == null){
+            textView.setText(textView.getContext().getString(R.string.redacted));
+        }
+        else {
+            textView.setText(username);
+        }
+    }
+
+    @BindingAdapter("tweetBodySetter")
+    public static void tweetBodySetter(TextView textView, String body){
+        if(body == null){
+            textView.setText(textView.getContext().getString(R.string.tweet_body_default));
+        }
+        else{
+            textView.setText(body);
+        }
+    }
+
+    @BindingAdapter("retweetSetter")
+    public static void retweetSetter(TextView textView, int retweetCount){
+        textView.setText(String.valueOf(retweetCount));
+    }
+
+    @BindingAdapter("likesSetter")
+    public static void likesSetter(TextView textView, int favoriteCount){
+        String formattedString = String.valueOf(favoriteCount);
+        if(favoriteCount >= 1000000000){
+            formattedString = String.format(Locale.US,"%.1fB", favoriteCount/ 1000000000.0);
+        }
+
+        else if(favoriteCount >= 1000000){
+            formattedString =  String.format(Locale.US,"%.1fM", favoriteCount/ 1000000.0);
+        }
+        else if(favoriteCount >=1000){
+            formattedString =  String.format(Locale.US,"%.1fK", favoriteCount/ 1000.0);
+        }
+        textView.setText(formattedString);
+    }
+
+    @BindingAdapter("timestampSetter")
+    public static void timestampSetter(TextView textView, String timestamp){
+        if(timestamp == null){
+            textView.setText("Loading timestamp");
+            return;
+        }
+        textView.setText(timestamp);
+    }
+
+    @BindingAdapter("setQuestionScore")
+    public static void setQuestionScore(TextView textView, GameDeserialized.Question question) {
+        if (question.isLoss()) {
+            textView.setText(R.string.loss_text);
+        } else {
+            textView.setText(String.format(Locale.US,"+%.3f", question.getScore()));
+        }
+    }
+
+    @BindingAdapter("setQuestionScoreColor")
+    public static void setQuestionScoreColor(TextView textView, GameDeserialized.Question question) {
+        Resources resources = textView.getContext().getResources();
+        textView.setTextColor(question.isLoss()?
+                resources.getColor(R.color.wrong_answer) :
+                resources.getColor(R.color.right_answer)
+        );
+    }
+
+    @BindingAdapter("setTweetBodyWithFallback")
+    public static void setTweetBodyWithFallback(TextView textView, Tweet tweet) {
+        if (tweet != null) {
+            textView.setText(tweet.getBody());
+        } else {
+            textView.setText(R.string.tweet_unavailable);
+        }
     }
 }
