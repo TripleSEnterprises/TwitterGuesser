@@ -11,6 +11,9 @@ import androidx.databinding.DataBindingUtil;
 import com.codepath.apps.restclienttemplate.databinding.ActivityGameBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.apps.restclienttemplate.utils.GameTweetsBank;
+import com.google.android.material.button.MaterialButton;
+
+import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -22,18 +25,18 @@ public class GameActivity extends AppCompatActivity {
     Pair<Tweet, String[]> question = gameTweetsBank.getQuestion();
     boolean gameOver = false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
         binding =  DataBindingUtil.setContentView(this, R.layout.activity_game);
+        Tweet tweet = question.first;
 
         // Setting tweet user variable populates all of the tweet elements in layout
-        binding.setTweetUser(null);
+        binding.setTweetUser(tweet.getUser());
 
         // Setting tweet variable populates image, screen name and username in layout
-        binding.setTweet(null);
+        binding.setTweet(tweet);
 
         binding.btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,7 +45,7 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        updateScore(15);
+        updateScore(0);
 
         setupOptions();
 
@@ -56,17 +59,60 @@ public class GameActivity extends AppCompatActivity {
         ));
     }
 
+    class onOptionClickListener implements View.OnClickListener {
+        private boolean isCorrect(String name) {
+            return question.first.getUser().getName().equals(name);
+        }
+
+        @Override
+        public void onClick(View view) {
+            final String btnLabel = ((TextView) view).getText().toString();
+            if(isCorrect(btnLabel)) {
+
+            } else {
+
+            }
+        }
+    }
+
     // TODO: set up the questions
     private void setupOptions(){
-        binding.btnFirst.setText("One");
-        binding.btnSecond.setText("Two");
-        binding.btnThird.setText("Three");
-        binding.btnFourth.setText("Four");
+        String correctOption = question.first.getUser().getScreenName();
+        String[] incorrectOptions = question.second;
+        MaterialButton[] optButtons = {binding.btnFirst, binding.btnSecond, binding.btnThird, binding.btnFourth};
+        String[] options = new String[incorrectOptions.length + 1];
+
+        // Fill available options
+        options[0] = correctOption;
+        System.arraycopy(incorrectOptions, 0, options, 1, incorrectOptions.length);
+
+        // Randomly assign buttons
+        Random random = new Random();
+        String randOpt;
+        int randIdx;
+        for(int i = 0; i < options.length; i++) {
+            // Select random option
+            if (i == options.length - 1) {
+                int j = 0;
+                while (options[j++].isEmpty()) ;
+                optButtons[i].setText(options[j - 1]);
+                break;
+            }
+            do {
+                randIdx = random.nextInt(options.length);
+                randOpt = options[randIdx];
+            } while (randOpt.isEmpty());
+            options[randIdx] = "";
+            optButtons[i].setText(randOpt);
+            optButtons[i].setOnClickListener(new onOptionClickListener());
+        }
         // TODO: set onClicks for correct answer(Update Score,change to green,move to next round)
 
         // TODO: set onClick for incorrect answer(Update Score, change button colors,move to end Game)
 
     }
+
+
 
     // Sets up end game layout
     private void endGameScreen() {
@@ -97,16 +143,6 @@ public class GameActivity extends AppCompatActivity {
         // Add next button
         binding.btnNext.setVisibility(View.VISIBLE);
         // TODO: Load new Question and option once the button is clicked and remove from layout
-    }
-
-    private boolean isCorrect(String name) {
-        return question.first.getUser().getName().equals(name);
-    }
-
-    private void userOptionOnClickCallback(View buttonView) {
-        // Get button label
-        final String btnLabel = ((TextView) buttonView).getText().toString();
-        //setRevealLayout(isCorrect(btnLabel));
     }
 
     private void nextButtonOnClickCallback() {
