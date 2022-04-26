@@ -44,6 +44,7 @@ public class GameActivity extends AppCompatActivity {
     // Current Question Being Answered
     GameTweetsBank gameTweetsBank;
     Pair<Tweet, String[]> question;
+    Tweet tweet;
     MaterialButton[] optButtons;
     Number finalScore;
 
@@ -111,7 +112,7 @@ public class GameActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
             question = gameTweetsBank.getQuestion();
-            Tweet tweet = question.first;
+            tweet = question.first;
             // Setting tweet user variable populates all of the tweet elements in layout
             binding.setTweetUser(null);
 
@@ -167,6 +168,7 @@ public class GameActivity extends AppCompatActivity {
             setEnabledOfAllButtons(false);
 
             if (isCorrect(btnLabel)) {
+                binding.setTweetUser(tweet.getUser());
                 Number roundScore = calculateScore(time_start, time_end);
                 gameTweetsBank.addScore(question.first.getId(), roundScore);
                 updateScore(roundScore.doubleValue());
@@ -180,7 +182,6 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void setupOptions() {
-        setEnabledOfAllButtons(true);
         String correctOption = question.first.getUser().getId();
         String[] incorrectOptions = question.second;
         String[] options = new String[incorrectOptions.length + 1];
@@ -260,7 +261,7 @@ public class GameActivity extends AppCompatActivity {
             button = optButtons[i];
             button.setText(optionScreenName);
         }
-
+        setEnabledOfAllButtons(true);
     }
 
 
@@ -270,7 +271,7 @@ public class GameActivity extends AppCompatActivity {
         binding.btnNext.setVisibility(View.GONE);
         setDefaultColorOfAllButtons();
         question = gameTweetsBank.getQuestion();
-        Tweet tweet = question.first;
+        tweet = question.first;
         // Setting tweet user variable populates all of the tweet elements in layout
         binding.setTweetUser(null);
 
