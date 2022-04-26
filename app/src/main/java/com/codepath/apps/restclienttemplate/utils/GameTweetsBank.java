@@ -32,8 +32,8 @@ public class GameTweetsBank {
     public static final String TAG = "GameTweetsBank";
 
     // Amount of tweets to be randomly selected from tweets object
-    private static final int TOTAL_TWEETS_PICK_MIN = 5;
-    private static final int TOTAL_TWEETS_PICK_MAX = 20;
+    private static final int TOTAL_TWEETS_PICK_MIN = 10;
+    private static final int TOTAL_TWEETS_PICK_MAX = 50;
     private static final int FRIEND_TWEETS_PICK_MAX = 10;
     private static final int FRIENDS_PICK_MAX = 5;
 
@@ -268,12 +268,8 @@ public class GameTweetsBank {
                 userOptionsIds.add(randId);
                 continue;
             }
-
-            Log.d(TAG, String.format("randID: %s", randId));
             userOptionsIds.add(randId);
         }
-
-        Log.d(TAG, userOptionsIds.toString());
         return new Pair<>(tweet, userOptionsIds.toArray(new String[3]));
     }
 

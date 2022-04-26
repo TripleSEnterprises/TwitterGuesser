@@ -68,7 +68,7 @@ public class TwitterClient {
 		}
 	}
 
-	public static void getUsers(Callback callback, String[] ids) {
+	public static void getUsers(Callback callback, String ... ids) {
 		try {
 			HttpUrl.Builder urlBuilder = HttpUrl.parse(getApiUrl("users/lookup.json")).newBuilder();
 			urlBuilder.addQueryParameter("include_entities", String.valueOf(false));
@@ -84,7 +84,6 @@ public class TwitterClient {
 			}
 			urlBuilder.addQueryParameter("user_id", user_ids.toString());
 			String url = urlBuilder.build().toString();
-			Log.d(TAG, String.format("url: %s", url));
 			Request request = new Request.Builder()
 					.url(url)
 					.build();
@@ -104,7 +103,6 @@ public class TwitterClient {
 			urlBuilder.addQueryParameter("include_user_entities", String.valueOf(false));
 			urlBuilder.addQueryParameter("skip_status", String.valueOf(true));
 			String url = urlBuilder.build().toString();
-			Log.d(TAG, String.format("url: %s", url));
 			Request request = new Request.Builder()
 					.url(url)
 					.build();
