@@ -2,7 +2,6 @@ package com.codepath.apps.restclienttemplate.utils;
 
 import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
 
 import com.codepath.apps.restclienttemplate.TwitterClient;
@@ -23,8 +22,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.Stack;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.Response;
 
 public class GameTweetsBank {
@@ -32,13 +29,10 @@ public class GameTweetsBank {
     public static final String TAG = "GameTweetsBank";
 
     // Amount of tweets to be randomly selected from tweets object
-    private static final int TOTAL_TWEETS_PICK_MIN = 10;
-    private static final int TOTAL_TWEETS_PICK_MAX = 50;
-    private static final int FRIEND_TWEETS_PICK_MAX = 10;
-    private static final int FRIENDS_PICK_MAX = 5;
-
-    // Twitter client for fetching data from endpoints
-    private final TwitterClient client = new TwitterClient();
+    public static final int TOTAL_TWEETS_PICK_MIN = 10;
+    public static final int TOTAL_TWEETS_PICK_MAX = 20;
+    public static final int FRIEND_TWEETS_PICK_MAX = 10;
+    public static final int FRIENDS_PICK_MAX = 5;
 
     // Game Question History
     private final List<JSONObject> gameQuestionHistory;
@@ -49,16 +43,14 @@ public class GameTweetsBank {
     // Used Tweet Id Set
     private final Set<String> usedTweetSet;
 
-    // Question
-    private Pair<Tweet, String[]> question;
-
-    private static JSONArray staticFriendObjectsArray;
+    private static JSONArray staticFriendObjectsArray = new JSONArray();
 
     // Map of Friends to a list of Tweets
     private final static Map<String, List<Tweet>> friend_tweet_map = new HashMap<>();
     private Map<String, String> friend_id_name_map;
     private final static List<String> test_friend_ids = new ArrayList<>();
     private final static List<String> friend_ids = new ArrayList<>();
+
     public GameTweetsBank() {
         this.gameQuestionHistory = new ArrayList<>();
         this.gameQuestionBank = new Stack<>();
@@ -132,7 +124,7 @@ public class GameTweetsBank {
 
         Random random = new Random();
         // Get random tweets from friend
-        for (int i = 0; i < FRIEND_TWEETS_PICK_MAX;) {
+        for (int i = 0; i < FRIEND_TWEETS_PICK_MAX; ) {
             // if their tweets have been exhausted, exit the loop and go to the next friend
             if (userTimeline.size() == 0) break;
             int rand_idx = random.nextInt(userTimeline.size());
@@ -146,6 +138,8 @@ public class GameTweetsBank {
                 userTimeline.remove(rand_idx);
                 this.gameQuestionBank.push(tweet);
                 i++;
+            } else {
+                userTimeline.remove(rand_idx);
             }
             if (this.gameQuestionBank.size() >= TOTAL_TWEETS_PICK_MAX) return;
         }
@@ -176,39 +170,27 @@ public class GameTweetsBank {
             for (String friendId : randomlyChosenFriends) {
                 // Stores culled Tweets for a single friend
                 if (friend_tweet_map.get(friendId).isEmpty()) {
-                    client.fetchUserTimeline(friendId, new Callback() {
-                        @Override
-                        public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                            Log.e(TAG, "Failed timeline fetch", e);
-                        }
-
-                        @Override
-                        public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                            if (!response.isSuccessful()) {
-                                throw new IOException("Unexpected code " + response);
-                            } else {
-                                //Log.i(TAG, "SUCCESS!");
-                                try {
-                                    String responseData = response.body().string();
-                                    JSONArray tweetObjects = new JSONArray(responseData);
-                                    List<Tweet> userTimeline = new ArrayList<>();
-                                    if (tweetObjects.length() > 0) {
-                                        for (int i = 0; i < tweetObjects.length(); i++) {
-                                            userTimeline.add(Tweet.fromJson(tweetObjects.getJSONObject(i)));
-                                        }
-
-                                        friend_tweet_map.put(friendId, userTimeline);
-                                        fillQuestionBankHelper(userTimeline);
-                                    }
-                                } catch (JSONException ignored) {
-                                }
+                    String contentAsString = TwitterClient.fetchUserTimeline(friendId);
+                    JSONArray tweetObjectsArray = new JSONArray(contentAsString);
+                    List<Tweet> userTimeline;
+                    try {
+                        if (tweetObjectsArray.length() > 0) {
+                            userTimeline = new ArrayList<>();
+                            for (int i = 0; i < tweetObjectsArray.length(); i++) {
+                                userTimeline.add(Tweet.fromJson(tweetObjectsArray.getJSONObject(i)));
                             }
+
+                            friend_tweet_map.put(friendId, userTimeline);
+                            fillQuestionBankHelper(userTimeline);
                         }
-                    });
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     fillQuestionBankHelper(friend_tweet_map.get(friendId));
                 }
             }
+            return;
         } while(this.gameQuestionBank.size() < TOTAL_TWEETS_PICK_MIN);
     }
 
@@ -245,7 +227,6 @@ public class GameTweetsBank {
      * @return Pair object with a Tweet tweet and a String[3] of friend_ids of wrongAnswers
      */
     public Pair<Tweet, String[]> getQuestion() {
-        if(friend_ids.isEmpty()) return null;
         Tweet tweet = getTweet();
         final List<String> userOptions = new ArrayList<>(3);
         final List<String> userOptionsIds = new ArrayList<>(3);
