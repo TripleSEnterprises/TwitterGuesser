@@ -70,7 +70,7 @@ public class GameActivity extends AppCompatActivity {
                 }
 
                 // Insert Result
-                ParseClient.insertGameResult(gameTweetsBank.getUsedTweets(), finalScore, new SaveCallback() {
+                ParseClient.insertGameResult(gameTweetsBank.getUsedTweets().first, finalScore, new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         if(e != null) {

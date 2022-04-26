@@ -36,6 +36,7 @@ public class GameTweetsBank {
 
     // Game Question History
     private final List<JSONObject> gameQuestionHistory;
+    private final List<Tweet> gameTweetHistory;
 
     // Question Bank
     private final List<Tweet> gameQuestionBank;
@@ -53,6 +54,7 @@ public class GameTweetsBank {
 
     public GameTweetsBank() {
         this.gameQuestionHistory = new ArrayList<>();
+        this.gameTweetHistory = new ArrayList<>();
         this.gameQuestionBank = new Stack<>();
         this.usedTweetSet = new HashSet<>();
         this.friend_id_name_map = new HashMap<>();
@@ -222,6 +224,7 @@ public class GameTweetsBank {
         }
 
         this.gameQuestionHistory.add(tweetObject);
+        this.gameTweetHistory.add(tweet);
         return tweet;
     }
 
@@ -261,8 +264,9 @@ public class GameTweetsBank {
      * Gets tweets associated with the score a user earned from answering, used throughout the duration of the game
      * @return JSONArray of JSONObjects of schema: [{tweet: Tweet, score: Number}, ...]
      */
-    public JSONArray getUsedTweets() {
-        return new JSONArray(this.gameQuestionHistory);
+    public Pair<JSONArray, Tweet[]> getUsedTweets() {
+        return new Pair<>(new JSONArray(this.gameQuestionHistory),
+                            this.gameTweetHistory.toArray(new Tweet[0]));
     }
 
     /**
