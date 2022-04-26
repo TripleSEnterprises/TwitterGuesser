@@ -18,6 +18,7 @@ import com.codepath.apps.restclienttemplate.models.TweetUser;
 import com.codepath.apps.restclienttemplate.utils.GameTweetsBank;
 import com.google.android.material.button.MaterialButton;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.json.JSONArray;
@@ -26,7 +27,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -62,6 +62,14 @@ public class GameActivity extends AppCompatActivity {
         binding.btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Update Highscore
+                ParseUser user = ParseUser.getCurrentUser();
+                Number currentHighScore = user.getNumber("highScore");
+                if(currentHighScore.doubleValue() < finalScore.doubleValue()) {
+                    ParseClient.updateUserHighScore(ParseUser.getCurrentUser(), finalScore);
+                }
+
+                // Insert Result
                 ParseClient.insertGameResult(gameTweetsBank.getUsedTweets(), finalScore, new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
@@ -100,17 +108,17 @@ public class GameActivity extends AppCompatActivity {
         protected Void doInBackground(Void... voids) {
             //do your request in here so that you don't interrupt the UI thread
             gameTweetsBank = new GameTweetsBank();
+            try {
+                gameTweetsBank.fillFriendsIds();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void unused) {
             //Here you are done with the task
-            try {
-                gameTweetsBank.fillFriendsIds();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
             question = gameTweetsBank.getQuestion();
             tweet = question.first;
             // Setting tweet user variable populates all of the tweet elements in layout

@@ -2,6 +2,7 @@ package com.codepath.apps.restclienttemplate;
 
 import com.codepath.apps.restclienttemplate.models.Game;
 import com.parse.FindCallback;
+import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
@@ -38,6 +39,16 @@ public class ParseClient {
                 .setSkip(after)
                 .addDescendingOrder("highScore");
         query.findInBackground(topPlayersCallback);
+    }
+
+    public static void updateUserHighScore(ParseUser user,
+                                           Number finalScore) {
+        user.put("highScore", finalScore);
+        try {
+            user.save();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void insertGameResult(JSONArray gameHistory,
