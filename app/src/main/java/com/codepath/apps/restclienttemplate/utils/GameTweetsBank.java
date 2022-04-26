@@ -32,13 +32,13 @@ public class GameTweetsBank {
     public static final int TOTAL_TWEETS_PICK_MIN = 10;
     public static final int TOTAL_TWEETS_PICK_MAX = 20;
     public static final int FRIEND_TWEETS_PICK_MAX = 10;
-    public static final int FRIENDS_PICK_MAX = 5;
+    public static final int FRIENDS_PICK_MAX = 10;
 
     // Game Question History
     private final List<JSONObject> gameQuestionHistory;
 
     // Question Bank
-    private final Stack<Tweet> gameQuestionBank;
+    private final List<Tweet> gameQuestionBank;
 
     // Used Tweet Id Set
     private final Set<String> usedTweetSet;
@@ -136,7 +136,7 @@ public class GameTweetsBank {
                 // add to global set
                 usedTweetIds.add(tweet_id);
                 userTimeline.remove(rand_idx);
-                this.gameQuestionBank.push(tweet);
+                this.gameQuestionBank.add(tweet);
                 i++;
             } else {
                 userTimeline.remove(rand_idx);
@@ -203,12 +203,15 @@ public class GameTweetsBank {
         // else pick pseudo-randomly from questionBank
         // Add question to questionHistory
         try {
-            if (this.gameQuestionBank.empty()) fillQuestionBank();
+            if (this.gameQuestionBank.isEmpty()) fillQuestionBank();
         } catch (JSONException ignored) {
         }
 
         Tweet tweet;
-        tweet = this.gameQuestionBank.pop();
+        Random random = new Random();
+        int randIdx = random.nextInt(this.gameQuestionBank.size());
+        tweet = this.gameQuestionBank.get(randIdx);
+        this.gameQuestionBank.remove(randIdx);
         this.usedTweetSet.add(tweet.getId());
 
         JSONObject tweetObject = new JSONObject();

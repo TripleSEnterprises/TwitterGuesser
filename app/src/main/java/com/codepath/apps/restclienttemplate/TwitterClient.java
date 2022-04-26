@@ -25,7 +25,7 @@ public class TwitterClient {
 		return baseUrl + "/" + endpoint;
 	}
 
-	public static OkHttpClient client = new OkHtgitpClient();
+	public static OkHttpClient client = new OkHttpClient();
 	public static OkHttpOAuthConsumer consumer = new OkHttpOAuthConsumer(
 			ParseTwitterUtils.getTwitter().getConsumerKey(),
 			ParseTwitterUtils.getTwitter().getConsumerSecret()
