@@ -16,6 +16,7 @@ import javax.annotation.Nullable;
 
 public class ParseClient {
     private static final String TAG = "ParseClient";
+    public static final String GAME_JSON_ARRAY_KEY = "question";
 
     public static void getMatchHistory(ParseUser user, FindCallback<Game> gameFindCallback) {
         getMatchHistory(user, null, gameFindCallback);
@@ -44,10 +45,11 @@ public class ParseClient {
                                         SaveCallback gameResultInsertCallback) {
         Game game = new Game();
         try {
-            game.setQuestions((new JSONObject()).put("", gameHistory));
+            game.setQuestions((new JSONObject()).put(GAME_JSON_ARRAY_KEY, gameHistory));
         } catch (JSONException ignored) {
         }
         game.setFinalScore(finalScore);
+        game.setUser(ParseUser.getCurrentUser());
         game.saveInBackground(gameResultInsertCallback);
     }
 }
