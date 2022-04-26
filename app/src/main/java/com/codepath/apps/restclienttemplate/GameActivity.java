@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,21 +17,23 @@ import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.apps.restclienttemplate.models.TweetUser;
 import com.codepath.apps.restclienttemplate.utils.GameTweetsBank;
 import com.google.android.material.button.MaterialButton;
+import com.parse.ParseException;
+import com.parse.SaveCallback;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.Response;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Random;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -43,7 +46,6 @@ public class GameActivity extends AppCompatActivity {
     Pair<Tweet, String[]> question;
     MaterialButton[] optButtons;
     Number finalScore;
-    boolean gameOver = false;
 
 
     @Override
@@ -59,6 +61,16 @@ public class GameActivity extends AppCompatActivity {
         binding.btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ParseClient.insertGameResult(gameTweetsBank.getUsedTweets(), finalScore, new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e != null) {
+                            Log.e(TAG,"Couldn't save game result",e);
+                            return;
+                        }
+                        Toast.makeText(GameActivity.this, "Game Saved!", Toast.LENGTH_SHORT).show();
+                    }
+                });
                 finish();
             }
         });
@@ -101,7 +113,7 @@ public class GameActivity extends AppCompatActivity {
             question = gameTweetsBank.getQuestion();
             Tweet tweet = question.first;
             // Setting tweet user variable populates all of the tweet elements in layout
-            binding.setTweetUser(tweet.getUser());
+            binding.setTweetUser(null);
 
             // Setting tweet variable populates image, screen name and username in layout
             binding.setTweet(tweet);
@@ -137,7 +149,7 @@ public class GameActivity extends AppCompatActivity {
         }
 
         /**
-         * Score(x) =
+         * Calculates score for a single round of the game
          * @param time_start
          * @param time_end
          * @return max(min(15, 10/x), 1)
@@ -153,6 +165,7 @@ public class GameActivity extends AppCompatActivity {
             time_end = System.nanoTime();
             final String btnLabel = ((TextView) view).getText().toString();
             setEnabledOfAllButtons(false);
+
             if (isCorrect(btnLabel)) {
                 Number roundScore = calculateScore(time_start, time_end);
                 gameTweetsBank.addScore(question.first.getId(), roundScore);
@@ -166,7 +179,6 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    // TODO: set up the questions
     private void setupOptions() {
         setEnabledOfAllButtons(true);
         String correctOption = question.first.getUser().getId();
@@ -177,7 +189,6 @@ public class GameActivity extends AppCompatActivity {
         // Fill available options
         options[0] = correctOption;
         System.arraycopy(incorrectOptions, 0, options, 1, incorrectOptions.length);
-        Log.d(TAG, Arrays.deepToString(options));
 
         // Randomly assign buttons
         Random random = new Random();
@@ -228,7 +239,6 @@ public class GameActivity extends AppCompatActivity {
                                 JSONObject userObject;
                                 for(int i = 0; i < userObjects.length(); i++) {
                                     userObject = userObjects.getJSONObject(i);
-                                    Log.d(TAG, String.format("userObject: %s", userObject.toString()));
                                     TweetUser friend = TweetUser.fromJson(userObject);
                                     // Cache name for future use
                                     optionScreenNames.add(friend.getScreenName());
@@ -242,16 +252,14 @@ public class GameActivity extends AppCompatActivity {
             }
         }, randOptions.toArray(new String[randOptions.size()]));
 
-        while(optionScreenNames.size() != options.length);
         // Set onClicks
         MaterialButton button;
+        String optionScreenName;
         for (int i = 0; i < optionScreenNames.size(); i++) {
+            optionScreenName = optionScreenNames.get(i);
             button = optButtons[i];
-            button.setText(optionScreenNames.get(i));
+            button.setText(optionScreenName);
         }
-        // TODO: set onClicks for correct answer(Update Score,change to green,move to next round)
-
-        // TODO: set onClick for incorrect answer(Update Score, change button colors,move to end Game)
 
     }
 
@@ -264,13 +272,12 @@ public class GameActivity extends AppCompatActivity {
         question = gameTweetsBank.getQuestion();
         Tweet tweet = question.first;
         // Setting tweet user variable populates all of the tweet elements in layout
-        binding.setTweetUser(tweet.getUser());
+        binding.setTweetUser(null);
 
         // Setting tweet variable populates image, screen name and username in layout
         binding.setTweet(tweet);
         setupOptions();
         time_start = System.nanoTime();
-        // TODO: Load new Question and option once the button is clicked and remove from layout
     }
 
     // Sets up end game layout
@@ -291,13 +298,8 @@ public class GameActivity extends AppCompatActivity {
         // Add Home Button to layout
         binding.btnHome.setVisibility(View.VISIBLE);
 
-        // TODO: Un-redact losing tweet
+        binding.setTweetUser(question.first.getUser());
 
         // TODO: Set up game log recyclerview
-
-    }
-
-    private void nextButtonOnClickCallback() {
-        // Next button logic after reveal
     }
 }
