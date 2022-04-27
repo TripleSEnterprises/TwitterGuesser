@@ -11,8 +11,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
 import androidx.databinding.DataBindingUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.codepath.apps.restclienttemplate.adapters.GameDetailGameHistoryAdapter;
 import com.codepath.apps.restclienttemplate.databinding.ActivityGameBinding;
+import com.codepath.apps.restclienttemplate.models.GameDeserialized;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.apps.restclienttemplate.models.TweetUser;
 import com.codepath.apps.restclienttemplate.utils.GameTweetsBank;
@@ -27,6 +30,7 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -276,7 +280,7 @@ public class GameActivity extends AppCompatActivity {
     // Sets up next round layout
     private void nextRound() {
         // Add next button
-        binding.btnNext.setVisibility(View.GONE);
+        binding.btnNext.setVisibility(View.INVISIBLE);
         setDefaultColorOfAllButtons();
         question = gameTweetsBank.getQuestion();
         tweet = question.first;
@@ -309,6 +313,16 @@ public class GameActivity extends AppCompatActivity {
 
         binding.setTweetUser(question.first.getUser());
 
-        // TODO: Set up game log recyclerview
+        Pair<JSONArray, Tweet[]> gameHistory = gameTweetsBank.getUsedTweets();
+
+        try {
+            GameDeserialized gameDeserialized = GameDeserialized.fromJSON(gameHistory.first, gameHistory.second);
+            GameDetailGameHistoryAdapter gameHistoryAdapter = new GameDetailGameHistoryAdapter(gameDeserialized);
+            binding.rvEndGameLog.setLayoutManager(new LinearLayoutManager(GameActivity.this));
+            binding.rvEndGameLog.setAdapter(gameHistoryAdapter);
+            binding.rvEndGameLog.invalidate();
+        } catch (JSONException e) {
+            Log.e(TAG, "endGameScreen: ", e);
+        }
     }
 }
