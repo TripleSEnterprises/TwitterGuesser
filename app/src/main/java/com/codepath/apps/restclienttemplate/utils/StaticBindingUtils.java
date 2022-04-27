@@ -127,7 +127,9 @@ public class StaticBindingUtils {
 
     @BindingAdapter("gamePictureSetter")
     public static void gamePictureSetter(ImageView imageView, String url){
-        UserDataConflictResolver.setImageViewWithURLOnMainThread(imageView, url);
+        UserDataConflictResolver.setImageViewWithURLOnMainThread(
+                imageView,
+                url == null? null : url.replace("normal", "bigger"));
     }
 
     @BindingAdapter("screenNameSetter")

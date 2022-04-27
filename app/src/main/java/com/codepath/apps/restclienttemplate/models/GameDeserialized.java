@@ -41,6 +41,22 @@ public class GameDeserialized {
         return new GameDeserialized(questionArray);
     }
 
+    public static GameDeserialized fromJSON(JSONArray questionJSONArray, Tweet[] tweets) throws JSONException {
+        int questionCount = questionJSONArray.length();
+        Question[] questionArray = new Question[questionCount];
+
+        for (int i = 0; i < questionCount; i++) {
+            JSONObject questionObject = questionJSONArray.getJSONObject(i);
+            questionArray[i] = new Question(
+                    questionObject.getString("tweet_id"),
+                    questionObject.getDouble("score"),
+                    tweets[i]
+            );
+        }
+
+        return new GameDeserialized(questionArray);
+    }
+
     private GameDeserialized(Question[] questions) {
         this.questions = questions;
     }

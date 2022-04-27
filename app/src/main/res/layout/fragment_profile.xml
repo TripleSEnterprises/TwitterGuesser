@@ -20,8 +20,8 @@
 
                 <ImageView
                     android:id="@+id/ivProfilePicture"
-                    viewClipToBackground="@{true}"
                     profilePictureSetter="@{User}"
+                    viewClipToBackground="@{true}"
                     android:layout_width="111dp"
                     android:layout_height="111dp"
 
