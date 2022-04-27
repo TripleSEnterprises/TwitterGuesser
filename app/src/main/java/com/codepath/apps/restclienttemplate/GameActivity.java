@@ -325,4 +325,9 @@ public class GameActivity extends AppCompatActivity {
             Log.e(TAG, "endGameScreen: ", e);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        // Cant Exit Game
+    }
 }
