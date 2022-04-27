@@ -7,7 +7,8 @@
 2. [Schema](#Schema)
 3. [Milestones](#Milestones)<br />
    i. [Sprint 1](#Sprint-1)<br />
-   ii. [Sprint 2](#Sprint-2)
+   ii. [Sprint 2](#Sprint-2)<br />
+   iii. [Sprint 3](#Sprint-3)
 
 ## Overview
 ### Description
@@ -312,3 +313,14 @@ Guess who tweeted what.
 #### GIF
 
 <img src='./sprint_2_all.gif' title='Sprint 2 Milestone' width='250' alt='Sprint 2 Milestone' />
+
+### Sprint-3
+
+#### Stories
+- [x] [Game Screen Layout](https://github.com/TripleSEnterprises/TwitterGuesser/issues/19)
+- [x] [Game Logic](https://github.com/TripleSEnterprises/TwitterGuesser/issues/15)
+- [x] [Game History](https://github.com/TripleSEnterprises/TwitterGuesser/issues/12)
+
+#### GIF
+
+<img src='./sprint_3_all.gif' title='Sprint 3 Milestone' width='250' alt='Sprint 3 Milestone' />
