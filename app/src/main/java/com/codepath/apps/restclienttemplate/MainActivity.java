@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,8 +37,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_activity_action_bar_menu, binding.toolbarInclude.toolbar.getMenu());
+        getMenuInflater().inflate(R.menu.main_activity_action_bar_menu, binding.toolbarInclude.toolbar.getMenu());
+        for (int idx = 0; idx < menu.size(); idx++) {
+            menu.getItem(idx).getIcon().setTint(Color.WHITE);
+        }
         return true;
     }
 

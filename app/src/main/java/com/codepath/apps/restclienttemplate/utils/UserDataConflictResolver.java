@@ -36,7 +36,7 @@ public class UserDataConflictResolver {
                 Glide
                     .with(imageView)
                     .load(imageURL)
-                    .fallback(R.drawable.profile_icon)
+                    .fallback(R.drawable.ic_baseline_person_black_24)
                     .into(imageView);
             }
         });
