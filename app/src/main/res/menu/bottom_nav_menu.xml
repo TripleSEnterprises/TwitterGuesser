@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/itemPlay"
         android:title="Start Game"
-        android:icon="@drawable/game_icon"
+        android:icon="@drawable/ic_baseline_api_24"
         />
     <item
         android:id="@+id/itemLeaderboard"
         android:title="Leaderboard"
-        android:icon="@drawable/game_leaderboard_icon"
+        android:icon="@drawable/ic_baseline_leaderboard_24"
         />
     <item
         android:id="@+id/itemProfile"
         android:title="Profile"
-        android:icon="@drawable/profile_icon"
+        android:icon="@drawable/ic_baseline_person_24"
         />
 </menu>
