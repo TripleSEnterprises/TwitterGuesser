@@ -97,10 +97,9 @@ public class GameTweetsBank {
                 JSONArray friendObjectsArray = responseObject.getJSONArray("users");
                 staticFriendObjectsArray = friendObjectsArray;
             } catch (JSONException ignored) {
-            } finally {
-                response.close();
             }
         }
+        response.close();
     }
 
 

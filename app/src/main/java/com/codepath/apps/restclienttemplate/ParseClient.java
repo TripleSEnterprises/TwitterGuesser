@@ -1,5 +1,7 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.util.Log;
+
 import com.codepath.apps.restclienttemplate.models.Game;
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -42,13 +44,10 @@ public class ParseClient {
     }
 
     public static void updateUserHighScore(ParseUser user,
-                                           Number finalScore) {
+                                           Number finalScore,
+                                           SaveCallback updateHighScoreCallback) {
         user.put("highScore", finalScore);
-        try {
-            user.save();
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        user.saveInBackground(updateHighScoreCallback);
     }
 
     public static void insertGameResult(JSONArray gameHistory,

@@ -250,15 +250,16 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
+            android:layout_centerInParent="true"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="50dp"
             android:layout_marginBottom="20dp"
-            android:gravity="center"
-            android:layout_centerInParent="true"
-            android:visibility="gone"
+            android:enabled="false"
             android:fontFamily="sans-serif"
+            android:gravity="center"
             android:text="home"
-            tools:text="home"/>
+            android:visibility="gone"
+            tools:text="home" />
 
         <TextView
             android:id="@+id/tvGamelog"
