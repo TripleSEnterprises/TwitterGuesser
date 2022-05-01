@@ -13,6 +13,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".SettingsActivity">
+        <include
+            android:id="@+id/toolbarInclude"
+            layout="@layout/toolbar"/>
 
         <TextView
             android:id="@+id/tvEditTitle"
@@ -72,7 +75,7 @@
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
             android:checked="true"
-            android:text="Enable Filter"
+            android:text="@string/enable_filter"
             android:textSize="20sp"
             app:trackTint="#8f49f3" />
 
