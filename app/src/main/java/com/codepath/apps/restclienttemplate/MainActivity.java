@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.codepath.apps.restclienttemplate.adapters.MainActivityViewPagerAdapter;
@@ -142,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
                 .commit();
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        binding.toolbarInclude.toolbar.getNavigationIcon().setTint(getResources().getColor(R.color.white));
     }
 
     @Override
