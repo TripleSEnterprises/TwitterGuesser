@@ -47,8 +47,6 @@ public class SettingsActivity extends AppCompatActivity {
 
         user = ParseUser.getCurrentUser();
 
-        binding.setUser(user);
-
         binding.tiEditUsername.setText(user.getUsername());
 
         binding.swFilter.setChecked(user.getBoolean("profanityFilter"));
