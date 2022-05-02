@@ -1,12 +1,16 @@
 package com.codepath.apps.restclienttemplate;
 
+import android.animation.ObjectAnimator;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnticipateInterpolator;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.util.Pair;
@@ -46,6 +50,8 @@ public class GameActivity extends AppCompatActivity {
     Long time_start, time_end;
 
     private static final int TICKER_ANIMATION_DELAY_MS = 1000;
+
+    private ObjectAnimator scoreAnimator = new ObjectAnimator();
 
     // Current Question Being Answered
     GameTweetsBank gameTweetsBank;
@@ -122,9 +128,24 @@ public class GameActivity extends AppCompatActivity {
             setupOptions();
         }
     }
+
+    private void flashyScoreUpdate(@ColorInt int colorFrom) {
+        if (scoreAnimator.isRunning()) scoreAnimator.end();
+        scoreAnimator = ObjectAnimator.ofArgb(
+                binding.tvGameScore,
+                "textColor", colorFrom, Color.BLACK
+        );
+        scoreAnimator.setInterpolator(new AnticipateInterpolator());
+        scoreAnimator.setDuration(1000);
+        scoreAnimator.start();
+    }
+
     // Updates Score string on top of screen
     private void updateScore(double score){
         finalScore = finalScore.doubleValue() + score;
+        if (score != 0.0) {
+            flashyScoreUpdate(getResources().getColor(R.color.right_answer));
+        }
         binding.tvGameScore.setText(this.getString(
                 R.string.game_score,
                 finalScore.doubleValue()
@@ -296,6 +317,9 @@ public class GameActivity extends AppCompatActivity {
         // Add Game log title and Recyclerview
         binding.tvGamelog.setVisibility(View.VISIBLE);
         binding.rvEndGameLog.setVisibility(View.VISIBLE);
+
+        // Animate Score One Last Time
+        flashyScoreUpdate(getResources().getColor(R.color.wrong_answer));
 
         // Add Home Button to layout
         binding.btnHome.setVisibility(View.VISIBLE);
