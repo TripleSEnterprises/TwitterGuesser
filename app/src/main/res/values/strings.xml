@@ -30,6 +30,6 @@
     <string name="register">Register</string>
     <string name="use_twitter_profile">Use Twitter Profile</string>
     <string name="use_twitter_username">Use Twitter Username</string>
-    <string name="enable_filter">Enable filter</string>
+    <string name="enable_filter">Enable Tweet Sensitivity filter</string>
 
 </resources>
