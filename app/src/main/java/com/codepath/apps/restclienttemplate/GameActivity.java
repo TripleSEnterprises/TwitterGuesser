@@ -30,7 +30,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -51,6 +50,8 @@ public class GameActivity extends AppCompatActivity {
     Tweet tweet;
     MaterialButton[] optButtons;
     Number finalScore;
+    private static final Object MUTEX_LOCK = new Object();
+    int gameSaveCount = 2;
 
 
     @Override
@@ -66,24 +67,7 @@ public class GameActivity extends AppCompatActivity {
         binding.btnHome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Update Highscore
-                ParseUser user = ParseUser.getCurrentUser();
-                Number currentHighScore = user.getNumber("highScore");
-                if(currentHighScore.doubleValue() < finalScore.doubleValue()) {
-                    ParseClient.updateUserHighScore(ParseUser.getCurrentUser(), finalScore);
-                }
 
-                // Insert Result
-                ParseClient.insertGameResult(gameTweetsBank.getUsedTweets().first, finalScore, new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if(e != null) {
-                            Log.e(TAG,"Couldn't save game result",e);
-                            return;
-                        }
-                        Toast.makeText(GameActivity.this, "Game Saved!", Toast.LENGTH_SHORT).show();
-                    }
-                });
                 finish();
             }
         });
@@ -324,6 +308,48 @@ public class GameActivity extends AppCompatActivity {
         } catch (JSONException e) {
             Log.e(TAG, "endGameScreen: ", e);
         }
+
+        // Update Highscore
+        ParseUser user = ParseUser.getCurrentUser();
+        Number currentHighScore = user.getNumber("highScore");
+        Log.d(TAG, String.format("Stored High Score: %f\nFinal Score: %f\n",
+                                        currentHighScore.doubleValue(), finalScore.doubleValue()));
+        if(currentHighScore.doubleValue() < finalScore.doubleValue()) {
+            ParseClient.updateUserHighScore(user, finalScore, new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    if(e != null) {
+                        Log.e(TAG,"Couldn't update highscore!",e);
+                        return;
+                    }
+                    Toast.makeText(GameActivity.this, "HighScore Updated!", Toast.LENGTH_SHORT).show();
+                    synchronized (MUTEX_LOCK) {
+                        binding.btnHome.setEnabled(--gameSaveCount == 0);
+                    }
+                }
+            });
+        } else {
+            synchronized (MUTEX_LOCK) {
+                binding.btnHome.setEnabled(--gameSaveCount == 0);
+            }
+        }
+
+        // Insert Result
+        ParseClient.insertGameResult(gameTweetsBank.getUsedTweets().first, finalScore, new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if(e != null) {
+                    Log.e(TAG,"Couldn't save game result",e);
+                    return;
+                }
+                //Toast.makeText(GameActivity.this, "Game Saved!", Toast.LENGTH_SHORT).show();
+                synchronized (MUTEX_LOCK) {
+                    binding.btnHome.setEnabled(--gameSaveCount == 0);
+                }
+            }
+        });
+
+
     }
 
     @Override
