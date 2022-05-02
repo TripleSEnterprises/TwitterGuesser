@@ -182,7 +182,7 @@
                 android:layout_weight="1"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
-                android:textColor="@android:color/black"
+                android:textColor="@color/white"
                 tools:text="first user" />
 
             <com.google.android.material.button.MaterialButton
@@ -194,7 +194,7 @@
                 android:layout_weight="1"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
-                android:textColor="@android:color/black"
+                android:textColor="@color/white"
                 tools:text="second user" />
 
             <com.google.android.material.button.MaterialButton
@@ -206,7 +206,7 @@
                 android:layout_weight="1"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
-                android:textColor="@android:color/black"
+                android:textColor="@color/white"
                 tools:text="third user" />
 
 
@@ -219,7 +219,7 @@
                 android:layout_weight="1"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
-                android:textColor="@android:color/black"
+                android:textColor="@color/white"
                 tools:text="fourth user" />
 
         </LinearLayout>
