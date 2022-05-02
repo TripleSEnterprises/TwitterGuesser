@@ -20,5 +20,16 @@
     <string name="loss_text">Loss</string>
     <string name="tweet_unavailable">Tweet Unavailable</string>
     <string name="logout">Logout</string>
+    <string name="settings">Settings</string>
+    <string name="upload">Upload</string>
+    <string name="save">Save</string>
+    <string name="edit_username">Edit username</string>
+    <string name="username">Username:</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="edit_profile_picture">Edit profile picture</string>
+    <string name="register">Register</string>
+    <string name="use_twitter_profile">Use Twitter Profile</string>
+    <string name="use_twitter_username">Use Twitter Username</string>
+    <string name="enable_filter">Enable filter</string>
 
 </resources>

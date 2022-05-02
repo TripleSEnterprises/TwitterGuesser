@@ -108,7 +108,16 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
             onLogout();
             return true;
         }
+        else if (item.getItemId() == R.id.settings){
+            onSettings();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void onSettings(){
+        Intent i = new Intent(this, SettingsActivity.class);
+        startActivity(i);
     }
 
     private void onLogout() {
