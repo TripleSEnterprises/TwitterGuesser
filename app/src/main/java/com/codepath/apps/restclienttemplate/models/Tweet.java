@@ -1,5 +1,8 @@
 package com.codepath.apps.restclienttemplate.models;
 
+import android.text.Html;
+import android.util.Log;
+
 import com.codepath.apps.restclienttemplate.utils.TimeFormatter;
 
 import org.json.JSONArray;
@@ -78,7 +81,7 @@ public class Tweet {
     }
 
     public String getBody() {
-        return body;
+        return Html.fromHtml(body).toString();
     }
 
     public String getCreatedAt() {
