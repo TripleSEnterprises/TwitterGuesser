@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import com.codepath.apps.restclienttemplate.adapters.MainActivityViewPagerAdapter;
@@ -108,7 +107,16 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
             onLogout();
             return true;
         }
+        else if (item.getItemId() == R.id.settings){
+            onSettings();
+            return true;
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void onSettings(){
+        Intent i = new Intent(this, SettingsActivity.class);
+        startActivity(i);
     }
 
     private void onLogout() {
@@ -133,6 +141,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityNavig
                 .commit();
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        binding.toolbarInclude.toolbar.getNavigationIcon().setTint(getResources().getColor(R.color.white));
     }
 
     @Override

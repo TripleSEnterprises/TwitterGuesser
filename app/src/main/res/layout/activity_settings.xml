@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".SettingsActivity">
+        <include
+            android:id="@+id/toolbarInclude"
+            layout="@layout/toolbar"/>
+
+        <TextView
+            android:id="@+id/tvEditTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="65dp"
+            android:gravity="center"
+            android:text="@string/edit_profile"
+            android:textColor="@android:color/black"
+            android:textSize="40sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tiEditUsernameLayout"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/tvEditTitle"
+            android:layout_marginTop="24dp"
+            android:hint="@string/username"
+            android:layout_margin="10dp"
+            android:minHeight="48dp"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiEditUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/swEditUsername"
+            android:layout_width="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tiEditUsernameLayout"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="13dp"
+            android:layout_marginTop="10dp"
+            android:checked="false"
+            android:text="@string/edit_username"
+            android:textSize="20sp"
+            app:trackTint="#8f49f3" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/swFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/swEditUsername"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:checked="true"
+            android:text="@string/enable_filter"
+            android:textSize="20sp"
+            app:trackTint="#8f49f3" />
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/swEditPicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/swFilter"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:checked="false"
+            android:text="@string/edit_profile_picture"
+            android:textSize="20sp"
+            app:trackTint="#8f49f3" />
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/swTwitterProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/swEditPicture"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:checked="false"
+            android:text="Use twitter profile picture"
+            android:textSize="20sp"
+            app:trackTint="#8f49f3" />
+        <Button
+            android:id="@+id/btnEditUpload"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/swTwitterProfile"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="151dp"
+            android:layout_marginTop="5dp"
+            android:backgroundTint="@android:color/white"
+            android:text="@string/upload"
+            android:textColor="#8f49f3"
+            android:visibility="gone"/>
+
+        <ImageView
+            android:id="@+id/ivEditPicture"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/btnEditUpload"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            tools:srcCompat="@tools:sample/avatars"
+            android:visibility="gone"/>
+
+        <Button
+            android:id="@+id/btnSave"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ivEditPicture"
+            android:layout_alignParentStart="true"
+            android:layout_centerInParent="true"
+            android:layout_marginStart="151dp"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@android:color/white"
+            android:text="@string/save"
+            android:textColor="#8f49f3" />
+
+    </RelativeLayout>
+</layout>

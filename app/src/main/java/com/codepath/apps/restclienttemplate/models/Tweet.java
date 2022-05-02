@@ -1,5 +1,8 @@
 package com.codepath.apps.restclienttemplate.models;
 
+import android.text.Html;
+import android.util.Log;
+
 import com.codepath.apps.restclienttemplate.utils.TimeFormatter;
 
 import org.json.JSONArray;
@@ -10,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tweet {
+    private static final String TWEET_URL_FORMAT = "https://twitter.com/%s/status/%s";
+
     String body = "";
     String createdAt;
     String id;
@@ -78,7 +83,7 @@ public class Tweet {
     }
 
     public String getBody() {
-        return body;
+        return Html.fromHtml(body).toString();
     }
 
     public String getCreatedAt() {
@@ -112,5 +117,7 @@ public class Tweet {
     public boolean isPotentiallySensitive() {
         return potentiallySensitive;
     }
+
+    public String getTweetURL() { return String.format(TWEET_URL_FORMAT, getUser().screenName, getId()); }
 }
 

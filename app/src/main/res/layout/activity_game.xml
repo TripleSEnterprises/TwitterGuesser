@@ -22,7 +22,7 @@
             android:id="@+id/toolbar"
             layout="@layout/toolbar" />
 
-        <TextView
+        <com.robinhood.ticker.TickerView
             android:id="@+id/tvGameScore"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -101,10 +101,9 @@
             android:fontFamily="sans-serif"
             android:textColor="@android:color/black"
             android:textSize="20sp"
-            app:autoSizeTextType="uniform"
             app:autoSizeMaxTextSize="24sp"
-            tools:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas"
-            />
+            app:autoSizeTextType="uniform"
+            tools:text="Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat mas" />
         <ImageView
             android:id="@+id/ivRetweet"
             android:layout_width="24dp"
@@ -183,7 +182,7 @@
                 android:layout_weight="1"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
-                android:textColor="@android:color/black"
+                android:textColor="@color/white"
                 tools:text="first user" />
 
             <com.google.android.material.button.MaterialButton
@@ -195,7 +194,7 @@
                 android:layout_weight="1"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
-                android:textColor="@android:color/black"
+                android:textColor="@color/white"
                 tools:text="second user" />
 
             <com.google.android.material.button.MaterialButton
@@ -207,7 +206,7 @@
                 android:layout_weight="1"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
-                android:textColor="@android:color/black"
+                android:textColor="@color/white"
                 tools:text="third user" />
 
 
@@ -220,7 +219,7 @@
                 android:layout_weight="1"
                 android:fontFamily="sans-serif"
                 android:gravity="center"
-                android:textColor="@android:color/black"
+                android:textColor="@color/white"
                 tools:text="fourth user" />
 
         </LinearLayout>

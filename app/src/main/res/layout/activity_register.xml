@@ -19,7 +19,7 @@
         android:layout_centerInParent="true"
         android:layout_marginStart="129dp"
         android:layout_marginTop="65dp"
-        android:text="Register"
+        android:text="@string/register"
         android:textColor="@android:color/black"
         android:textSize="40sp"
         android:textStyle="bold" />
@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_below="@+id/tvRegister"
         android:layout_marginTop="24dp"
-        android:hint="Username: "
+        android:hint="@string/username"
         android:layout_margin="10dp"
         android:minHeight="48dp"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -53,7 +53,7 @@
         android:layout_marginStart="13dp"
         android:layout_marginTop="10dp"
         android:checked="true"
-        android:text="Use Twitter Username"
+        android:text="@string/use_twitter_username"
         android:textSize="20sp"
         app:trackTint="#8f49f3" />
 
@@ -68,7 +68,7 @@
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
         android:checked="true"
-        android:text="Use Twitter Profile"
+        android:text="@string/use_twitter_profile"
         android:textSize="20sp"
         app:trackTint="#8f49f3" />
 
@@ -83,7 +83,7 @@
         android:layout_marginStart="151dp"
         android:layout_marginTop="5dp"
         android:backgroundTint="@android:color/white"
-        android:text="Upload"
+        android:text="@string/upload"
         android:textColor="#8f49f3"
         android:visibility="gone"/>
 
@@ -108,7 +108,7 @@
         android:layout_marginStart="151dp"
         android:layout_marginTop="10dp"
         android:backgroundTint="@android:color/white"
-        android:text="Register"
+        android:text="@string/register"
         android:textColor="#8f49f3" />
 
 
