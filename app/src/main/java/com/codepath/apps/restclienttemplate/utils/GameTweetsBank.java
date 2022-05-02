@@ -7,6 +7,7 @@ import androidx.core.util.Pair;
 import com.codepath.apps.restclienttemplate.TwitterClient;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 import com.codepath.apps.restclienttemplate.models.TweetUser;
+import com.parse.ParseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,6 +35,10 @@ public class GameTweetsBank {
     public static final int FRIEND_TWEETS_PICK_MAX = 10;
     public static final int FRIENDS_PICK_MAX = 10;
 
+    // Tweet Filter Settings
+    private final static boolean sensitiveContentAllowed =
+            !ParseUser.getCurrentUser().getBoolean("profanityFilter");
+
     // Game Question History
     private final List<JSONObject> gameQuestionHistory;
     private final List<Tweet> gameTweetHistory;
@@ -49,7 +54,6 @@ public class GameTweetsBank {
     // Map of Friends to a list of Tweets
     private final static Map<String, List<Tweet>> friend_tweet_map = new HashMap<>();
     private Map<String, String> friend_id_name_map;
-    private final static List<String> test_friend_ids = new ArrayList<>();
     private final static List<String> friend_ids = new ArrayList<>();
 
     public GameTweetsBank() {
@@ -119,10 +123,7 @@ public class GameTweetsBank {
     }
 
     private void fillQuestionBankHelper(List<Tweet> userTimeline) {
-        // Stores culled Tweets for a single friend
-        Set<String> usedTweetIds = new HashSet<>();
         // Get list of tweets, either from stored HashMap or fetch via twitter endpoint
-
         Random random = new Random();
         // Get random tweets from friend
         for (int i = 0; i < FRIEND_TWEETS_PICK_MAX; ) {
@@ -133,19 +134,17 @@ public class GameTweetsBank {
             String tweet_id = tweet.getId();
             // Check if we have already processed this tweet against HashSet
             // of tweet_ids to prevent duplicates
-            if (!this.usedTweetSet.contains(tweet_id) && !usedTweetIds.contains(tweet_id)) {
+            if ((!sensitiveContentAllowed && !tweet.isPotentiallySensitive()) || !this.usedTweetSet.contains(tweet_id)) {
                 // add to global set
-                usedTweetIds.add(tweet_id);
                 userTimeline.remove(rand_idx);
                 this.gameQuestionBank.add(tweet);
+                this.usedTweetSet.add(tweet.getId());
                 i++;
             } else {
                 userTimeline.remove(rand_idx);
             }
             if (this.gameQuestionBank.size() >= TOTAL_TWEETS_PICK_MAX) return;
         }
-        // Union local tweet set to global tweet set
-        this.usedTweetSet.addAll(usedTweetIds);
     }
 
     /**

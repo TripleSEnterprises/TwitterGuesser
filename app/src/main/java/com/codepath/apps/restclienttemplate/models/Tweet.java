@@ -21,6 +21,7 @@ public class Tweet {
     TweetUser user;
     int retweetCount;
     int favoriteCount;
+    boolean potentiallySensitive;
 
     public Tweet() {
     }
@@ -49,6 +50,7 @@ public class Tweet {
         tweet.relativeTimestamp = TimeFormatter.getTimeDifference(tweet.createdAt);
         tweet.retweetCount = tweetJSONObject.getInt("retweet_count");
         tweet.favoriteCount = tweetJSONObject.getInt("favorite_count");
+        tweet.potentiallySensitive = tweetJSONObject.optBoolean("possibly_sensitive", false);
 
         return tweet;
     }
@@ -105,6 +107,10 @@ public class Tweet {
 
     public int getFavoriteCount() {
         return favoriteCount;
+    }
+
+    public boolean isPotentiallySensitive() {
+        return potentiallySensitive;
     }
 }
 
