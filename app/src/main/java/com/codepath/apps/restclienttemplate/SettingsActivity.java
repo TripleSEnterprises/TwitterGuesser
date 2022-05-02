@@ -1,9 +1,5 @@
 package com.codepath.apps.restclienttemplate;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.databinding.DataBindingUtil;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
@@ -15,7 +11,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.databinding.ActivitySettingsBinding;
@@ -24,8 +19,12 @@ import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.databinding.DataBindingUtil;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -34,6 +33,7 @@ public class SettingsActivity extends AppCompatActivity {
     ParseUser user;
     Uri selectedImage;
     String part_image;
+    Bitmap bmp;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
     private static final String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -132,16 +132,17 @@ public class SettingsActivity extends AppCompatActivity {
                 cursor.moveToFirst();
                 int indexImage = cursor.getColumnIndex(imageProjection[0]);
                 part_image = cursor.getString(indexImage);
-                Bitmap bitmap = null;
+                cursor.close();
                 try{
-                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),selectedImage);
+                    bmp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 }catch(IOException e){
                     Log.e(TAG,"Error retrieving file",e);
                 }
                 Glide.with(this)
-                        .load(bitmap)
+                        .load(bmp)
                         .circleCrop()
                         .into(binding.ivEditPicture);
+
             }
         }
     }
@@ -149,9 +150,9 @@ public class SettingsActivity extends AppCompatActivity {
     private void uploadImage() {
         verifyStoragePermissions(this);
         Log.i(TAG, "verified");
-        File image = new File(part_image);
-        Log.i(TAG, String.valueOf(image.canRead()));
-        ParseFile parsefile = new ParseFile(image);
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        ParseFile parsefile = new ParseFile("uploaded_pfp.jpg", stream.toByteArray());
         parsefile.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -175,8 +176,9 @@ public class SettingsActivity extends AppCompatActivity {
 
     public static void verifyStoragePermissions(Activity activity) {
         // Check if we have write permission
-        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        int permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.READ_EXTERNAL_STORAGE);
 
+        Log.d(TAG, String.format("permission != PackageManager.PERMISSION_GRANTED: %b", (permission != PackageManager.PERMISSION_GRANTED)));
         if (permission != PackageManager.PERMISSION_GRANTED) {
             // We don't have permission so prompt the user
             ActivityCompat.requestPermissions(

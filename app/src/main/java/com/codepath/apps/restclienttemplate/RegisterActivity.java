@@ -1,9 +1,5 @@
 package com.codepath.apps.restclienttemplate;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
@@ -30,9 +26,12 @@ import com.parse.SaveCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -47,6 +46,7 @@ public class RegisterActivity extends AppCompatActivity {
     ImageView ivProfile;
     Uri selectedImage;
     String part_image;
+    Bitmap bmp;
     JSONObject twitterUser;
     SwitchMaterial swUsername;
     String username;
@@ -156,14 +156,14 @@ public class RegisterActivity extends AppCompatActivity {
                 cursor.moveToFirst();
                 int indexImage = cursor.getColumnIndex(imageProjection[0]);
                 part_image = cursor.getString(indexImage);
-                Bitmap bitmap = null;
+                cursor.close();
                 try{
-                    bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),selectedImage);
+                    bmp = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 }catch(IOException e){
                     Log.e(TAG,"Error retrieving file",e);
                 }
                 Glide.with(this)
-                        .load(bitmap)
+                        .load(bmp)
                         .circleCrop()
                         .into(ivProfile);
             }
@@ -171,20 +171,20 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void uploadImage(){
+    private void uploadImage() {
         verifyStoragePermissions(this);
-        Log.i(TAG,"verified");
-        File image = new File(part_image);
-        Log.i(TAG, String.valueOf(image.canRead()));
-        ParseFile parsefile = new ParseFile(image);
+        Log.i(TAG, "verified");
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        ParseFile parsefile = new ParseFile("uploaded_pfp.jpg", stream.toByteArray());
         parsefile.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
-                if (e!= null){
-                    Log.e(TAG,"File could not be saved",e);
+                if (e != null) {
+                    Log.e(TAG, "File could not be saved", e);
                     return;
                 }
-                ParseUser.getCurrentUser().put("picture",parsefile);
+                ParseUser.getCurrentUser().put("picture", parsefile);
                 ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
