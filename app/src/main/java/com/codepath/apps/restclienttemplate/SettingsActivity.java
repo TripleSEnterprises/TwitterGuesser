@@ -22,9 +22,17 @@ import com.parse.SaveCallback;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.databinding.DataBindingUtil;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -39,6 +47,8 @@ public class SettingsActivity extends AppCompatActivity {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
+
+    private JSONObject twitterUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,14 +89,21 @@ public class SettingsActivity extends AppCompatActivity {
                 if(binding.swEditPicture.isChecked()) {
                     uploadImage();
                 }
-
-                user.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        Log.i(TAG,"User settings saved");
-                        finish();
+                else {
+                    if(binding.swTwitterProfile.isChecked()) {
+                        user.remove("picture");
+                        if(user.get("cachedPicture") == null || user.get("cachedPicture") == ""){
+                            useTwitterImage(user);
+                        }
                     }
-                });
+                    user.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            Log.i(TAG,"User settings saved");
+                            finish();
+                        }
+                    });
+                }
 
             }
         });
@@ -97,11 +114,12 @@ public class SettingsActivity extends AppCompatActivity {
                 if(binding.swEditPicture.isChecked()){
                     binding.btnEditUpload.setVisibility(View.VISIBLE);
                     binding.ivEditPicture.setVisibility(View.VISIBLE);
-
+                    binding.swTwitterProfile.setVisibility(View.GONE);
                 }
                 else{
                     binding.btnEditUpload.setVisibility(View.GONE);
                     binding.ivEditPicture.setVisibility(View.GONE);
+                    binding.swTwitterProfile.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -112,6 +130,12 @@ public class SettingsActivity extends AppCompatActivity {
                 getImage();
             }
         });
+
+        try {
+            twitterUser = ParseUser.getCurrentUser().getJSONObject("authData").getJSONObject("twitter");
+        } catch (JSONException e) {
+            Log.e(TAG,"couldn't initialize user",e);
+        }
 
     }
 
@@ -164,10 +188,13 @@ public class SettingsActivity extends AppCompatActivity {
                 ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        if (e == null)
+                        if (e == null) {
                             Log.i(TAG, "Saved file");
-                        else
+                            finish();
+                        }
+                        else {
                             Log.e(TAG, "Error saving File", e);
+                        }
                     }
                 });
             }
@@ -186,6 +213,40 @@ public class SettingsActivity extends AppCompatActivity {
                     PERMISSIONS_STORAGE,
                     REQUEST_EXTERNAL_STORAGE
             );
+        }
+    }
+
+    private void useTwitterImage(ParseUser user){
+        Log.i(TAG,"Getting user Image");
+        try{
+            String id = twitterUser.getString("id");
+            Callback callback = new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
+                    Log.e(TAG,"Failure fetching",e);
+                }
+
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    String image="";
+                    try {
+                        JSONObject userJson = new JSONObject(response.body().string());
+                        image = userJson.getString("profile_image_url_https");
+                    } catch (JSONException e) {
+                        Log.e(TAG,"Couldn't retrieve response image",e);
+                    }
+                    String finalImage = image;
+                    Log.i(TAG,finalImage);
+                    user.put("cachedPicture",finalImage);
+                    user.saveInBackground(v->{
+                        Log.i(TAG,"User saved");
+                        finish();
+                    });
+                }
+            };
+            TwitterClient.getUser(callback, id);
+        } catch(Exception e){
+            Log.e(TAG,"Error fetching user id",e);
         }
     }
 }

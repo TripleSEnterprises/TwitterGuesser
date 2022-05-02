@@ -88,12 +88,26 @@
             android:text="@string/edit_profile_picture"
             android:textSize="20sp"
             app:trackTint="#8f49f3" />
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/swTwitterProfile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/swEditPicture"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:checked="false"
+            android:text="Use twitter profile picture"
+            android:textSize="20sp"
+            app:trackTint="#8f49f3" />
         <Button
             android:id="@+id/btnEditUpload"
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/swEditPicture"
+            android:layout_below="@+id/swTwitterProfile"
             android:layout_alignParentStart="true"
             android:layout_centerInParent="true"
             android:layout_marginStart="151dp"
