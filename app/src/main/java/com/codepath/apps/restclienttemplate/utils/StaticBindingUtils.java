@@ -1,18 +1,20 @@
 package com.codepath.apps.restclienttemplate.utils;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
+import android.net.Uri;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.databinding.BindingAdapter;
 
-import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.R;
 import com.codepath.apps.restclienttemplate.models.Game;
 import com.codepath.apps.restclienttemplate.models.GameDeserialized;
 import com.codepath.apps.restclienttemplate.models.Tweet;
-import com.codepath.apps.restclienttemplate.models.TweetUser;
 import com.parse.CountCallback;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
@@ -220,5 +222,15 @@ public class StaticBindingUtils {
         } else {
             textView.setText(R.string.tweet_unavailable);
         }
+    }
+
+    @BindingAdapter("goToBrowserUrlOnClick")
+    public static void goToBrowserUrlOnClick(View view, String url) {
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+            }
+        });
     }
 }

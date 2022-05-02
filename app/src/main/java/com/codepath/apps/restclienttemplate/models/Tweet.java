@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tweet {
+    private static final String TWEET_URL_FORMAT = "https://twitter.com/%s/status/%s";
+
     String body = "";
     String createdAt;
     String id;
@@ -106,5 +108,7 @@ public class Tweet {
     public int getFavoriteCount() {
         return favoriteCount;
     }
+
+    public String getTweetURL() { return String.format(TWEET_URL_FORMAT, getUser().screenName, getId()); }
 }
 
