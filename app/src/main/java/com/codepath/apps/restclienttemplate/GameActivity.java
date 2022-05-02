@@ -23,6 +23,7 @@ import com.google.android.material.button.MaterialButton;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.robinhood.ticker.TickerUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,6 +45,8 @@ public class GameActivity extends AppCompatActivity {
     public static final String TAG = "GameActivity";
     Long time_start, time_end;
 
+    private static final int TICKER_ANIMATION_DELAY_MS = 1000;
+
     // Current Question Being Answered
     GameTweetsBank gameTweetsBank;
     Pair<Tweet, String[]> question;
@@ -61,6 +64,8 @@ public class GameActivity extends AppCompatActivity {
         new QuestionBankTask().execute();
         finalScore = 0;
         binding =  DataBindingUtil.setContentView(this, R.layout.activity_game);
+        binding.tvGameScore.setCharacterLists(TickerUtils.provideNumberList());
+        binding.tvGameScore.setAnimationDuration(TICKER_ANIMATION_DELAY_MS);
 
         optButtons = new MaterialButton[]{binding.btnFirst, binding.btnSecond, binding.btnThird, binding.btnFourth};
 
