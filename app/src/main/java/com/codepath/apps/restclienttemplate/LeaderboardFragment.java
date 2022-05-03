@@ -99,6 +99,11 @@ public class LeaderboardFragment extends Fragment {
             }
         });
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        binding.invalidateAll();
+    }
 
     private void getPlayers(){
         ParseClient.getTopPlayers(0,new FindCallback<ParseUser>() {

@@ -132,6 +132,12 @@ public class ProfileFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        binding.invalidateAll();
+    }
+
     private void getMatches(){
         ParseClient.getMatchHistory(user, new FindCallback<Game>() {
             @Override
