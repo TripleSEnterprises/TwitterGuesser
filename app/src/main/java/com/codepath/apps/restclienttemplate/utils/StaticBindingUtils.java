@@ -233,4 +233,14 @@ public class StaticBindingUtils {
             }
         });
     }
+
+    @BindingAdapter("revealContentSensitivityBanner")
+    public static void revealContentSensitivityBanner(View view, ParseUser user) {
+        boolean contentSensitivityOn = user.getBoolean("profanityFilter");
+        if(contentSensitivityOn) {
+            view.setVisibility(View.VISIBLE);
+        } else {
+            view.setVisibility(View.GONE);
+        }
+    }
 }
