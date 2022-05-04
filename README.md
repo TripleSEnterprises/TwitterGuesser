@@ -330,7 +330,7 @@ Guess who tweeted what.
 
 #### Stories
 - [x] [Add Settings Screen](https://github.com/TripleSEnterprises/TwitterGuesser/issues/22)
-- [x] [View Tweets](https://github.com/TripleSEnterprises/TwitterGuesser/issues/20)
+- [x] [View Tweets from Game Log in Twitter App](https://github.com/TripleSEnterprises/TwitterGuesser/issues/20)
 - [x] [Style Enhancements](https://github.com/TripleSEnterprises/TwitterGuesser/issues/23)
 - [x] [Bug Fixes](https://github.com/TripleSEnterprises/TwitterGuesser/issues/24)
 
