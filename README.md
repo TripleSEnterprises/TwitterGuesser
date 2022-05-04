@@ -8,7 +8,8 @@
 3. [Milestones](#Milestones)<br />
    i. [Sprint 1](#Sprint-1)<br />
    ii. [Sprint 2](#Sprint-2)<br />
-   iii. [Sprint 3](#Sprint-3)
+   iii. [Sprint 3](#Sprint-3)<br />
+   iv. [Sprint 4](#Sprint-4)
 
 ## Overview
 ### Description
@@ -324,3 +325,15 @@ Guess who tweeted what.
 #### GIF
 
 <img src='./sprint_3_all.gif' title='Sprint 3 Milestone' width='250' alt='Sprint 3 Milestone' />
+
+### Sprint-4
+
+#### Stories
+- [x] [Add Settings Screen](https://github.com/TripleSEnterprises/TwitterGuesser/issues/22)
+- [x] [View Tweets](https://github.com/TripleSEnterprises/TwitterGuesser/issues/20)
+- [x] [Style Enhancements](https://github.com/TripleSEnterprises/TwitterGuesser/issues/23)
+- [x] [Bug Fixes](https://github.com/TripleSEnterprises/TwitterGuesser/issues/24)
+
+#### GIF
+
+<img src='./sprint_4.gif' title='Sprint 4 Milestone' width='250' alt='Sprint 4 Milestone' />
