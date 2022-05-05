@@ -10,6 +10,7 @@
    ii. [Sprint 2](#Sprint-2)<br />
    iii. [Sprint 3](#Sprint-3)<br />
    iv. [Sprint 4](#Sprint-4)
+4. [Full Demo](#Demo)
 
 ## Overview
 ### Description
@@ -337,3 +338,7 @@ Guess who tweeted what.
 #### GIF
 
 <img src='./sprint_4.gif' title='Sprint 4 Milestone' width='250' alt='Sprint 4 Milestone' />
+
+## Demo
+
+<img src='./demo.gif' title='Demo' width='250' alt='Demo' />
