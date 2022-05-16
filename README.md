@@ -13,6 +13,9 @@
 4. [Full Demo](#Demo)
 
 ## Overview
+
+<img src='./demo.gif' title='Demo' width='250' alt='Demo' />
+
 ### Description
 Guess who tweeted what.
 
